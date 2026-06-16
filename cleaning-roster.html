@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cleaning Roster – 1507/477 Boundary Street</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green:     #166534;
+  --green-mid: #16A34A;
+  --green-bg:  #F0FDF4;
+  --green-border:#BBF7D0;
+  --teal:      #0F766E;
+  --teal-bg:   #F0FDFA;
+  --navy:      #1E293B;
+  --slate:     #475569;
+  --muted:     #94A3B8;
+  --border:    #E2E8F0;
+  --bg:        #F8FAFC;
+  --card:      #FFFFFF;
+  --ink:       #0F172A;
+  --amber:     #92400E;
+  --amber-bg:  #FEF3C7;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.65;
+  font-size: 15px;
+}
+
+/* ── HEADER ── */
+.site-header {
+  background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+  border-bottom: 4px solid var(--green-mid);
+  padding: 0;
+}
+.header-top {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 36px 32px 28px;
+}
+.header-badge {
+  width: 60px; height: 60px;
+  background: var(--green-mid);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  flex-shrink: 0;
+}
+.header-eyebrow {
+  font-size: 11px; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #86EFAC;
+  margin-bottom: 6px;
+}
+.site-header h1 {
+  font-family: 'Sora', sans-serif;
+  font-size: clamp(22px, 3.5vw, 34px);
+  font-weight: 800;
+  color: white;
+  line-height: 1.2;
+}
+.header-sub {
+  padding: 0 32px 24px;
+  max-width: 720px;
+}
+.header-sub p {
+  color: #CBD5E1;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.header-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  margin-top: 12px;
+}
+.header-meta span {
+  font-size: 13px;
+  color: #94A3B8;
+}
+.header-meta span::before {
+  content: attr(data-icon);
+  margin-right: 6px;
+}
+
+/* ── TIMELINE ── */
+.timeline-wrap {
+  max-width: 880px;
+  margin: 32px auto;
+  padding: 0 28px;
+}
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.roster-block {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  border-left: 4px solid var(--border);
+  margin-left: 12px;
+  padding: 0;
+  position: relative;
+}
+.roster-block::before {
+  content: '';
+  position: absolute;
+  left: -10px;
+  top: 28px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  z-index: 1;
+}
+.roster-block.peter::before {
+  background: var(--green-mid);
+  border: 3px solid var(--green-bg);
+}
+.roster-block.kevin::before {
+  background: #3B82F6;
+  border: 3px solid #EFF6FF;
+}
+.roster-block.peter {
+  border-left-color: var(--green-mid);
+  background: var(--green-bg);
+}
+.roster-block.kevin {
+  border-left-color: #3B82F6;
+  background: #EFF6FF;
+}
+.roster-date {
+  min-width: 140px;
+  padding: 20px 16px 20px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--slate);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.roster-person {
+  padding: 20px 24px 20px 16px;
+  flex: 1;
+}
+.roster-person h3 {
+  font-family: 'Sora', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+}
+.roster-person .role {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.roster-person .role.green { color: var(--green); }
+.roster-person .role.blue { color: #2563EB; }
+.roster-person .role.navy { color: var(--navy); }
+
+/* ── CARD ── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px 32px;
+  margin: 28px auto;
+  max-width: 880px;
+}
+.card h2 {
+  font-family: 'Sora', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.card h2 .icon { margin-right: 10px; }
+.card > p {
+  color: var(--slate);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+.task-section {
+  margin-bottom: 28px;
+}
+.task-section:last-child { margin-bottom: 0; }
+.task-section h3 {
+  font-family: 'Sora', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--border);
+}
+.task-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.task-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 6px 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.task-list li::before {
+  content: '☐';
+  font-size: 16px;
+  flex-shrink: 0;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.task-list li .highlight {
+  color: var(--green);
+  font-weight: 600;
+}
+.task-list li .highlight-blue {
+  color: #2563EB;
+  font-weight: 600;
+}
+
+/* ── TIPS ── */
+.tip {
+  background: var(--green-bg);
+  border: 1px solid var(--green-border);
+  padding: 14px 18px;
+  border-radius: 12px;
+  margin: 14px 0;
+  font-size: 13px;
+  color: var(--green);
+}
+.tip strong { display: block; margin-bottom: 4px; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--green); }
+.tip-note {
+  background: var(--amber-bg);
+  border: 1px solid #FDE68A;
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-size: 13px;
+  color: var(--amber);
+}
+.tip-note strong { display: block; margin-bottom: 4px; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--amber); }
+
+/* ── NAV BUTTONS ── */
+.nav-links {
+  text-align: center;
+  padding: 16px 0 40px;
+}
+.nav-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  background: var(--navy);
+  border-radius: 999px;
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 6px;
+  transition: background .2s;
+}
+.nav-links a:hover { background: #334155; }
+footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  padding: 20px 28px 40px;
+  border-top: 1px solid var(--border);
+  max-width: 880px;
+  margin: 0 auto;
+}
+@media(max-width:640px) {
+  .roster-block { flex-direction: column; }
+  .roster-date { min-width: auto; padding: 16px 20px 0; }
+  .roster-person { padding: 8px 20px 16px; }
+  .card { padding: 20px; }
+  .header-top { padding: 28px 20px 20px; flex-wrap: wrap; }
+  .header-sub { padding: 0 20px 20px; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-top">
+    <div class="header-badge">🧹</div>
+    <div class="header-text">
+      <div class="header-eyebrow">1507/477 Boundary Street · Spring Hill</div>
+      <h1>Cleaning Roster</h1>
+    </div>
+  </div>
+  <div class="header-sub">
+    <p>Fortnightly cleaning schedule. Each person cleans the entire apartment for two consecutive weeks, then hands over to the next person. Shared spaces are shared responsibility — a clean home is everyone's right.</p>
+    <div class="header-meta">
+      <span data-icon="📅">Starts: Sunday 14 June 2026</span>
+      <span data-icon="🔄">Fortnightly rotation</span>
+      <span data-icon="👥">2 residents</span>
+    </div>
+  </div>
+</header>
+
+<!-- ── ROSTER TIMELINE ── -->
+<div class="timeline-wrap">
+  <h2 style="font-family:'Sora',sans-serif;font-size:20px;font-weight:700;margin-bottom:16px;">🗓️ Roster Schedule</h2>
+  <div class="timeline">
+
+    <div class="roster-block peter">
+      <div class="roster-date">14 Jun – 27 Jun 2026<br><span style="font-weight:400;color:#94A3B8;">Week 1–2</span></div>
+      <div class="roster-person">
+        <h3>🧹 Peter</h3>
+        <div class="role green">ON DUTY</div>
+      </div>
+    </div>
+
+    <div class="roster-block kevin">
+      <div class="roster-date">28 Jun – 11 Jul 2026<br><span style="font-weight:400;color:#94A3B8;">Week 3–4</span></div>
+      <div class="roster-person">
+        <h3>🧹 Kevin</h3>
+        <div class="role blue">ON DUTY</div>
+      </div>
+    </div>
+
+    <div class="roster-block peter">
+      <div class="roster-date">12 Jul – 25 Jul 2026<br><span style="font-weight:400;color:#94A3B8;">Week 5–6</span></div>
+      <div class="roster-person">
+        <h3>🧹 Peter</h3>
+        <div class="role green">ON DUTY</div>
+      </div>
+    </div>
+
+    <div class="roster-block kevin">
+      <div class="roster-date">26 Jul – 8 Aug 2026<br><span style="font-weight:400;color:#94A3B8;">Week 7–8</span></div>
+      <div class="roster-person">
+        <h3>🧹 Kevin</h3>
+        <div class="role blue">ON DUTY</div>
+      </div>
+    </div>
+
+    <div class="roster-block peter">
+      <div class="roster-date">9 Aug – 22 Aug 2026<br><span style="font-weight:400;color:#94A3B8;">Week 9–10</span></div>
+      <div class="roster-person">
+        <h3>🧹 Peter</h3>
+        <div class="role green">ON DUTY</div>
+      </div>
+    </div>
+
+    <div class="roster-block kevin">
+      <div class="roster-date">23 Aug – 5 Sep 2026<br><span style="font-weight:400;color:#94A3B8;">Week 11–12</span></div>
+      <div class="roster-person">
+        <h3>🧹 Kevin</h3>
+        <div class="role blue">ON DUTY</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── WHAT TO CLEAN ── -->
+<div class="card">
+  <h2><span class="icon">✅</span>What to Clean — Each Fortnight</h2>
+  <p>Complete all tasks below during your two-week duty. Spread across the fortnight — no need to do it all in one day. Tick off as you go.</p>
+
+  <!-- Vacuuming -->
+  <div class="task-section">
+    <h3>🧹 Vacuuming & Floor Care</h3>
+    <ul class="task-list">
+      <li>Vacuum <span class="highlight">hallway</span> — full length, including edges and corners</li>
+      <li>Vacuum <span class="highlight">lounge room</span> — under and around furniture, along baseboards</li>
+      <li>Vacuum <span class="highlight">rug</span> — use proper suction, check for debris caught in weave</li>
+      <li>Vacuum <span class="highlight">kitchen</span> — including under the dining table and island</li>
+      <li>Vacuum <span class="highlight">dining area</span> — chairs moved, crumbs collected</li>
+      <li>Vacuum <span class="highlight">balcony</span> — sweep loose dirt and plant debris</li>
+      <li>Robot vacuum: empty dust bag, check for blockages (run as needed)</li>
+      <li>Spot-mop timber floors with <span class="highlight">Earth Choice</span> — barely damp mop only</li>
+    </ul>
+  </div>
+
+  <!-- Kitchen -->
+  <div class="task-section">
+    <h3>🍳 Kitchen Deep Clean</h3>
+    <ul class="task-list">
+      <li>Wipe down <span class="highlight">stove top</span> — remove grates, clean burners, wipe surfaces</li>
+      <li>Clean <span class="highlight">oven</span> — interior wiped, glass door cleaned, racks checked</li>
+      <li>Clean <span class="highlight">air fryer</span> — basket and tray washed, exterior wiped</li>
+      <li>Clean <span class="highlight">microwave</span> — interior wiped, turntable washed, exterior</li>
+      <li>Wipe <span class="highlight">kitchen benchtops</span> — all surfaces including island with Glitz Stone Cleaner</li>
+      <li>Clean <span class="highlight">sink</span> — scrub basin, polish tap, clear drain strainer</li>
+      <li>Wipe <span class="highlight">splashback and rangehood</span> — degrease if needed</li>
+      <li>Clean <span class="highlight">toaster</span> — empty crumb tray, wipe exterior</li>
+      <li>Wipe down <span class="highlight">cabinet fronts and handles</span></li>
+      <li>Take out <span class="highlight">kitchen bin</span> — replace liner, spray with Glen 20</li>
+      <li>Return all items to their designated spots</li>
+    </ul>
+  </div>
+
+  <!-- Bathroom -->
+  <div class="task-section">
+    <h3>🚿 Bathroom & Powder Room</h3>
+    <ul class="task-list">
+      <li>Clean <span class="highlight">toilet</span> — seat, lid, cistern, outside, flush button, base</li>
+      <li>Scrub <span class="highlight">toilet bowl</span> with brush, clean brush holder</li>
+      <li>Clean <span class="highlight">vanity and basin</span> — with appropriate cleaner</li>
+      <li>Clean <span class="highlight">mirror</span> with Ajax Glass Cleaner</li>
+      <li>Wipe <span class="highlight">cupboard fronts, handles, light switches and door handles</span></li>
+      <li>Empty <span class="highlight">bathroom bin</span> — replace liner, spray with Glen 20</li>
+      <li>Vacuum and <span class="highlight">mop bathroom floor</span> — use Pine O Cleen, including behind toilet</li>
+      <li>Check <span class="highlight">floor drain</span> for hair and dirt</li>
+      <li>Restock <span class="highlight">toilet paper</span> — replace empty rolls</li>
+      <li>Restock <span class="highlight">liquid soap</span> — top up dispenser</li>
+    </ul>
+  </div>
+
+  <!-- Living Areas -->
+  <div class="task-section">
+    <h3>🛋️ Living & Common Areas</h3>
+    <ul class="task-list">
+      <li>Dust all <span class="highlight">surfaces</span> — shelves, TV unit, coffee table, window sills</li>
+      <li>Wipe <span class="highlight">dining table</span> with Ajax Glass Cleaner</li>
+      <li>Fluff and arrange <span class="highlight">cushions</span> on lounge</li>
+      <li>Fold or straighten <span class="highlight">blankets</span></li>
+      <li>Check and <span class="highlight">water plants</span> — remove dead leaves</li>
+      <li>Tidy <span class="highlight">balcony</span> — sweep, wipe surfaces, arrange furniture</li>
+      <li>Check balcony door <span class="highlight">threshold and tracks</span> are clear of debris</li>
+    </ul>
+  </div>
+
+  <!-- Finishing Touches -->
+  <div class="task-section">
+    <h3>🧽 Finishing Touches</h3>
+    <ul class="task-list">
+      <li>Take out all <span class="highlight">rubbish and recycling</span> — kitchen, bathroom, balcony</li>
+      <li>Wash <span class="highlight">dishcloth and tea towels</span> — replace with clean ones</li>
+      <li>Replace <span class="highlight">sponge</span> if worn</li>
+      <li>Check <span class="highlight">shopping list</span> — flag any items running low</li>
+      <li>Report any <span class="highlight">maintenance issues</span> (leaks, bulbs, broken items)</li>
+      <li>Do a final walk-through — <span class="highlight">"would I be happy coming home to this?"</span></li>
+    </ul>
+  </div>
+
+  <div class="tip">
+    <strong>⏱️ Estimated Time</strong>
+    Full clean: approximately <strong>1.5–2 hours</strong>. Break it up: vacuum one day, kitchen the next. The fortnightly schedule gives you flexibility.
+  </div>
+
+  <div class="tip-note">
+    <strong>💡 Daily Maintenance (Not on Roster — Everyone's Responsibility)</strong>
+    Wipe benches after cooking. Wash dishes or load dishwasher after eating. Wipe the dining table after meals. Pick up hair after showering. Flush well and use the toilet brush if needed. If you spill it, clean it — don't wait for your roster week.
+  </div>
+</div>
+
+<!-- ── HOW TO CLEAN ── -->
+<div class="card">
+  <h2><span class="icon">🧴</span>Which Product to Use Where</h2>
+  <table style="width:100%;border-collapse:collapse;font-size:14px;">
+    <tr style="background:#F1F5F9;"><th style="text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;">Surface</th><th style="text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;">Product</th><th style="text-align:left;padding:10px 12px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;">Do Not Use</th></tr>
+    <tr><td style="padding:10px 12px;border-top:1px solid #E2E8F0;">Herringbone timber floors</td><td style="padding:10px 12px;border-top:1px solid #E2E8F0;"><strong>Earth Choice</strong> (barely damp mop)</td><td style="padding:10px 12px;border-top:1px solid #E2E8F0;">Steam mop, bleach, excess water</td></tr>
+    <tr><td style="padding:10px 12px;border-top:1px solid #E2E8F0;">Bathroom floors</td><td style="padding:10px 12px;border-top:1px solid #E2E8F0;"><strong>Pine O Cleen</strong></td><td style="padding:10px 12px;border-top:1px solid #E2E8F0;">Harsh chemicals on tile grout</td></tr>
+    <tr><td style="padding:10px 12px;border-top:1px solid #E2E8F0;">Stone benchtops (island)</td><td style="padding:10px 12px;border-top:1px solid #E2E8F0;"><strong>Glitz Stone Benchtop Cleaner</strong></td><td style="padding:10px 12px;border-top:1px solid #E2E8F0;">Abrasive pads, bleach, vinegar</td></tr>
+    <tr><td style="padding:10px 12px;border-top:1px solid #E2E8F0;">Glass, mirrors, dining table</td><td style="padding:10px 12px;border-top:1px solid #E2E8F0;"><strong>Ajax Glass Cleaner</strong></td><td style="padding:10px 12px;border-top:1px solid #E2E8F0;">Timber floors</td></tr>
+    <tr><td style="padding:10px 12px;border-top:1px solid #E2E8F0;">High-touch surfaces, handles</td><td style="padding:10px 12px;border-top:1px solid #E2E8F0;"><strong>Pine O Cleen Spray</strong></td><td style="padding:10px 12px;border-top:1px solid #E2E8F0;">Stone or timber (test first)</td></tr>
+    <tr><td style="padding:10px 12px;border-top:1px solid #E2E8F0;">Stubborn marks, sink stains</td><td style="padding:10px 12px;border-top:1px solid #E2E8F0;"><strong>Jif Cream</strong></td><td style="padding:10px 12px;border-top:1px solid #E2E8F0;">Stainless fridge, timber, stone</td></tr>
+    <tr><td style="padding:10px 12px;border-top:1px solid #E2E8F0;">Bins, odours, after illness</td><td style="padding:10px 12px;border-top:1px solid #E2E8F0;"><strong>Glen 20</strong></td><td style="padding:10px 12px;border-top:1px solid #E2E8F0;">Do not soak surfaces</td></tr>
+    <tr><td style="padding:10px 12px;border-top:1px solid #E2E8F0;">Stainless steel (fridge)</td><td style="padding:10px 12px;border-top:1px solid #E2E8F0;"><strong>Stainless steel cleaner</strong></td><td style="padding:10px 12px;border-top:1px solid #E2E8F0;">Steel wool, bleach, abrasive pads</td></tr>
+    <tr><td style="padding:10px 12px;border-top:1px solid #E2E8F0;">Oven interior</td><td style="padding:10px 12px;border-top:1px solid #E2E8F0;">Oven cleaner or baking soda paste</td><td style="padding:10px 12px;border-top:1px solid #E2E8F0;">Harsh scouring pads on glass</td></tr>
+  </table>
+</div>
+
+<!-- ── DURING YOUR OFF-WEEK ── -->
+<div class="card">
+  <h2><span class="icon">🤝</span>During Your Off-Week</h2>
+  <p>You're not on cleaning duty, but basic courtesy still applies:</p>
+  <ul class="task-list">
+    <li>Wipe benches after you cook</li>
+    <li>Rinse sink after brushing teeth or shaving</li>
+    <li>Flush toilet and use brush if needed</li>
+    <li>Pick up hair from shower/basin floor</li>
+    <li>Load and run dishwasher when full</li>
+    <li>Take out bin if it's full</li>
+    <li>Report breakages or issues promptly</li>
+  </ul>
+  <div class="tip" style="margin-top:16px;">
+    <strong>🏆 The Golden Rule</strong>
+    Leave shared spaces cleaner than you found them. A clean home is everyone's responsibility, every day — not just during your roster week.
+  </div>
+</div>
+
+<nav class="nav-links">
+  <a href="instructions.html">🏠 Home</a>
+  <a href="cleaning-issues.html">⚠️ Cleaning Issues</a>
+  <a href="utilities-evidence.html">📊 Utilities</a>
+</nav>
+
+<footer>
+  Cleaning Roster · 1507/477 Boundary Street, Spring Hill QLD 4000 · Updated 16 June 2026
+</footer>
+
+</body>
+</html>
