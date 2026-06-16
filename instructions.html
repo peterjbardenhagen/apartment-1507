@@ -1,0 +1,1127 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apartment Instruction Manual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:   #1A3A5C;
+  --navy-light: #234d7a;
+  --green:  #2E7D5E;
+  --green-light: #EAF4EF;
+  --amber:  #B45309;
+  --amber-light: #FEF3C7;
+  --red:    #991B1B;
+  --red-light: #FEF2F2;
+  --slate:  #64748B;
+  --border: #DDE3EC;
+  --bg:     #F0F4F8;
+  --card:   #FFFFFF;
+  --ink:    #0F172A;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+/* ── HEADER ── */
+.site-header {
+  background: linear-gradient(135deg, var(--navy) 0%, #0d2840 100%);
+  color: white;
+  padding: 48px 32px 40px;
+  position: relative;
+  overflow: hidden;
+}
+.site-header::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, rgba(46,125,94,.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+.header-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #94C5A8;
+  margin-bottom: 10px;
+}
+.site-header h1 {
+  font-family: 'Sora', sans-serif;
+  font-size: clamp(26px, 4vw, 40px);
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 14px;
+}
+.header-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 18px;
+}
+.header-meta span {
+  font-size: 13px;
+  color: #A8C4D8;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.header-meta span::before { content: attr(data-icon); font-size: 14px; }
+
+/* ── NAV ── */
+.sticky-nav {
+  background: var(--navy);
+  border-bottom: 3px solid var(--green);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.sticky-nav::-webkit-scrollbar { display: none; }
+.nav-inner {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 2px;
+  min-width: max-content;
+}
+.nav-inner a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 12px 14px;
+  color: #A8C4D8;
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -3px;
+  transition: color .15s, border-color .15s;
+}
+.nav-inner a:hover { color: white; border-color: var(--green); }
+.nav-inner a .nav-icon { font-size: 14px; }
+
+/* ── LAYOUT ── */
+.page-body {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 20px 64px;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+@media (max-width: 860px) {
+  .page-body { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  position: sticky;
+  top: 48px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,.04);
+}
+.sidebar-title {
+  background: var(--navy);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 12px 16px;
+}
+.sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  color: var(--slate);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  border-left: 3px solid transparent;
+  transition: all .12s;
+}
+.sidebar a:hover {
+  color: var(--navy);
+  background: var(--bg);
+  border-left-color: var(--green);
+}
+.sidebar a .si { font-size: 14px; width: 18px; text-align: center; }
+.sidebar a + a { border-top: 1px solid var(--bg); }
+
+/* ── CARDS ── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px;
+  margin-bottom: 22px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04);
+}
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+}
+.card-icon {
+  width: 42px; height: 42px;
+  background: var(--green-light);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.card-title-wrap h2 {
+  font-family: 'Sora', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.2;
+}
+.card-title-wrap p {
+  font-size: 12.5px;
+  color: var(--slate);
+  margin-top: 3px;
+}
+
+/* ── GALLERY ── */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+  margin: 16px 0;
+}
+.gallery figure { margin: 0; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+.gallery img { display: block; width: 100%; height: 180px; object-fit: cover; }
+.gallery figcaption { font-size: 11px; color: var(--slate); padding: 7px 10px; background: #f8fafc; }
+
+/* ── TYPOGRAPHY ── */
+h3 {
+  font-family: 'Sora', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 20px 0 10px;
+}
+h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--slate);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin: 16px 0 8px;
+}
+p { margin-bottom: 12px; }
+ul, ol { padding-left: 20px; margin-bottom: 12px; }
+li { margin-bottom: 5px; }
+strong { color: var(--ink); }
+
+/* ── CALLOUTS ── */
+.alert {
+  background: var(--red-light);
+  border: 1px solid #FECACA;
+  border-left: 4px solid var(--red);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin: 14px 0;
+  font-size: 14px;
+}
+.tip {
+  background: var(--green-light);
+  border: 1px solid #A7D7C0;
+  border-left: 4px solid var(--green);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin: 14px 0;
+  font-size: 14px;
+}
+.tip strong, .alert strong { display: block; margin-bottom: 4px; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+.tip strong { color: var(--green); }
+.alert strong { color: var(--red); }
+.note {
+  background: var(--amber-light);
+  border-left: 4px solid var(--amber);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin: 12px 0;
+  font-size: 13.5px;
+}
+
+/* ── TABLES ── */
+.tbl-wrap { overflow-x: auto; margin: 14px 0; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { border: 1px solid var(--border); padding: 10px 13px; text-align: left; vertical-align: top; }
+th { background: #EFF4FB; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--navy); }
+tr:hover td { background: #F8FAFC; }
+
+/* ── COST PILL ── */
+.cost-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--bg);
+  font-size: 13.5px;
+}
+.cost-row:last-child { border-bottom: none; }
+.cost-badge {
+  background: var(--green-light);
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 99px;
+  white-space: nowrap;
+}
+
+/* ── STEPS ── */
+.steps { counter-reset: step; list-style: none; padding-left: 0; }
+.steps li {
+  counter-increment: step;
+  display: flex;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--bg);
+  font-size: 14px;
+}
+.steps li:last-child { border-bottom: none; }
+.steps li::before {
+  content: counter(step);
+  width: 26px; height: 26px;
+  background: var(--navy);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── RULES GRID ── */
+.rules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+  margin: 4px 0;
+}
+.rule-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 13.5px;
+}
+.rule-icon { font-size: 20px; flex-shrink: 0; }
+
+/* ── SHOPPING LIST ── */
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px;
+}
+.shop-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 10px 13px;
+  font-size: 13.5px;
+}
+.shop-item::before { content: '☐'; font-size: 16px; color: var(--slate); }
+
+/* ── FOOTER ── */
+footer {
+  text-align: center;
+  color: var(--slate);
+  font-size: 12.5px;
+  padding: 28px;
+  border-top: 1px solid var(--border);
+  margin-top: 12px;
+}
+
+/* ── PRINT ── */
+@media print {
+  .sticky-nav, .sidebar { display: none; }
+  .page-body { grid-template-columns: 1fr; }
+  body { background: white; }
+  .card { break-inside: avoid; box-shadow: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-eyebrow">Shared Apartment · Sydney</div>
+  <h1>Apartment Instruction Manual</h1>
+  <p style="color:#A8C4D8; max-width:560px; font-size:14px; margin-top:8px;">
+    A complete guide to appliances, cleaning products, shared space standards, and utilities costs for all residents.
+  </p>
+  <div class="header-meta">
+    <span data-icon="📅">Last updated: 13 June 2026</span>
+    <span data-icon="🏠">Shared apartment – all rooms</span>
+    <span data-icon="📋">Keep for reference</span>
+  </div>
+</header>
+
+<nav class="sticky-nav">
+  <div class="nav-inner">
+    <a href="#rules"><span class="nav-icon">📋</span> House Rules</a>
+    <a href="#dining"><span class="nav-icon">🍽️</span> Dining Table</a>
+    <a href="#balcony-door"><span class="nav-icon">🚪</span> Balcony Door</a>
+    <a href="#laundry"><span class="nav-icon">🧺</span> Laundry</a>
+    <a href="#dishwasher"><span class="nav-icon">🫧</span> Dishwasher</a>
+    <a href="#microwave"><span class="nav-icon">📡</span> Microwave</a>
+    <a href="#airfryer"><span class="nav-icon">🍟</span> Air Fryer</a>
+    <a href="#appliances"><span class="nav-icon">🔌</span> Appliances</a>
+    <a href="#products"><span class="nav-icon">🧴</span> Cleaning Products</a>
+    <a href="#floors"><span class="nav-icon">🧹</span> Floors</a>
+    <a href="#powder-room"><span class="nav-icon">🚿</span> Powder Room</a>
+    <a href="#balcony-cleaning"><span class="nav-icon">🌿</span> Balcony</a>
+    <a href="#robot-vac"><span class="nav-icon">🤖</span> Robot Vacuum</a>
+    <a href="#cupboard"><span class="nav-icon">🗄️</span> Cupboard</a>
+    <a href="#shopping"><span class="nav-icon">🛒</span> Shopping List</a>
+  </div>
+</nav>
+
+<div class="page-body">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-title">Quick Jump</div>
+    <a href="#rules"><span class="si">📋</span>House Rules</a>
+    <a href="#dining"><span class="si">🍽️</span>Dining Table</a>
+    <a href="#balcony-door"><span class="si">🚪</span>Balcony Door</a>
+    <a href="#laundry"><span class="si">🧺</span>Laundry &amp; Dryer</a>
+    <a href="#dishwasher"><span class="si">🫧</span>Dishwasher</a>
+    <a href="#microwave"><span class="si">📡</span>Microwave</a>
+    <a href="#airfryer"><span class="si">🍟</span>Air Fryer</a>
+    <a href="#appliances"><span class="si">🔌</span>Toaster / Fridge</a>
+    <a href="#products"><span class="si">🧴</span>Cleaning Products</a>
+    <a href="#floors"><span class="si">🧹</span>Floor Cleaning</a>
+    <a href="#cloths"><span class="si">🧽</span>Cloths &amp; Tea Towels</a>
+    <a href="#powder-room"><span class="si">🚿</span>Powder Room</a>
+    <a href="#balcony-cleaning"><span class="si">🌿</span>Balcony &amp; Plants</a>
+    <a href="#robot-vac"><span class="si">🤖</span>Robot Vacuum</a>
+    <a href="#vacuum"><span class="si">🌀</span>Shark Vacuum</a>
+    <a href="#blankets"><span class="si">🛋️</span>Blankets</a>
+    <a href="#cupboard"><span class="si">🗄️</span>Linen Cupboard</a>
+    <a href="#misc"><span class="si">💡</span>Misc Items</a>
+    <a href="#shopping"><span class="si">🛒</span>Shopping List</a>
+  </aside>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- HOUSE RULES -->
+    <section class="card" id="rules">
+      <div class="card-header">
+        <div class="card-icon">📋</div>
+        <div class="card-title-wrap">
+          <h2>House Rules at a Glance</h2>
+          <p>Core expectations for all residents, every day</p>
+        </div>
+      </div>
+      <div class="rules-grid">
+        <div class="rule-item"><span class="rule-icon">🧹</span><div><strong>Clean as you go.</strong> No food, crumbs, grease, dishes or rubbish left behind after cooking or eating.</div></div>
+        <div class="rule-item"><span class="rule-icon">🤝</span><div><strong>Shared spaces are shared responsibility.</strong> Kitchen, powder room, balcony, laundry and living area.</div></div>
+        <div class="rule-item"><span class="rule-icon">🧴</span><div><strong>Use the right product for each surface.</strong> Earth Choice for timber floors · Glitz for stone benches · Ajax for glass · Pine O Cleen for bathrooms.</div></div>
+        <div class="rule-item"><span class="rule-icon">💧</span><div><strong>Keep water off timber flooring.</strong> Wipe rain, spills or mopping residue immediately.</div></div>
+        <div class="rule-item"><span class="rule-icon">🧺</span><div><strong>Prefer the drying rack.</strong> Only use the dryer when needed. Always clean the lint filter after every load.</div></div>
+        <div class="rule-item"><span class="rule-icon">🫧</span><div><strong>Run the dishwasher only when full.</strong> Otherwise, wash a few dishes by hand in the sink.</div></div>
+        <div class="rule-item"><span class="rule-icon">🧊</span><div><strong>If you use the last ice cube, refill the tray.</strong> Fill 80–90% full and return flat to the freezer.</div></div>
+        <div class="rule-item"><span class="rule-icon">🗄️</span><div><strong>Linen cupboard: clean and dry items only.</strong> No damp towels or dirty cloths.</div></div>
+      </div>
+    </section>
+
+    <!-- DINING TABLE -->
+    <section class="card" id="dining">
+      <div class="card-header">
+        <div class="card-icon">🍽️</div>
+        <div class="card-title-wrap">
+          <h2>Dining Table &amp; Placemats</h2>
+          <p>Clean up after every meal</p>
+        </div>
+      </div>
+      <div class="gallery">
+        <figure><img src="assets/image-1781318666142.jpg" alt="Dining table"><figcaption>Dining table</figcaption></figure>
+      </div>
+      <ol class="steps">
+        <li>Spray the table lightly with <strong>Ajax Spray &amp; Wipe Glass Cleaner</strong>.</li>
+        <li>Wipe with paper towel or a clean microfibre cloth.</li>
+        <li>Remove all food crumbs, spills and marks.</li>
+        <li>Pack placemats away in the cupboard.</li>
+        <li>Do not leave plates, cups, food or rubbish on the table.</li>
+      </ol>
+      <div class="tip"><strong>Supplies</strong> Ajax Glass Cleaner and paper towel are provided as part of the utilities contribution.</div>
+    </section>
+
+    <!-- BALCONY DOOR -->
+    <section class="card" id="balcony-door">
+      <div class="card-header">
+        <div class="card-icon">🚪</div>
+        <div class="card-title-wrap">
+          <h2>Balcony Door &amp; Water Ingress</h2>
+          <p>Important – prevents costly timber floor damage</p>
+        </div>
+      </div>
+      <div class="gallery">
+        <figure><img src="assets/image-1781323993936.jpg" alt="Balcony door 1"><figcaption>Balcony door track</figcaption></figure>
+        <figure><img src="assets/image-1781324008620.jpg" alt="Balcony door 2"><figcaption>Threshold area</figcaption></figure>
+        <figure><img src="assets/image-1781324117843.jpg" alt="Balcony door 3"><figcaption>Door seal</figcaption></figure>
+        <figure><img src="assets/image-1781324127682.jpg" alt="Balcony door 4"><figcaption>Floor boundary</figcaption></figure>
+        <figure><img src="assets/1000034472.jpg" alt="Balcony door 5"><figcaption>Outside threshold</figcaption></figure>
+      </div>
+      <div class="alert"><strong>⚠️ Warning</strong>The side balcony door can allow rainwater to enter even when opened only slightly. Water can cross the black threshold directly onto the timber floorboards.</div>
+      <ul>
+        <li>Only leave the side balcony door open <strong>10–15 cm</strong> unless you are actively monitoring it.</li>
+        <li>Close the door immediately if rain, wind or storms are possible.</li>
+        <li>Never leave balcony doors open overnight or when leaving the apartment.</li>
+        <li>If rain water enters, close the door immediately and dry the black threshold and timber floor thoroughly.</li>
+        <li>Keep the door tracks and threshold clear of plant debris and leaves.</li>
+      </ul>
+      <div class="note">💡 Water-damaged timber flooring can stain, swell, cup or warp. Repairs are expensive and avoidable.</div>
+    </section>
+
+    <!-- LAUNDRY -->
+    <section class="card" id="laundry">
+      <div class="card-header">
+        <div class="card-icon">🧺</div>
+        <div class="card-title-wrap">
+          <h2>Laundry: Washing Machine, Dryer &amp; Drying Rack</h2>
+          <p>Instructions, costs and lint filter care</p>
+        </div>
+      </div>
+      <div class="gallery">
+        <figure><img src="assets/image-1781317735263.jpg" alt="Laundry 1"><figcaption>Drying rack storage</figcaption></figure>
+        <figure><img src="assets/image-1781317745794.jpg" alt="Laundry 2"><figcaption>Washing machine</figcaption></figure>
+        <figure><img src="assets/image-1781317815380.jpg" alt="Laundry 3"><figcaption>Washing machine settings</figcaption></figure>
+        <figure><img src="assets/image-1781317949490.jpg" alt="Laundry 4"><figcaption>Dryer</figcaption></figure>
+        <figure><img src="assets/image-1781318584121.jpg" alt="Laundry 5"><figcaption>Dryer lint filter</figcaption></figure>
+        <figure><img src="assets/image-1781318593994.jpg" alt="Laundry 6"><figcaption>Lint filter detail</figcaption></figure>
+      </div>
+
+      <h3>Drying Rack</h3>
+      <p>The drying rack is stored to the left of the washing machine. Use it as your default — the dryer is for when time or weather doesn't allow air drying.</p>
+
+      <h3>Washing Machine – Estimated Costs</h3>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Scenario</th><th>Estimated Cost</th></tr>
+          <tr><td>Electricity + water (Mix setting → Cottons + Prewash)</td><td>Up to ~$1.10/wash</td></tr>
+          <tr><td>With detergent + fabric softener</td><td>Up to ~$1.40–$1.60/wash</td></tr>
+          <tr><td>3 residents × up to 2 washes/week × 52 weeks</td><td>Up to ~$500/year</td></tr>
+        </table>
+      </div>
+
+      <h3>Dryer – Estimated Costs</h3>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Setting</th><th>Duration</th><th>Estimated Cost</th></tr>
+          <tr><td>Cupboard Dry</td><td>~3 hrs 14 min</td><td>~$0.60/load</td></tr>
+          <tr><td>Cupboard Extra Dry</td><td>~4 hrs 14 min</td><td>~$0.80/load</td></tr>
+          <tr><td>312 loads/year (upper estimate)</td><td>—</td><td>Up to ~$250/year</td></tr>
+        </table>
+      </div>
+
+      <h3>Cleaning the Lint Filter (Required After Every Load)</h3>
+      <ol class="steps">
+        <li>Open the dryer door.</li>
+        <li>Remove the lint filter from the bottom of the door opening.</li>
+        <li>Peel off the lint and dispose of it in the bin.</li>
+        <li>Reinstall the filter before the next use.</li>
+        <li><strong>Never run the dryer without the lint filter installed.</strong></li>
+      </ol>
+
+      <h3>How Long Can Washing Sit Wet?</h3>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Time</th><th>Outcome</th></tr>
+          <tr><td>0–4 hours</td><td>Usually fine</td></tr>
+          <tr><td>8–12 hours</td><td>Musty smell may develop</td></tr>
+          <tr><td>12–24 hours</td><td>Often needs rewashing</td></tr>
+          <tr><td>24+ hours</td><td>Rewash before drying</td></tr>
+        </table>
+      </div>
+      <div class="tip"><strong>Best Practice</strong>Wash and dry same day. Overnight is the absolute maximum for towels and cleaning cloths.</div>
+
+      <h3>Laundry Products</h3>
+      <p><strong>Dynamo Professional Deep Clean 7-in-1</strong></p>
+      <ul>
+        <li>Small load: ~35 mL — approx. $0.20–$0.30</li>
+        <li>Medium load: ~50 mL — approx. $0.25–$0.35</li>
+        <li>Large / heavily soiled load: 65–75 mL — approx. $0.30–$0.40</li>
+      </ul>
+      <p><strong>Cuddly Fabric Softener</strong></p>
+      <ul>
+        <li>Normal load: 25–35 mL — approx. $0.05–$0.10</li>
+        <li>Large load: 40–50 mL — approx. $0.10–$0.15</li>
+      </ul>
+      <div class="tip"><strong>Supplied</strong>Detergent and softener are provided as part of utilities. Use only the recommended amounts.</div>
+    </section>
+
+    <!-- DISHWASHER -->
+    <section class="card" id="dishwasher">
+      <div class="card-header">
+        <div class="card-icon">🫧</div>
+        <div class="card-title-wrap">
+          <h2>Dishwasher, Detergent &amp; Rinse Aid</h2>
+          <p>Only run when full – otherwise use the sink</p>
+        </div>
+      </div>
+      <div class="gallery">
+        <figure><img src="assets/image-1781322036974.jpg" alt="Dishwasher 1"><figcaption>Dishwasher exterior</figcaption></figure>
+        <figure><img src="assets/image-1781322043459.jpg" alt="Dishwasher 2"><figcaption>Lower rack</figcaption></figure>
+        <figure><img src="assets/image-1781322091004.jpg" alt="Dishwasher 3"><figcaption>Detergent compartment</figcaption></figure>
+        <figure><img src="assets/image-1781322255976.jpg" alt="Dishwasher 4"><figcaption>Rinse aid compartment</figcaption></figure>
+      </div>
+      <div class="alert"><strong>Rule</strong>Do not run the dishwasher unless it is full. A few dishes should be hand-washed in the sink.</div>
+
+      <h3>Running Costs</h3>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Load</th><th>Cycle</th><th>Estimated Cost (incl. electricity, water, hot water)</th></tr>
+          <tr><td>Half load</td><td>~3 hours</td><td>~$0.62/wash</td></tr>
+          <tr><td>Full load</td><td>~3 hours</td><td>~$0.82/wash</td></tr>
+          <tr><td>Weekly (1 half + 1 full) × 52 weeks</td><td>—</td><td>~$75/year</td></tr>
+        </table>
+      </div>
+
+      <h3>Detergent Choice</h3>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Product</th><th>When to Use</th><th>Cost/wash</th></tr>
+          <tr><td><strong>Earth Choice Dishwasher Powder</strong></td><td>Everyday, light-to-normal loads</td><td>~$0.07–$0.12</td></tr>
+          <tr><td><strong>Fairy Platinum Tablet</strong></td><td>Greasy or heavily soiled loads</td><td>~$0.35–$0.55</td></tr>
+        </table>
+      </div>
+
+      <h3>Rinse Aid</h3>
+      <p>Use <strong>Finish Rinse &amp; Shine Aid</strong> in the rinse-aid compartment. Top up when the low indicator appears. Cost: ~$0.02–$0.04 per wash.</p>
+
+      <h3>Loading Standards</h3>
+      <ul>
+        <li>Scrape all food scraps into the bin before loading.</li>
+        <li>Do not overload the racks — leave space for water to circulate.</li>
+        <li>Unload and put dishes away promptly once the cycle finishes.</li>
+      </ul>
+    </section>
+
+    <!-- MICROWAVE -->
+    <section class="card" id="microwave">
+      <div class="card-header">
+        <div class="card-icon">📡</div>
+        <div class="card-title-wrap">
+          <h2>Microwave</h2>
+          <p>Safe use and immediate clean-up</p>
+        </div>
+      </div>
+      <div class="gallery">
+        <figure><img src="assets/image-1781318796920.jpg" alt="Microwave"><figcaption>Microwave</figcaption></figure>
+      </div>
+      <ul>
+        <li>Use microwave-safe containers only — no metal, foil, cutlery or metallic trim.</li>
+        <li>Cover food to prevent splatter.</li>
+        <li>Remove food promptly after heating.</li>
+        <li>If food spills or splatters inside, wipe it immediately.</li>
+        <li>Do not spray cleaner directly inside the microwave — spray onto a cloth first.</li>
+      </ul>
+      <div class="note">💡 Typical costs: 2 min &lt;1¢ · 5 min ~2–3¢ · 10 min ~5–7¢</div>
+    </section>
+
+    <!-- AIR FRYER -->
+    <section class="card" id="airfryer">
+      <div class="card-header">
+        <div class="card-icon">🍟</div>
+        <div class="card-title-wrap">
+          <h2>Air Fryer – DeLonghi Ideal Fry</h2>
+          <p>Clean after every use — especially greasy foods</p>
+        </div>
+      </div>
+      <div class="gallery">
+        <figure><img src="assets/image-1781320272268.jpg" alt="Air fryer 1"><figcaption>Air fryer front</figcaption></figure>
+        <figure><img src="assets/image-1781320282281.jpg" alt="Air fryer 2"><figcaption>Basket</figcaption></figure>
+        <figure><img src="assets/image-1781320289413.jpg" alt="Air fryer 3"><figcaption>Interior</figcaption></figure>
+        <figure><img src="assets/image-1781320302783.jpg" alt="Air fryer 4"><figcaption>Components</figcaption></figure>
+      </div>
+
+      <h3>After Normal Use</h3>
+      <ol class="steps">
+        <li>Unplug and allow to cool completely.</li>
+        <li>Remove food crumbs and residue.</li>
+        <li>Wash removable components in warm soapy water.</li>
+        <li>Dry thoroughly before reassembling.</li>
+        <li>Wipe inside and outside with a damp cloth.</li>
+      </ol>
+
+      <h3>After Greasy Foods / Heavy Use</h3>
+      <ol class="steps">
+        <li>Remove all removable parts.</li>
+        <li>Wash with hot water and dishwashing liquid.</li>
+        <li>Use a non-abrasive sponge for baked-on grease.</li>
+        <li>Wipe basket edges, lid surrounds, heating element area and interior walls.</li>
+        <li>Do not leave grease build-up — clean before the next person uses it.</li>
+      </ol>
+      <div class="note">💡 Running costs: 20 min ~$0.10–$0.15 · 40 min ~$0.20–$0.30</div>
+    </section>
+
+    <!-- TOASTER + FRIDGE -->
+    <section class="card" id="appliances">
+      <div class="card-header">
+        <div class="card-icon">🔌</div>
+        <div class="card-title-wrap">
+          <h2>Toaster &amp; Fridge</h2>
+          <p>Safe use and surface care</p>
+        </div>
+      </div>
+      <div class="gallery">
+        <figure><img src="assets/image-1781320351160.jpg" alt="Toaster 1"><figcaption>Toaster</figcaption></figure>
+        <figure><img src="assets/image-1781320357616.jpg" alt="Toaster 2"><figcaption>Toaster controls</figcaption></figure>
+        <figure><img src="assets/image-1781322398879.jpg" alt="Fridge"><figcaption>Stainless steel fridge</figcaption></figure>
+      </div>
+
+      <h3>Toaster</h3>
+      <p><strong>Settings:</strong> Browning dial 1–2 light, 3–4 medium, 5–6 dark. Use Cancel to stop early, Reheat for already-toasted bread, Defrost for frozen bread.</p>
+      <p><strong>Safety:</strong> Never insert metal objects. Unplug before cleaning.</p>
+      <h4>Cleaning the Toaster</h4>
+      <ol class="steps">
+        <li>Switch off at the wall and unplug.</li>
+        <li>Allow to cool fully.</li>
+        <li>Remove and empty the crumb tray into the bin.</li>
+        <li>Shake loose crumbs into the bin.</li>
+        <li>Wipe the outside and wipe down the bench.</li>
+      </ol>
+
+      <h3>Fridge – Stainless Steel Care</h3>
+      <div class="alert"><strong>Current state</strong>The fridge currently has fingerprints, streaks and water marks. It needs a proper clean with stainless steel cleaner (add to shopping list).</div>
+      <ul>
+        <li>Use <strong>stainless steel cleaner or stainless steel wipes</strong> (to purchase — see shopping list).</li>
+        <li>Spray product onto a cloth — not directly onto the fridge.</li>
+        <li>Wipe <em>with the grain</em> of the steel, not against it.</li>
+        <li>Buff dry with a clean microfibre cloth.</li>
+        <li><strong>Do not use</strong> steel wool, bleach, abrasive pads or harsh chemicals.</li>
+      </ul>
+    </section>
+
+    <!-- CLEANING PRODUCTS -->
+    <section class="card" id="products">
+      <div class="card-header">
+        <div class="card-icon">🧴</div>
+        <div class="card-title-wrap">
+          <h2>Cleaning Products &amp; Where to Use Them</h2>
+          <p>Right product for the right surface — always</p>
+        </div>
+      </div>
+      <div class="gallery">
+        <figure><img src="assets/image-1781322489934.jpg" alt="Cleaning products 1"><figcaption>Earth Choice &amp; Pine O Cleen</figcaption></figure>
+        <figure><img src="assets/image-1781322564995.jpg" alt="Cleaning products 2"><figcaption>Glen 20</figcaption></figure>
+        <figure><img src="assets/image-1781322589693.jpg" alt="Cleaning products 3"><figcaption>Glitz Stone Cleaner</figcaption></figure>
+        <figure><img src="assets/image-1781322628950.jpg" alt="Cleaning products 4"><figcaption>Ajax Glass Cleaner</figcaption></figure>
+        <figure><img src="assets/image-1781322669422.jpg" alt="Cleaning products 5"><figcaption>Jif Cream Cleanser</figcaption></figure>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Product</th><th>Use On</th><th>Do Not Use On</th></tr>
+          <tr><td><strong>Earth Choice Floor &amp; Surface</strong></td><td>Herringbone timber floors, kitchen floor, general mopping</td><td>Do not leave timber wet</td></tr>
+          <tr><td><strong>Pine O Cleen Floor Cleaner</strong></td><td>Bathroom floors, toilet area, balcony, disinfecting</td><td>Do not use regularly on timber</td></tr>
+          <tr><td><strong>Pine O Cleen Spray</strong></td><td>High-touch surfaces, handles, light switches, bathroom surfaces</td><td>Stone or timber (test first)</td></tr>
+          <tr><td><strong>Glen 20</strong></td><td>Germs and bad odours, bins, after illness, light fabric odour control</td><td>Do not soak surfaces</td></tr>
+          <tr><td><strong>Jif Cream</strong></td><td>Stubborn marks, sink stains, basin, shower soap scum</td><td>Stainless fridge, timber, stone benches</td></tr>
+          <tr><td><strong>Glitz Stone + Benchtop Cleaner</strong></td><td>Kitchen island, stone/marble/granite benchtops</td><td>Do not use abrasive pads</td></tr>
+          <tr><td><strong>Ajax Glass Cleaner</strong></td><td>Dining table, glass surfaces, mirrors</td><td>Timber floors</td></tr>
+        </table>
+      </div>
+
+      <h3>Consumable Cost Guide</h3>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Item</th><th>Approx. Cost Per Use</th></tr>
+          <tr><td>Earth Choice Floor Cleaner</td><td>$0.05–$0.10</td></tr>
+          <tr><td>Pine O Cleen Floor Mix</td><td>$0.10–$0.20</td></tr>
+          <tr><td>Glen 20</td><td>$0.05–$0.15</td></tr>
+          <tr><td>Glitz Stone Benchtop Cleaner</td><td>$0.05–$0.10</td></tr>
+          <tr><td>Jif Cream</td><td>$0.05–$0.15</td></tr>
+          <tr><td>Earth Choice dishwasher powder</td><td>$0.07–$0.12/wash</td></tr>
+          <tr><td>Fairy Platinum tablet</td><td>$0.35–$0.55/wash</td></tr>
+          <tr><td>Finish rinse aid</td><td>$0.02–$0.04/wash</td></tr>
+          <tr><td>Kitchen bin bag</td><td>$0.15–$0.30 each</td></tr>
+          <tr><td>Bathroom bin bag</td><td>$0.05–$0.10 each</td></tr>
+          <tr><td>Sponge/scourer</td><td>$0.10–$0.30 (depending on lifespan)</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- FLOORS -->
+    <section class="card" id="floors">
+      <div class="card-header">
+        <div class="card-icon">🧹</div>
+        <div class="card-title-wrap">
+          <h2>Floor Cleaning Guidelines</h2>
+          <p>Timber and bathroom floors</p>
+        </div>
+      </div>
+
+      <h3>Herringbone Timber Flooring</h3>
+      <ul>
+        <li>Vacuum or use the robot vacuum regularly.</li>
+        <li>Mop with <strong>Earth Choice Floor &amp; Surface</strong> diluted with water — use a <em>barely damp</em> mop only.</li>
+        <li>Never leave standing water on timber.</li>
+        <li>No steam mop, bleach, harsh degreasers or excessive water.</li>
+        <li>Dry any wet patches immediately.</li>
+      </ul>
+
+      <h3>Bathroom Floors</h3>
+      <ul>
+        <li>Use diluted Pine O Cleen for disinfecting.</li>
+        <li>Mop around the toilet base, vanity and corners.</li>
+        <li>Allow to dry fully before use.</li>
+      </ul>
+    </section>
+
+    <!-- CLOTHS -->
+    <section class="card" id="cloths">
+      <div class="card-header">
+        <div class="card-icon">🧽</div>
+        <div class="card-title-wrap">
+          <h2>Cleaning Cloths &amp; Tea Towels</h2>
+          <p>Which cloth to use where, and how to care for them</p>
+        </div>
+      </div>
+      <div class="gallery">
+        <figure><img src="assets/image-1781322279367.jpg" alt="Cleaning cloths"><figcaption>Cleaning cloths</figcaption></figure>
+      </div>
+      <ul>
+        <li><strong>Blue cleaning cloths:</strong> benches, appliances and general wipe-downs.</li>
+        <li><strong>Black microfibre cloths:</strong> drying, polishing, glass and stainless steel.</li>
+        <li>Never leave damp cloths screwed up on benches or in the sink.</li>
+        <li>Wash greasy cloths promptly — warm wash 40–60°C, regular detergent, no fabric softener.</li>
+        <li>Ensure cloths are fully dry before returning to the cupboard.</li>
+      </ul>
+    </section>
+
+    <!-- POWDER ROOM -->
+    <section class="card" id="powder-room">
+      <div class="card-header">
+        <div class="card-icon">🚿</div>
+        <div class="card-title-wrap">
+          <h2>Powder Room / Guest Bathroom</h2>
+          <p>Shared responsibility — after each use and weekly</p>
+        </div>
+      </div>
+      <div class="gallery">
+        <figure><img src="assets/1000034459.jpg" alt="Powder room"><figcaption>Powder room</figcaption></figure>
+      </div>
+
+      <h3>After Every Use</h3>
+      <ul>
+        <li>Rinse toothpaste, soap residue and hair from the basin.</li>
+        <li>Check the toilet bowl and use the brush if needed.</li>
+        <li>Hang towels neatly — never leave towels on the floor.</li>
+        <li>Place rubbish in the bin.</li>
+      </ul>
+
+      <h3>Weekly Clean (15–20 minutes)</h3>
+      <ol class="steps">
+        <li>Clear all surfaces.</li>
+        <li>Clean the vanity and basin with an appropriate cleaner.</li>
+        <li>Clean the mirror with glass cleaner.</li>
+        <li>Clean the toilet seat, lid, cistern, outside bowl, flush button and base.</li>
+        <li>Scrub the bowl with the toilet brush.</li>
+        <li>Clean and disinfect the toilet brush holder.</li>
+        <li>Empty the bin, replace the liner, spray with Glen 20 if needed.</li>
+        <li>Vacuum then mop the floor, including behind and around the toilet.</li>
+        <li>Check the floor drain for hair and dirt.</li>
+        <li>Wipe cupboard fronts, handles, light switches and door handles.</li>
+      </ol>
+
+      <h3>Schedule Summary</h3>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Frequency</th><th>Time</th><th>Tasks</th></tr>
+          <tr><td>Daily</td><td>~2 min</td><td>Check toilet, wipe basin, pick up hair, empty bin if full</td></tr>
+          <tr><td>Weekly</td><td>~15–20 min</td><td>Full clean as per steps above</td></tr>
+          <tr><td>Monthly</td><td>~30–45 min</td><td>Wash bath mat, clean cupboard interiors, tiles and vent</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- BALCONY CLEANING -->
+    <section class="card" id="balcony-cleaning">
+      <div class="card-header">
+        <div class="card-icon">🌿</div>
+        <div class="card-title-wrap">
+          <h2>Balcony Cleaning &amp; Plants</h2>
+          <p>Shared responsibility for cleanliness and plant care</p>
+        </div>
+      </div>
+      <div class="gallery">
+        <figure><img src="assets/image-1781323993936.jpg" alt="Balcony 1"><figcaption>Balcony overview</figcaption></figure>
+        <figure><img src="assets/image-1781324008620.jpg" alt="Balcony 2"><figcaption>Door threshold</figcaption></figure>
+        <figure><img src="assets/image-1781324117843.jpg" alt="Balcony 3"><figcaption>Tile area</figcaption></figure>
+        <figure><img src="assets/image-1781324127682.jpg" alt="Balcony 4"><figcaption>Plants</figcaption></figure>
+        <figure><img src="assets/1000034472.jpg" alt="Balcony 5"><figcaption>Balcony edge</figcaption></figure>
+      </div>
+      <div class="alert"><strong>Note</strong>Do not scrub or pressure-clean the current balcony tiles — they are being replaced. Keep the balcony neat and free of loose dirt and debris.</div>
+
+      <h3>Current Tiles – Maintenance</h3>
+      <ul>
+        <li>Sweep plant debris, leaves, soil and dirt regularly.</li>
+        <li>Use a dustpan and broom — do not leave swept-up dirt in piles.</li>
+        <li>Place plant debris into a garbage bag or waste box and empty regularly.</li>
+        <li>Do not bring wet or leaking plant waste through the apartment — drain it first.</li>
+        <li>Do not sweep debris over the balcony edge.</li>
+      </ul>
+
+      <h3>Future White Porcelain Tiles</h3>
+      <ul>
+        <li>Sweep weekly.</li>
+        <li>Spot-clean soil, fertiliser and pot marks quickly.</li>
+        <li>Mop monthly with warm water and a mild cleaner.</li>
+        <li>Always lift heavy pots — never drag them across the tiles.</li>
+        <li>Keep pot trays clean and check for water staining.</li>
+      </ul>
+
+      <h3>Plant Watering Guide</h3>
+      <p>Most balcony plants are succulents, cacti or drought-tolerant varieties — avoid overwatering.</p>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Season</th><th>Frequency (if no rain)</th></tr>
+          <tr><td>Summer</td><td>2–3 times per week</td></tr>
+          <tr><td>Spring / Autumn</td><td>1–2 times per week</td></tr>
+          <tr><td>Winter</td><td>Every 1–2 weeks</td></tr>
+        </table>
+      </div>
+      <div class="tip"><strong>Tip</strong>If it has rained, skip watering and check the soil first. Water in the early morning or late afternoon — not in harsh midday sun.</div>
+    </section>
+
+    <!-- ROBOT VACUUM -->
+    <section class="card" id="robot-vac">
+      <div class="card-header">
+        <div class="card-icon">🤖</div>
+        <div class="card-title-wrap">
+          <h2>Robot Vacuum &amp; Mop – Ecovacs DEEBOT X Series</h2>
+          <p>Prepare the floor before each run</p>
+        </div>
+      </div>
+      <div class="gallery">
+        <figure><img src="assets/image-1781320402694.jpg" alt="Robot vacuum"><figcaption>Ecovacs DEEBOT</figcaption></figure>
+      </div>
+      <ul>
+        <li>Before starting: pick up cables, chargers, clothing and small objects.</li>
+        <li>Do not leave wet towels or rubbish on the floor.</li>
+        <li>Fill the clean water tank with fresh tap water only (or Ecovacs-approved solution).</li>
+        <li>Empty the dirty water tank into the sink or toilet, rinse, and reinstall.</li>
+        <li>Replace the dust bag every 1–3 months depending on use.</li>
+        <li>Regularly check brushes, mop pads and filters.</li>
+      </ul>
+      <h3>Consumables Replacement Guide</h3>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Item</th><th>Replace Every</th></tr>
+          <tr><td>Dust bag</td><td>1–3 months</td></tr>
+          <tr><td>Main brush</td><td>6–12 months</td></tr>
+          <tr><td>Side brushes</td><td>3–6 months</td></tr>
+          <tr><td>Mop pads</td><td>3–6 months</td></tr>
+          <tr><td>HEPA filter</td><td>3–6 months</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- SHARK VACUUM -->
+    <section class="card" id="vacuum">
+      <div class="card-header">
+        <div class="card-icon">🌀</div>
+        <div class="card-title-wrap">
+          <h2>Shark Vacuum Cleaner</h2>
+          <p>Charging, emptying and care</p>
+        </div>
+      </div>
+      <div class="gallery">
+        <figure><img src="assets/image-1781320053599.jpg" alt="Shark vacuum"><figcaption>Shark cordless vacuum</figcaption></figure>
+      </div>
+      <ul>
+        <li>If battery is flat, connect to the genuine Shark charger — allow ~3.5–4 hours from empty.</li>
+        <li>Use only the genuine Shark charger (no substitutes).</li>
+        <li>Empty the dust container when full.</li>
+        <li>Remove any hair or string wrapped around the brush roll.</li>
+        <li>Return all attachments neatly to their storage position.</li>
+      </ul>
+      <div class="note">💡 A full charge costs approximately $0.05–$0.10.</div>
+    </section>
+
+    <!-- BLANKETS -->
+    <section class="card" id="blankets">
+      <div class="card-header">
+        <div class="card-icon">🛋️</div>
+        <div class="card-title-wrap">
+          <h2>Blankets &amp; Throws</h2>
+          <p>Available for use — return clean and folded</p>
+        </div>
+      </div>
+      <div class="gallery">
+        <figure><img src="assets/image-1781320141096.jpg" alt="Blankets 1"><figcaption>Living room blanket</figcaption></figure>
+        <figure><img src="assets/1000034428.jpg" alt="Blankets 2"><figcaption>Throw in cupboard</figcaption></figure>
+      </div>
+      <ul>
+        <li>Blankets and throws are available while relaxing or watching TV.</li>
+        <li>If stained, soiled, or with food spills or body oils — wash promptly.</li>
+        <li>Wash on a gentle/mixed cycle and air dry where practical.</li>
+        <li>Fold neatly and return to the cupboard after use.</li>
+        <li>Do not leave blankets draped over furniture for extended periods.</li>
+      </ul>
+    </section>
+
+    <!-- LINEN CUPBOARD -->
+    <section class="card" id="cupboard">
+      <div class="card-header">
+        <div class="card-icon">🗄️</div>
+        <div class="card-title-wrap">
+          <h2>Linen &amp; Communications Cupboard</h2>
+          <p>Clean items only — do not disturb networking equipment</p>
+        </div>
+      </div>
+      <div class="gallery">
+        <figure><img src="assets/image-1781324262642.jpg" alt="Cupboard 1"><figcaption>Cupboard overview</figcaption></figure>
+        <figure><img src="assets/image-1781324296471.jpg" alt="Cupboard 2"><figcaption>Upper shelf</figcaption></figure>
+        <figure><img src="assets/image-1781324305728.jpg" alt="Cupboard 3"><figcaption>Middle shelf</figcaption></figure>
+        <figure><img src="assets/image-1781324321295.jpg" alt="Cupboard 4"><figcaption>Networking equipment</figcaption></figure>
+        <figure><img src="assets/image-1781324329860.jpg" alt="Cupboard 5"><figcaption>Lower shelf</figcaption></figure>
+      </div>
+      <p>This cupboard contains clean towels, blankets, linen, the NBN/router, networking equipment and the electrical switchboard.</p>
+      <ul>
+        <li>Only clean, fully dry towels and blankets belong in this cupboard.</li>
+        <li>Do not store damp towels or dirty cleaning cloths here.</li>
+        <li>Keep the router, NBN equipment and power supplies clear — they need airflow.</li>
+        <li>Do not unplug any networking or electrical equipment unless specifically instructed.</li>
+      </ul>
+
+      <h3>Door Closer Repair – Peter to Fix</h3>
+      <p>The existing hardware appears to be a failed push-to-open latch and magnetic catch.</p>
+      <h4>What to Buy (Bunnings / Mitre 10)</h4>
+      <ul>
+        <li>2× white push-to-open cabinet latches (Hafele / Kaboodle / Hettich style)</li>
+        <li>2× white magnetic cabinet catches with metal strike plates</li>
+        <li>Small screws (if not included)</li>
+      </ul>
+      <p>Search for: <em>push open cabinet latch · push to open cupboard latch · magnetic cabinet catch · Hafele push latch</em></p>
+      <h4>Installation Steps</h4>
+      <ol class="steps">
+        <li>Remove the broken latch and magnetic catch.</li>
+        <li>Use existing screw holes where possible.</li>
+        <li>Install the new push latch in the same position.</li>
+        <li>Close the door gently and mark where the plunger meets the door frame.</li>
+        <li>Install the strike plate at that contact point.</li>
+        <li>Adjust until the door closes flush and pops open when pushed.</li>
+      </ol>
+    </section>
+
+    <!-- MISC ITEMS -->
+    <section class="card" id="misc">
+      <div class="card-header">
+        <div class="card-icon">💡</div>
+        <div class="card-title-wrap">
+          <h2>Miscellaneous Items</h2>
+          <p>Floor lamp, ice trays, appliance manuals and router</p>
+        </div>
+      </div>
+      <div class="gallery">
+        <figure><img src="assets/image-1781320502490.jpg" alt="Gold floor lamp"><figcaption>Gold floor lamp</figcaption></figure>
+        <figure><img src="assets/image-1781321767493.jpg" alt="Ice trays"><figcaption>Ice trays</figcaption></figure>
+        <figure><img src="assets/image-1781320198674.jpg" alt="Appliance manuals"><figcaption>Appliance manuals drawer</figcaption></figure>
+        <figure><img src="assets/image-1781321665413.jpg" alt="TP-Link router"><figcaption>TP-Link router (for sale)</figcaption></figure>
+      </div>
+
+      <h3>Gold Floor Lamp</h3>
+      <ul>
+        <li>Plug into wall power and use the foot switch on the cord.</li>
+        <li>Keep the base flat on the floor and the cord clear of walkways.</li>
+        <li>Do not hang clothing, towels or items on the lamp.</li>
+        <li>Move the lamp using the pole and base — never the shade.</li>
+        <li>Replacement bulb: warm white LED 2700K–3000K, likely E27 Edison Screw, 8–12W.</li>
+        <li>If the lamp flickers, heats unusually or feels unstable, report it immediately.</li>
+      </ul>
+
+      <h3>Ice Trays</h3>
+      <ul>
+        <li>If you use the last ice cube, <strong>refill the tray immediately</strong>.</li>
+        <li>Fill compartments 80–90% full and return flat to the freezer.</li>
+        <li>Allow 4–8 hours to freeze fully.</li>
+      </ul>
+
+      <h3>Appliance Manuals</h3>
+      <p>Instruction manuals are stored in the <strong>balcony-side bottom drawer in the kitchen</strong>. Refer to manuals if unsure about any appliance. Return manuals to the drawer after use.</p>
+
+      <h3>TP-Link TD-W8970 Router – For Sale</h3>
+      <p>This unit is available for sale. Realistic resale values:</p>
+      <ul>
+        <li><strong>Facebook Marketplace / Gumtree:</strong> list $20, expect $10–$15</li>
+        <li><strong>eBay:</strong> list $25–$35, expect $15–$25 plus postage</li>
+      </ul>
+    </section>
+
+    <!-- SHOPPING LIST -->
+    <section class="card" id="shopping">
+      <div class="card-header">
+        <div class="card-icon">🛒</div>
+        <div class="card-title-wrap">
+          <h2>Shopping List</h2>
+          <p>Items that need to be purchased or restocked</p>
+        </div>
+      </div>
+      <div class="shop-grid">
+        <div class="shop-item">Stainless steel cleaner</div>
+        <div class="shop-item">Stainless steel wipes</div>
+        <div class="shop-item">Microfibre cloths</div>
+        <div class="shop-item">Ajax Glass Cleaner</div>
+        <div class="shop-item">Fairy Platinum dishwasher tablets</div>
+        <div class="shop-item">Earth Choice dishwasher powder</div>
+        <div class="shop-item">Finish Rinse Aid</div>
+        <div class="shop-item">Garbage bags – kitchen size</div>
+        <div class="shop-item">Garbage bags – bathroom size</div>
+        <div class="shop-item">Sponges / scourers</div>
+        <div class="shop-item">Paper towels</div>
+        <div class="shop-item">Push-to-open cabinet latches (×2)</div>
+        <div class="shop-item">Magnetic cabinet catches (×2)</div>
+        <div class="shop-item">Robot vacuum dust bags</div>
+        <div class="shop-item">Robot vacuum HEPA filters</div>
+        <div class="shop-item">Robot vacuum mop pads &amp; brushes</div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  Apartment Instruction Manual · Costs are estimates only and will vary based on electricity, water, gas, product prices and frequency of use · 13 June 2026
+</footer>
+
+</body>
+</html>

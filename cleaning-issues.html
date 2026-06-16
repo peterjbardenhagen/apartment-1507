@@ -1,0 +1,737 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cleaning Issues – Last Weekend</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red:       #991B1B;
+  --red-mid:   #DC2626;
+  --red-light: #FEF2F2;
+  --red-border:#FECACA;
+  --amber:     #92400E;
+  --amber-bg:  #FEF3C7;
+  --green:     #166534;
+  --green-bg:  #F0FDF4;
+  --green-border: #BBF7D0;
+  --navy:      #1E293B;
+  --slate:     #475569;
+  --muted:     #94A3B8;
+  --border:    #E2E8F0;
+  --bg:        #F8FAFC;
+  --card:      #FFFFFF;
+  --ink:       #0F172A;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.65;
+  font-size: 15px;
+}
+
+/* ── HEADER BANNER ── */
+.site-header {
+  background: #0F172A;
+  border-bottom: 4px solid var(--red-mid);
+  padding: 0;
+}
+.header-top {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 36px 32px 28px;
+}
+.header-badge {
+  width: 60px;
+  height: 60px;
+  background: var(--red-mid);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  flex-shrink: 0;
+}
+.header-text {}
+.header-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #F87171;
+  margin-bottom: 6px;
+}
+.site-header h1 {
+  font-family: 'Sora', sans-serif;
+  font-size: clamp(22px, 3.5vw, 34px);
+  font-weight: 800;
+  color: white;
+  line-height: 1.2;
+}
+.header-sub {
+  padding: 0 32px 24px;
+  max-width: 720px;
+}
+.header-sub p {
+  font-size: 14px;
+  color: #94A3B8;
+  line-height: 1.6;
+}
+.header-meta {
+  background: rgba(220,38,38,.12);
+  border-top: 1px solid rgba(220,38,38,.2);
+  padding: 12px 32px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+.header-meta span {
+  font-size: 12.5px;
+  color: #CBD5E1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ── NAV ── */
+.sticky-nav {
+  background: #1E293B;
+  border-bottom: 1px solid #334155;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.sticky-nav::-webkit-scrollbar { display: none; }
+.nav-inner {
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 2px;
+  min-width: max-content;
+}
+.nav-inner a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 11px 14px;
+  color: #94A3B8;
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -1px;
+  transition: all .15s;
+}
+.nav-inner a:hover { color: white; border-color: var(--red-mid); }
+
+/* ── SUMMARY BAR ── */
+.summary-bar {
+  background: var(--red-light);
+  border: 1px solid var(--red-border);
+  border-radius: 0;
+  padding: 20px 24px;
+  margin: 0;
+}
+.summary-bar-inner {
+  max-width: 1060px;
+  margin: 0 auto;
+}
+.summary-bar h2 {
+  font-family: 'Sora', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--red);
+  margin-bottom: 10px;
+}
+.issue-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.issue-pill {
+  background: white;
+  border: 1px solid var(--red-border);
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 99px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ── LAYOUT ── */
+.page-body {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 32px 20px 64px;
+}
+
+/* ── CARDS ── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px;
+  margin-bottom: 22px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04);
+}
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+}
+.card-icon {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.card-icon.danger { background: var(--red-light); }
+.card-icon.warn   { background: var(--amber-bg); }
+.card-icon.ok     { background: var(--green-bg); }
+.card-title-wrap h2 {
+  font-family: 'Sora', sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.2;
+}
+.card-title-wrap p {
+  font-size: 12.5px;
+  color: var(--slate);
+  margin-top: 3px;
+}
+
+/* ── GALLERY ── */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  margin: 16px 0;
+}
+.gallery figure { margin: 0; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+.gallery img { display: block; width: 100%; height: 190px; object-fit: cover; }
+.gallery figcaption { font-size: 11px; color: var(--muted); padding: 7px 10px; background: #f8fafc; }
+
+/* Photo grid – 2 column emphasis for key rooms */
+.gallery.cols-3 { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+
+/* ── TYPOGRAPHY ── */
+h3 {
+  font-family: 'Sora', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 22px 0 10px;
+}
+p { margin-bottom: 12px; }
+ul, ol { padding-left: 20px; margin-bottom: 12px; }
+li { margin-bottom: 6px; }
+strong { color: var(--ink); }
+
+/* ── CALLOUTS ── */
+.callout {
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin: 14px 0;
+  font-size: 14px;
+  line-height: 1.55;
+}
+.callout.red {
+  background: var(--red-light);
+  border: 1px solid var(--red-border);
+  border-left: 4px solid var(--red-mid);
+  color: #7F1D1D;
+}
+.callout.amber {
+  background: var(--amber-bg);
+  border: 1px solid #FDE68A;
+  border-left: 4px solid #D97706;
+  color: var(--amber);
+}
+.callout.green {
+  background: var(--green-bg);
+  border: 1px solid var(--green-border);
+  border-left: 4px solid #16A34A;
+  color: var(--green);
+}
+.callout .cl-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* ── STANDARDS TABLE ── */
+.tbl-wrap { overflow-x: auto; margin: 14px 0; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { border: 1px solid var(--border); padding: 10px 13px; text-align: left; vertical-align: top; }
+th { background: #F1F5F9; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--navy); }
+
+/* ── STEPS ── */
+.steps { counter-reset: step; list-style: none; padding-left: 0; margin: 12px 0; }
+.steps li {
+  counter-increment: step;
+  display: flex;
+  gap: 14px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--bg);
+  font-size: 14px;
+}
+.steps li:last-child { border-bottom: none; }
+.steps li::before {
+  content: counter(step);
+  width: 26px; height: 26px;
+  background: var(--navy);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── BEFORE / AFTER STANDARD ── */
+.standard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 16px 0;
+}
+@media (max-width: 600px) { .standard-grid { grid-template-columns: 1fr; } }
+.standard-box {
+  border-radius: 10px;
+  padding: 16px;
+  font-size: 13.5px;
+}
+.standard-box.found {
+  background: var(--red-light);
+  border: 1px solid var(--red-border);
+}
+.standard-box.expected {
+  background: var(--green-bg);
+  border: 1px solid var(--green-border);
+}
+.standard-box h4 {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  margin-bottom: 10px;
+}
+.standard-box.found h4 { color: var(--red); }
+.standard-box.expected h4 { color: var(--green); }
+.standard-box ul { padding-left: 18px; margin: 0; }
+.standard-box li { margin-bottom: 5px; }
+
+/* ── FINAL NOTICE ── */
+.final-notice {
+  background: var(--navy);
+  color: white;
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 22px;
+}
+.final-notice h2 {
+  font-family: 'Sora', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 16px;
+}
+.final-notice p { color: #CBD5E1; font-size: 14.5px; margin-bottom: 12px; }
+.final-notice ul { padding-left: 20px; }
+.final-notice li { color: #CBD5E1; font-size: 14px; margin-bottom: 6px; }
+.final-notice .standard-line {
+  background: var(--red-mid);
+  color: white;
+  border-radius: 10px;
+  padding: 14px 18px;
+  font-weight: 600;
+  font-size: 15px;
+  margin-top: 18px;
+  text-align: center;
+}
+
+/* ── FOOTER ── */
+footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 12.5px;
+  padding: 28px;
+  border-top: 1px solid var(--border);
+}
+
+@media print {
+  .sticky-nav { display: none; }
+  body { background: white; }
+  .card { break-inside: avoid; box-shadow: none; }
+  .final-notice { background: #1E293B !important; -webkit-print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-top">
+    <div class="header-badge">⚠️</div>
+    <div class="header-text">
+      <div class="header-eyebrow">Shared Apartment · Notice</div>
+      <h1>Cleaning Issues – Last Weekend</h1>
+    </div>
+  </div>
+  <div class="header-sub">
+    <p>This document records the cleaning standard observed last weekend across the kitchen, powder room, balcony, air fryer and shared items. It sets the expected standard going forward and should be read by all residents.</p>
+  </div>
+  <div class="header-meta">
+    <span>📅 Observed: weekend of 13 June 2026</span>
+    <span>📍 Shared apartment – all common areas</span>
+    <span>👥 All residents</span>
+  </div>
+</header>
+
+<nav class="sticky-nav">
+  <div class="nav-inner">
+    <a href="#overview">Overview</a>
+    <a href="#kitchen">🍳 Kitchen</a>
+    <a href="#airfryer">🍟 Air Fryer</a>
+    <a href="#cloths">🧽 Cloths</a>
+    <a href="#powder-room">🚿 Powder Room</a>
+    <a href="#balcony">🌿 Balcony</a>
+    <a href="#fridge">🧊 Fridge</a>
+    <a href="#standard">✅ Required Standard</a>
+  </div>
+</nav>
+
+<!-- SUMMARY BAR -->
+<div class="summary-bar">
+  <div class="summary-bar-inner">
+    <h2>Issues Found Last Weekend</h2>
+    <div class="issue-pills">
+      <span class="issue-pill">🍳 Dirty kitchen sink &amp; benches</span>
+      <span class="issue-pill">🥘 Unwashed pans with food residue</span>
+      <span class="issue-pill">🗑️ Food containers &amp; rubbish left out</span>
+      <span class="issue-pill">🍟 Greasy air fryer not cleaned</span>
+      <span class="issue-pill">🧽 Damp, greasy cloths left on bench</span>
+      <span class="issue-pill">🚿 Neglected powder room</span>
+      <span class="issue-pill">🌿 Dirty balcony, debris not swept</span>
+      <span class="issue-pill">🧊 Fridge fingerprints &amp; streaks</span>
+    </div>
+  </div>
+</div>
+
+<div class="page-body">
+
+  <!-- OVERVIEW -->
+  <section class="card" id="overview">
+    <div class="card-header">
+      <div class="card-icon danger">📋</div>
+      <div class="card-title-wrap">
+        <h2>What Was Found – Overview</h2>
+        <p>A summary of the condition of shared spaces last weekend</p>
+      </div>
+    </div>
+    <p>The shared areas of the apartment were found in an unacceptable state last weekend. The kitchen, sink, cookware, floor, air fryer, balcony, powder room and shared cleaning items all showed clear signs of having been left dirty after use.</p>
+    <p>This is a shared apartment. Every resident is responsible for leaving shared spaces clean — not just passable — after each use. Cleaning cannot be deferred until it accumulates into a large job, and it is not fair or reasonable for one person to repeatedly clean up avoidable mess left by others.</p>
+    <div class="callout red">
+      <span class="cl-label">⚠️ Core Expectation</span>
+      Every shared space must be returned to the same or better condition than it was found in. This is non-negotiable.
+    </div>
+
+    <h3>General Failures Observed</h3>
+    <ul>
+      <li>Food scraps, grease and crumbs left in the kitchen after cooking.</li>
+      <li>Dirty cutlery and pans left in or near the sink without being washed.</li>
+      <li>Damp and greasy cleaning cloths left on the bench rather than washed.</li>
+      <li>Dirty appliances not cleaned after use (air fryer).</li>
+      <li>Powder room left without adequate cleaning between uses.</li>
+      <li>Balcony not swept — plant debris left to accumulate.</li>
+      <li>Rubbish and food containers left on surfaces instead of being placed in the bin.</li>
+    </ul>
+  </section>
+
+  <!-- KITCHEN -->
+  <section class="card" id="kitchen">
+    <div class="card-header">
+      <div class="card-icon danger">🍳</div>
+      <div class="card-title-wrap">
+        <h2>Kitchen – Condition Observed</h2>
+        <p>Sink, benches, floor and cookware</p>
+      </div>
+    </div>
+    <div class="gallery cols-3">
+      <figure><img src="assets/1000034366.jpg" alt="Kitchen condition 1"><figcaption>Dirty cutlery in sink</figcaption></figure>
+      <figure><img src="assets/1000034365.jpg" alt="Kitchen condition 2"><figcaption>Food residue on bench</figcaption></figure>
+      <figure><img src="assets/1000034364.jpg" alt="Kitchen condition 3"><figcaption>Bench and sink area</figcaption></figure>
+      <figure><img src="assets/1000034368.jpg" alt="Kitchen condition 4"><figcaption>Grease and food on floor</figcaption></figure>
+      <figure><img src="assets/1000034367.jpg" alt="Kitchen condition 5"><figcaption>Used pans left out</figcaption></figure>
+      <figure><img src="assets/1000034370.jpg" alt="Kitchen condition 6"><figcaption>Food containers not disposed of</figcaption></figure>
+      <figure><img src="assets/1000034388.jpg" alt="Kitchen condition 7"><figcaption>Dirty paper towels and rubbish</figcaption></figure>
+      <figure><img src="assets/1000034386.jpg" alt="Kitchen condition 8"><figcaption>Handwritten reminders left on floor</figcaption></figure>
+      <figure><img src="assets/1000034369_rotated.jpg" alt="Kitchen condition 9"><figcaption>Overall kitchen state</figcaption></figure>
+    </div>
+
+    <div class="standard-grid">
+      <div class="standard-box found">
+        <h4>❌ What Was Found</h4>
+        <ul>
+          <li>Dirty cutlery left sitting in the sink</li>
+          <li>Food residue on benches and splashback</li>
+          <li>Grease and crumbs on the floor</li>
+          <li>Pans left with food and grease — not washed</li>
+          <li>Food containers and rubbish left on surfaces</li>
+          <li>Dirty paper towels scattered around</li>
+          <li>Handwritten cleaning reminders left on the floor</li>
+        </ul>
+      </div>
+      <div class="standard-box expected">
+        <h4>✅ What Is Expected</h4>
+        <ul>
+          <li>Cutlery washed, dried and returned to drawer</li>
+          <li>Benches wiped clean after every meal or cooking session</li>
+          <li>Floor checked for crumbs and spot-cleaned</li>
+          <li>Pans washed promptly after cooking</li>
+          <li>All rubbish placed in the bin immediately</li>
+          <li>Surfaces left dry and clear</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout amber">
+      <span class="cl-label">🔁 Rule – Clean As You Go</span>
+      After cooking, eating or washing up: wipe down the bench, check the floor for crumbs, wash or stack dirty items, and put rubbish in the bin. Do this before leaving the kitchen.
+    </div>
+  </section>
+
+  <!-- AIR FRYER -->
+  <section class="card" id="airfryer">
+    <div class="card-header">
+      <div class="card-icon danger">🍟</div>
+      <div class="card-title-wrap">
+        <h2>Air Fryer – Grease Build-Up</h2>
+        <p>DeLonghi Ideal Fry – requires cleaning after every use</p>
+      </div>
+    </div>
+    <div class="gallery">
+      <figure><img src="assets/image-1781320272268.jpg" alt="Air fryer 1"><figcaption>Exterior grease residue</figcaption></figure>
+      <figure><img src="assets/image-1781320282281.jpg" alt="Air fryer 2"><figcaption>Basket build-up</figcaption></figure>
+      <figure><img src="assets/image-1781320289413.jpg" alt="Air fryer 3"><figcaption>Interior walls</figcaption></figure>
+      <figure><img src="assets/image-1781320302783.jpg" alt="Air fryer 4"><figcaption>Components with residue</figcaption></figure>
+    </div>
+    <p>The air fryer was found with accumulated grease and food residue on the basket, interior walls and surrounding components. This build-up indicates it was used multiple times without being cleaned between or after use.</p>
+
+    <div class="callout red">
+      <span class="cl-label">⚠️ Required Action</span>
+      The air fryer must be cleaned after every use — including after cooking greasy foods. Do not leave it for the next person.
+    </div>
+
+    <h3>How to Clean It (After Greasy or Heavy Use)</h3>
+    <ol class="steps">
+      <li>Unplug and allow to cool fully before touching any components.</li>
+      <li>Remove all removable parts — basket, tray and any inserts.</li>
+      <li>Wash with hot water and dishwashing liquid using a non-abrasive sponge.</li>
+      <li>Clean the basket edges, lid surround, heating element area and interior walls.</li>
+      <li>Dry all parts thoroughly before reassembling and storing.</li>
+    </ol>
+  </section>
+
+  <!-- CLEANING CLOTHS -->
+  <section class="card" id="cloths">
+    <div class="card-header">
+      <div class="card-icon warn">🧽</div>
+      <div class="card-title-wrap">
+        <h2>Cleaning Cloths – Left Damp and Greasy</h2>
+        <p>Cloths must be washed — not left on the bench</p>
+      </div>
+    </div>
+    <div class="gallery">
+      <figure><img src="assets/image-1781322279367.jpg" alt="Greasy cloths"><figcaption>Damp and greasy cloths left on bench</figcaption></figure>
+    </div>
+    <p>Cleaning cloths were found damp and greasy, left screwed up on the bench. This is unhygienic and leaves the shared space in a worse condition than before they were used.</p>
+
+    <div class="standard-grid">
+      <div class="standard-box found">
+        <h4>❌ What Was Found</h4>
+        <ul>
+          <li>Damp cloths left balled up on the bench</li>
+          <li>Greasy cloths not washed after use</li>
+          <li>Cloths left in the sink area</li>
+        </ul>
+      </div>
+      <div class="standard-box expected">
+        <h4>✅ What Is Required</h4>
+        <ul>
+          <li>Greasy cloths washed promptly on a warm cycle (40–60°C)</li>
+          <li>Cloths returned to storage only when fully dry</li>
+          <li>Never left screwed up, damp or greasy on any surface</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- POWDER ROOM -->
+  <section class="card" id="powder-room">
+    <div class="card-header">
+      <div class="card-icon danger">🚿</div>
+      <div class="card-title-wrap">
+        <h2>Powder Room – Neglected Condition</h2>
+        <p>Shared bathroom – shared responsibility</p>
+      </div>
+    </div>
+    <div class="gallery">
+      <figure><img src="assets/1000034459.jpg" alt="Powder room condition"><figcaption>Powder room – state observed</figcaption></figure>
+    </div>
+    <p>The powder room was found in a poor state. As a shared bathroom used by all residents and any visitors, it should be cleaned lightly after each use and thoroughly on a weekly basis.</p>
+
+    <div class="callout red">
+      <span class="cl-label">⚠️ Not Acceptable</span>
+      The powder room should never be allowed to reach this level of neglect. It is a shared responsibility — not one person's job.
+    </div>
+
+    <h3>After Every Single Use</h3>
+    <ul>
+      <li>Rinse toothpaste, soap residue and hair from the basin immediately.</li>
+      <li>Check the toilet bowl — use the brush if needed before leaving.</li>
+      <li>Hang towels neatly on the rail — never leave them on the floor.</li>
+      <li>Place any rubbish in the bin.</li>
+    </ul>
+
+    <h3>Weekly Clean Required</h3>
+    <ol class="steps">
+      <li>Clear all surfaces.</li>
+      <li>Clean vanity and basin with appropriate cleaner.</li>
+      <li>Wipe the mirror with glass cleaner.</li>
+      <li>Clean the toilet — seat, lid, cistern, exterior bowl, flush button and base.</li>
+      <li>Scrub the bowl with the toilet brush.</li>
+      <li>Disinfect the toilet brush holder.</li>
+      <li>Empty the bin, replace the liner, spray with Glen 20 if needed.</li>
+      <li>Vacuum then mop the floor including around and behind the toilet.</li>
+      <li>Check the floor drain for hair and dirt.</li>
+      <li>Wipe light switches, door handle and cupboard fronts.</li>
+    </ol>
+  </section>
+
+  <!-- BALCONY -->
+  <section class="card" id="balcony">
+    <div class="card-header">
+      <div class="card-icon warn">🌿</div>
+      <div class="card-title-wrap">
+        <h2>Balcony – Plant Debris and Neglect</h2>
+        <p>Balcony cleanliness is a shared responsibility</p>
+      </div>
+    </div>
+    <div class="gallery">
+      <figure><img src="assets/image-1781323993936.jpg" alt="Balcony 1"><figcaption>Debris accumulation</figcaption></figure>
+      <figure><img src="assets/image-1781324008620.jpg" alt="Balcony 2"><figcaption>Door threshold</figcaption></figure>
+      <figure><img src="assets/image-1781324117843.jpg" alt="Balcony 3"><figcaption>Tile area</figcaption></figure>
+      <figure><img src="assets/image-1781324127682.jpg" alt="Balcony 4"><figcaption>Plant area</figcaption></figure>
+      <figure><img src="assets/1000034472.jpg" alt="Balcony 5"><figcaption>Balcony edge</figcaption></figure>
+    </div>
+    <p>The balcony had accumulated plant debris, soil and loose dirt that had not been swept or cleared. The door track area also showed built-up grime.</p>
+    <div class="callout amber">
+      <span class="cl-label">Note</span>
+      Do not scrub or pressure-clean the existing tiles — they are scheduled for replacement. The immediate need is regular sweeping and keeping the area free of loose debris.
+    </div>
+
+    <h3>Required – Ongoing Maintenance</h3>
+    <ul>
+      <li>Sweep plant debris, leaves, soil and dirt regularly using a dustpan and broom.</li>
+      <li>Place all swept debris into a garbage bag — do not leave it in piles.</li>
+      <li>Do not sweep debris over the balcony edge.</li>
+      <li>Do not bring wet or leaking plant waste through the apartment — drain pots over the balcony first.</li>
+      <li>Keep the balcony door tracks and black threshold free of grime and leaves.</li>
+    </ul>
+  </section>
+
+  <!-- FRIDGE -->
+  <section class="card" id="fridge">
+    <div class="card-header">
+      <div class="card-icon warn">🧊</div>
+      <div class="card-title-wrap">
+        <h2>Fridge – Fingerprints and Streaks</h2>
+        <p>Stainless steel exterior needs a proper clean</p>
+      </div>
+    </div>
+    <div class="gallery">
+      <figure><img src="assets/image-1781322398879.jpg" alt="Fridge condition"><figcaption>Fingerprints and water marks on fridge</figcaption></figure>
+    </div>
+    <p>The stainless steel fridge exterior has visible fingerprints, water marks and streaks. Stainless steel cleaner or wipes are needed — these are currently on the shopping list to purchase.</p>
+    <div class="callout amber">
+      <span class="cl-label">To Do</span>
+      Purchase stainless steel cleaner or wipes. Spray onto a cloth (not directly onto the fridge), wipe with the grain, and buff dry with a clean microfibre cloth. Do not use abrasive pads, steel wool or bleach.
+    </div>
+  </section>
+
+  <!-- REQUIRED STANDARD -->
+  <section class="final-notice" id="standard">
+    <h2>The Required Standard – Going Forward</h2>
+    <p>This document has been written to make the expectations clear. The apartment is a shared home and everyone has an equal responsibility to maintain it.</p>
+    <ul>
+      <li>Clean up immediately after cooking, eating, washing up or using an appliance.</li>
+      <li>Do not leave food scraps, dirty cutlery, greasy pans, damp cloths or rubbish for someone else to deal with.</li>
+      <li>Use the correct cleaning product for each surface — see the instruction manual.</li>
+      <li>If something spills, leaks, stains or gets greasy, clean it immediately.</li>
+      <li>Shared spaces — kitchen, powder room, balcony, laundry — are everyone's responsibility equally.</li>
+      <li>Return every item to its correct location after use.</li>
+    </ul>
+    <div class="standard-line">
+      Expected standard: clean · dry · tidy · presentable · ready for the next person.
+    </div>
+  </section>
+
+  <!-- WHAT HAPPENS NEXT -->
+  <section class="card">
+    <div class="card-header">
+      <div class="card-icon ok">✅</div>
+      <div class="card-title-wrap">
+        <h2>What Needs to Happen Now</h2>
+        <p>Immediate actions required from all residents</p>
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <tr><th>Area</th><th>Action Required</th><th>By</th></tr>
+        <tr><td>Kitchen</td><td>Clean immediately after every use — bench, sink, floor, appliances</td><td>All residents, ongoing</td></tr>
+        <tr><td>Air fryer</td><td>Clean thoroughly now, then after every use going forward</td><td>Immediately</td></tr>
+        <tr><td>Cleaning cloths</td><td>Wash the greasy cloths; return only when dry</td><td>Immediately</td></tr>
+        <tr><td>Powder room</td><td>Full clean this week; then maintain daily and weekly</td><td>This week</td></tr>
+        <tr><td>Balcony</td><td>Sweep and bag all debris; maintain weekly</td><td>This week</td></tr>
+        <tr><td>Fridge</td><td>Purchase stainless steel cleaner; clean exterior</td><td>On next shop</td></tr>
+      </table>
+    </div>
+    <div class="callout green">
+      <span class="cl-label">📖 Reference</span>
+      Full instructions for every appliance, cleaning product and shared area are in the companion Apartment Instruction Manual. Refer to it if you are unsure how to clean something or which product to use.
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  Cleaning Issues Notice · Shared Apartment · Observed weekend of 13 June 2026 · For all residents
+</footer>
+
+</body>
+</html>
