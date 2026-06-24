@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apartment Guardian System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:   #1A3A5C;
+  --navy-light: #234d7a;
+  --green:  #2E7D5E;
+  --green-light: #EAF4EF;
+  --amber:  #B45309;
+  --amber-light: #FEF3C7;
+  --red:    #991B1B;
+  --red-light: #FEF2F2;
+  --slate:  #64748B;
+  --border: #DDE3EC;
+  --bg:     #F0F4F8;
+  --card:   #FFFFFF;
+  --ink:    #0F172A;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; font-size: 15px; }
+.site-header { background: linear-gradient(135deg, var(--navy) 0%, #0d2840 100%); color: white; padding: 48px 32px 40px; }
+.site-header h1 { font-family: 'Sora', sans-serif; font-size: clamp(26px, 4vw, 40px); font-weight: 800; line-height: 1.15; margin-bottom: 14px; }
+.header-meta { font-size: 13px; color: #A8C4D8; margin-top: 18px; }
+.header-meta span { display: inline-flex; align-items: center; gap: 6px; margin-right: 20px; }
+.page-body { max-width: 900px; margin: 0 auto; padding: 32px 20px 64px; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 28px; margin-bottom: 22px; box-shadow: 0 1px 3px rgba(0,0,0,.04); }
+.card-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 20px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
+.card-icon { width: 42px; height: 42px; background: var(--green-light); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+.card-title-wrap h2 { font-family: 'Sora', sans-serif; font-size: 18px; font-weight: 700; color: var(--navy); line-height: 1.2; }
+.card-title-wrap p { font-size: 12.5px; color: var(--slate); margin-top: 3px; }
+.alert { background: var(--red-light); border: 1px solid #FECACA; border-left: 4px solid var(--red); border-radius: 8px; padding: 14px 16px; margin: 14px 0; font-size: 14px; }
+.alert strong { display: block; margin-bottom: 4px; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--red); }
+.callout { background: var(--amber-light); border-left: 4px solid var(--amber); border-radius: 8px; padding: 12px 14px; margin: 12px 0; font-size: 13.5px; }
+.sensors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin: 16px 0; }
+.sensor-item { background: var(--bg); border-radius: 10px; padding: 16px; text-align: center; }
+.sensor-icon { font-size: 32px; margin-bottom: 8px; }
+footer { text-align: center; color: var(--slate); font-size: 12.5px; padding: 28px; border-top: 1px solid var(--border); margin-top: 12px; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1>🏢 Apartment Guardian System</h1>
+  <p style="color:#A8C4D8; max-width:560px; font-size:14px; margin-top:8px;">
+    Home monitoring and security protocols for Apartment 1507
+  </p>
+  <div class="header-meta">
+    <span>📅 Last updated: 24 June 2026</span>
+    <span>🏠 Boundary Street, Sydney</span>
+  </div>
+</header>
+
+<div class="page-body">
+
+  <section class="card">
+    <div class="card-header">
+      <div class="card-icon">🛡️</div>
+      <div class="card-title-wrap">
+        <h2>Security & Access</h2>
+        <p>Monitoring systems and entry protocols</p>
+      </div>
+    </div>
+    
+    <h3>Access Control</h3>
+    <ul>
+      <li>🔑 Building fob required for entry (Level 15)</li>
+      <li>🔐 Apartment door code: residents only</li>
+      <li>📱 Doorbell camera active (DoorBird)</li>
+      <li>📋 Guest sign-in via building concierge</li>
+    </ul>
+    
+    <div class="callout">
+      <strong>Visitor Policy</strong>
+      Give 24 hours notice for overnight guests. Maximum 3 nights per month. Register at concierge.
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-header">
+      <div class="card-icon">📡</div>
+      <div class="card-title-wrap">
+        <h2>Sensor Network</h2>
+        <p>Automated monitoring system</p>
+      </div>
+    </div>
+    
+    <div class="sensors-grid">
+      <div class="sensor-item">
+        <div class="sensor-icon">🚪</div>
+        <strong>Door Sensors</strong>
+        <p>Front door, balcony door</p>
+      </div>
+      <div class="sensor-item">
+        <div class="sensor-icon">💧</div>
+        <strong>Leak Detection</strong>
+        <p>Bathroom, kitchen, balcony</p>
+      </div>
+      <div class="sensor-item">
+        <div class="sensor-icon">🌡️</div>
+        <strong>Temperature</strong>
+        <p>Living areas</p>
+      </div>
+      <div class="sensor-item">
+        <div class="sensor-icon">💨</div>
+        <strong>Air Quality</strong>
+        <p>CO₂, humidity</p>
+      </div>
+    </div>
+    
+    <div class="alert">
+      <strong>Critical Alert Thresholds</strong>
+      Water leak detected → SMS all residents within 60 seconds<br>
+      Door open > 30 minutes → Notify primary tenant<br>
+      CO₂ > 1000ppm → Ventilation alert
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-header">
+      <div class="card-icon">📊</div>
+      <div class="card-title-wrap">
+        <h2>System Status</h2>
+        <p>Current monitoring states</p>
+      </div>
+    </div>
+    
+    <table style="width:100%; border-collapse:collapse; font-size:13.5px;">
+      <thead>
+        <tr style="background:#EFF4FB;">
+          <th style="padding:10px; text-align:left;">Sensor</th>
+          <th style="padding:10px; text-align:left;">Status</th>
+          <th style="padding:10px; text-align:left;">Last Check</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:10px;">Front Door</td>
+          <td style="padding:10px; color:var(--green);">🟢 ARMED</td>
+          <td style="padding:10px;">Just now</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:10px;">Balcony Door</td>
+          <td style="padding:10px; color:var(--green);">🟢 ARMED</td>
+          <td style="padding:10px;">Just now</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:10px;">Water Sensors</td>
+          <td style="padding:10px; color:var(--green);">🟢 DRY</td>
+          <td style="padding:10px;">Just now</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+</div>
+
+<footer>
+  Apartment Guardian System · Boundary Street · 1507
+</footer>
+
+</body>
+</html>
