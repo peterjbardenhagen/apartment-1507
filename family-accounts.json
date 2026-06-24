@@ -1,0 +1,30 @@
+{
+  "family_accounts": [
+    {
+      "id": "peter",
+      "name": "Peter Bardenhagen",
+      "email": "peter@bardenhagen.xyz",
+      "role": "owner",
+      "avatar": "P",
+      "permissions": ["admin", "billing", "control_all"]
+    },
+    {
+      "id": "kevin",
+      "name": "Kevin",
+      "email": "kevin@boundary-st.apartments",
+      "role": "boarder",
+      "avatar": "K",
+      "permissions": ["view_billing", "control_common_areas"]
+    },
+    {
+      "id": "mummy",
+      "name": "Mum",
+      "email": "mummy@bardenhagen.family",
+      "role": "family",
+      "avatar": "M",
+      "permissions": ["view_status", "request_items"]
+    }
+  ],
+  "version": "1.0",
+  "updated": "2026-06-24"
+}

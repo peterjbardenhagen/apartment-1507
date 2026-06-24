@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Family Command Centre</title>
+<meta http-equiv="refresh" content="0; url=/login">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:   #1A3A5C;
+  --navy-light: #234d7a;
+  --green:  #2E7D5E;
+  --green-light: #EAF4EF;
+  --amber:  #B45309;
+  --amber-light: #FEF3C7;
+  --slate:  #64748B;
+  --border: #DDE3EC;
+  --bg:     #F0F4F8;
+  --card:   #FFFFFF;
+  --ink:    #0F172A;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; font-size: 15px; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+.login-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 40px; width: 100%; max-width: 380px; box-shadow: 0 4px 16px rgba(0,0,0,.06); }
+.logo { text-align: center; margin-bottom: 28px; }
+.logo h1 { font-family: 'Sora', sans-serif; font-size: 24px; font-weight: 800; color: var(--navy); letter-spacing: -0.5px; }
+.logo p { font-size: 13px; color: var(--slate); margin-top: 4px; }
+.form-group { margin-bottom: 18px; }
+.form-group label { display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--navy); margin-bottom: 6px; }
+.form-group input { width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; font-family: inherit; transition: border-color .15s; }
+.form-group input:focus { outline: none; border-color: var(--green); }
+.btn { width: 100%; padding: 13px; background: var(--navy); color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background .15s; }
+.btn:hover { background: var(--navy-light); }
+.family-accounts { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); }
+.family-accounts h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--slate); margin-bottom: 12px; }
+.account-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; font-size: 14px; color: var(--ink); }
+.account-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--green-light); display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--green); font-size: 12px; }
+</style>
+</head>
+<body>
+
+<div class="login-card">
+  <div class="logo">
+    <h1>🏠 Command Centre</h1>
+    <p>Apartment 1507 · Boundary Street</p>
+  </div>
+
+  <form action="/api/auth/login" method="POST">
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="you@bardenhagen.xyz" required>
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="••••••••" required>
+    </div>
+    <button type="submit" class="btn">Sign In</button>
+  </form>
+
+  <div class="family-accounts">
+    <h3>Family Accounts</h3>
+    <div class="account-item">
+      <div class="account-avatar">P</div>
+      <span>Peter (Owner) · peter@bardenhagen.xyz</span>
+    </div>
+    <div class="account-item">
+      <div class="account-avatar">K</div>
+      <span>Kevin (Boarder) · kevin@boundary-st.apartments</span>
+    </div>
+    <div class="account-item">
+      <div class="account-avatar">M</div>
+      <span>Mum · mummy@bardenhagen.family</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
