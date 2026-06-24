@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apartment 1507 · Home</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --green: #166534; --green-mid: #16A34A; --green-bg: #F0FDF4; --navy: #1E293B; --slate: #475569; --border: #E2E8F0; --bg: #F8FAFC; --card: #FFFFFF; --ink: #0F172A; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--ink); }
+.header { background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%); color: white; padding: 40px 24px; text-align: center; }
+.header h1 { font-family: 'Sora', sans-serif; font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+.header p { color: #CBD5E1; font-size: 15px; }
+.container { max-width: 900px; margin: 0 auto; padding: 24px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 20px; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; text-decoration: none; color: var(--ink); display: block; transition: transform .2s, box-shadow .2s; }
+.card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,.08); }
+.card-icon { font-size: 32px; margin-bottom: 12px; }
+.card h3 { font-family: 'Sora', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+.card p { font-size: 13px; color: var(--slate); }
+.protected::after { content: "🔒"; margin-left: 6px; }
+footer { text-align: center; color: #94A3B8; font-size: 12px; padding: 30px; margin-top: 40px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🏢 Apartment 1507</h1>
+  <p>477 Boundary Street · Spring Hill · QLD</p>
+</div>
+<div class="container">
+  <div class="grid">
+    
+    <a href="cleaning-roster.html" class="card">
+      <div class="card-icon">🧹</div>
+      <h3>Cleaning Roster</h3>
+      <p>Fortnightly schedule and tasks. Everyone's guide to keeping the apartment pristine.</p>
+    </a>
+    
+    <a href="instructions.html" class="card">
+      <div class="card-icon">📖</div>
+      <h3>House Instructions</h3>
+      <p>Appliance guides, property rules, and living protocols for residents.</p>
+    </a>
+    
+    <a href="apartment-guardian-system.html" class="card">
+      <div class="card-icon">🛡️</div>
+      <h3>Guardian System</h3>
+      <p>Home security monitoring, sensors, and occupancy detection.</p>
+    </a>
+    
+    <a href="utilities-evidence.html" class="card">
+      <div class="card-icon">⚡</div>
+      <h3>Utilities & Evidence</h3>
+      <p>Electricity, gas, and water tracking. Cost analysis and billing history.</p>
+    </a>
+    
+    <a href="cleaning-issues.html" class="card">
+      <div class="card-icon">⚠️</div>
+      <h3>Cleaning Issues</h3>
+      <p>Report problems, maintenance requests, and quality concerns.</p>
+    </a>
+    
+    <a href="Kevin/" class="card protected">
+      <div class="card-icon">🔐</div>
+      <h3>Kevin's Cleaning</h3>
+      <p>Personal cleaning area for Kevin. Password protected.</p>
+    </a>
+    
+    <a href="family-command-centre.html" class="card">
+      <div class="card-icon">👨‍👩‍👧</div>
+      <h3>Family Command Centre</h3>
+      <p>Member portal with individual logins and access controls.</p>
+    </a>
+    
+    <a href="Apartment-Guardian.md" class="card">
+      <div class="card-icon">📋</div>
+      <h3>Guardian Documentation</h3>
+      <p>Full system documentation for Apartment 1507 management.</p>
+    </a>
+    
+  </div>
+</div>
+<footer>
+  Apartment 1507 · Managed by Peter Bardenhagen · Digital Response
+</footer>
+</body>
+</html>

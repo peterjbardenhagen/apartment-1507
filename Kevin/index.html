@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kevin's Cleaning · Apartment 1507</title>
+<style>
+:root { --red: #DC2626; --gray: #6B7280; --light: #F3F4F6; --dark: #1F2937; }
+* { box-sizing: border-box; }
+body { font-family: system-ui, sans-serif; background: var(--light); min-height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; }
+.login-box { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,.1); max-width: 360px; width: 100%; }
+.login-box h1 { color: var(--dark); margin-bottom: 8px; font-size: 24px; }
+.login-box p { color: var(--gray); font-size: 14px; margin-bottom: 24px; }
+input { width: 100%; padding: 12px; border: 2px solid #E5E7EB; border-radius: 8px; font-size: 16px; margin-bottom: 16px; }
+button { width: 100%; padding: 12px; background: var(--red); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; }
+button:hover { background: #B91C1C; }
+.error { color: var(--red); font-size: 13px; margin-top: 12px; display: none; }
+.content { display: none; }
+</style>
+</head>
+<body>
+<div class="login-box" id="loginBox">
+  <h1>🔐 Kevin's Cleaning</h1>
+  <p>Enter password to access personal cleaning area</p>
+  <input type="password" id="password" placeholder="Password" autocomplete="off">
+  <button onclick="checkPassword()">Unlock</button>
+  <div class="error" id="error">Access denied. Try again.</div>
+</div>
+
+<div class="content" id="content">
+  <h2>Kevin's Cleaning Area</h2>
+  <p>Sensitive content for Kevin only.</p>
+  <ul>
+    <li>Personal cleaning notes and reminders</li>
+    <li>Private communications</li>
+    <li>Individual task assignments</li>
+  </ul>
+</div>
+
+<script>
+function checkPassword() {
+  const pw = document.getElementById('password').value;
+  if (pw === 'kevin123') {
+    document.getElementById('loginBox').style.display = 'none';
+    document.getElementById('content').style.display = 'block';
+  } else {
+    document.getElementById('error').style.display = 'block';
+  }
+}
+document.getElementById('password').addEventListener('keypress', e => { if (e.key === 'Enter') checkPassword(); });
+</script>
+</body>
+</html>
