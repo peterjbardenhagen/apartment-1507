@@ -22,6 +22,7 @@ import GuardianSystem from './views/GuardianSystem.vue'
 import GuardianDocs from './views/GuardianDocs.vue'
 import RequestHelp from './views/RequestHelp.vue'
 import RepairRequests from './views/RepairRequests.vue'
+import AdminEnquiries from './views/AdminEnquiries.vue'
 
 const routes = [
   { path: '/', component: Home },
@@ -38,6 +39,7 @@ const routes = [
   { path: '/admin/dashboard', component: AdminDashboard, meta: { requiresAuth: true, role: 'admin_portal' } },
   { path: '/admin/guardian', component: GuardianSystem, meta: { requiresAuth: true, role: 'admin_portal' } },
   { path: '/admin/guardian-docs', component: GuardianDocs, meta: { requiresAuth: true, role: 'admin_portal' } },
+  { path: '/admin/enquiries', component: AdminEnquiries, meta: { requiresAuth: true, role: 'admin_portal' } },
   { path: '/flatmate/request-help', component: RequestHelp, meta: { requiresAuth: true, role: 'tenant' } },
   { path: '/flatmate/repair-requests', component: RepairRequests, meta: { requiresAuth: true, role: 'tenant' } }
 ]

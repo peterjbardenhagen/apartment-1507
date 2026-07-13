@@ -43,6 +43,14 @@ const handleLogout = () => {
           <div class="mt-4 text-blue-600 font-semibold">View Details →</div>
         </div>
 
+        <!-- Flatmate Enquiries -->
+        <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition cursor-pointer" @click="router.push('/admin/enquiries')">
+          <div class="text-4xl mb-4">📨</div>
+          <h2 class="text-xl font-bold mb-2">Flatmate Enquiries</h2>
+          <p class="text-slate-600 text-sm">Manage requests and help submissions from flatmates</p>
+          <div class="mt-4 text-blue-600 font-semibold">View Details →</div>
+        </div>
+
         <!-- Cleaning Issues Resolution -->
         <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition cursor-pointer" @click="router.push('/admin/cleaning-issues')">
           <div class="text-4xl mb-4">🧹</div>

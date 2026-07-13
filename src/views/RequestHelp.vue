@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { emailService } from '@/services/emailService'
 
 const router = useRouter()
 const flatmates = ref<Array<{ id: string; name: string }>>([])
@@ -8,6 +9,11 @@ const selectedFlatmate = ref('')
 const enquiryType = ref('')
 const message = ref('')
 const submitted = ref(false)
+const loading = ref(false)
+const error = ref('')
+
+const messageLength = computed(() => message.value.length)
+const isFormValid = computed(() => selectedFlatmate.value && enquiryType.value && message.value.trim().length >= 10)
 
 const enquiryTypes = [
   'Idea for home',
@@ -28,35 +34,68 @@ onMounted(async () => {
   }
 })
 
-const handleSubmit = () => {
+const handleSubmit = async () => {
+  error.value = ''
+
+  // Validation
   if (!selectedFlatmate.value || !enquiryType.value || !message.value.trim()) {
-    alert('Please fill in all fields')
+    error.value = 'Please fill in all fields'
     return
   }
 
-  // Store request data
-  const request = {
-    id: Date.now(),
-    flatmate: selectedFlatmate.value,
-    enquiryType: enquiryType.value,
-    message: message.value,
-    timestamp: new Date().toISOString(),
-    status: 'submitted'
+  if (message.value.trim().length < 10) {
+    error.value = 'Message must be at least 10 characters'
+    return
   }
 
-  // Save to localStorage
-  const requests = JSON.parse(localStorage.getItem('helpRequests') || '[]')
-  requests.push(request)
-  localStorage.setItem('helpRequests', JSON.stringify(requests))
+  if (message.value.trim().length > 1000) {
+    error.value = 'Message must be less than 1000 characters'
+    return
+  }
 
-  submitted.value = true
-  selectedFlatmate.value = ''
-  enquiryType.value = ''
-  message.value = ''
+  loading.value = true
 
-  setTimeout(() => {
-    submitted.value = false
-  }, 3000)
+  try {
+    // Create enquiry
+    const enquiryId = Date.now()
+    const enquiry = {
+      id: enquiryId,
+      flatmate: selectedFlatmate.value,
+      enquiryType: enquiryType.value,
+      message: message.value,
+      timestamp: new Date().toISOString(),
+      status: 'new' as const,
+      notes: ''
+    }
+
+    // Save to localStorage
+    const enquiries = JSON.parse(localStorage.getItem('helpEnquiries') || '[]')
+    enquiries.push(enquiry)
+    localStorage.setItem('helpEnquiries', JSON.stringify(enquiries))
+
+    // Send email notification to admin
+    await emailService.sendEnquiryNotification(
+      selectedFlatmate.value,
+      enquiryType.value,
+      message.value,
+      enquiryId
+    )
+
+    // Reset form
+    submitted.value = true
+    selectedFlatmate.value = ''
+    enquiryType.value = ''
+    message.value = ''
+
+    setTimeout(() => {
+      submitted.value = false
+    }, 3000)
+  } catch (err) {
+    error.value = 'Failed to submit enquiry. Please try again.'
+    console.error('Submission error:', err)
+  } finally {
+    loading.value = false
+  }
 }
 </script>
 
@@ -105,26 +144,50 @@ const handleSubmit = () => {
 
           <!-- Message -->
           <div>
-            <label class="block text-sm font-bold mb-2">💬 Message</label>
+            <div class="flex justify-between items-center mb-2">
+              <label class="block text-sm font-bold">💬 Message</label>
+              <span :class="messageLength > 1000 ? 'text-red-600' : 'text-slate-600'" class="text-sm">
+                {{ messageLength }}/1000
+              </span>
+            </div>
             <textarea
               v-model="message"
-              placeholder="Describe what you need help with..."
+              placeholder="Describe what you need help with... (at least 10 characters)"
               rows="6"
+              maxlength="1000"
               class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
             ></textarea>
+            <p v-if="messageLength < 10" class="text-xs text-slate-500 mt-1">
+              {{ 10 - messageLength }} more characters needed
+            </p>
+          </div>
+
+          <!-- Error Message -->
+          <div v-if="error" class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+            ❌ {{ error }}
           </div>
 
           <!-- Success Message -->
           <div v-if="submitted" class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
-            ✅ Request submitted successfully!
+            ✅ Request submitted successfully! We'll get back to you soon.
           </div>
 
           <!-- Submit Button -->
           <button
             type="submit"
-            class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+            :disabled="!isFormValid || loading"
+            :class="{
+              'bg-blue-600 hover:bg-blue-700': isFormValid && !loading,
+              'bg-slate-400 cursor-not-allowed': !isFormValid || loading
+            }"
+            class="w-full text-white py-3 rounded-lg font-semibold transition"
           >
-            📤 Submit Request
+            <span v-if="loading" class="inline-flex items-center gap-2">
+              ⏳ Submitting...
+            </span>
+            <span v-else>
+              📤 Submit Request
+            </span>
           </button>
         </form>
       </div>
