@@ -3,9 +3,13 @@
 @tailwind utilities;
 
 body {
-  @apply bg-slate-50 text-slate-800;
+  @apply bg-slate-50 text-slate-800 antialiased;
 }
 
 .router-link-active {
-  @apply bg-green-600 text-white;
+  @apply bg-emerald-600 text-white;
+}
+
+input, select, textarea {
+  @apply text-slate-800;
 }

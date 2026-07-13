@@ -13,23 +13,28 @@ onMounted(() => {
 
 <template>
   <div class="space-y-6">
-    <h1 class="text-2xl font-bold">Tenants</h1>
-    
-    <div class="bg-white rounded-lg shadow p-4">
-      <button @click="router.push('/tenants/new')" class="bg-green-600 text-white px-4 py-2 rounded">
+    <div class="flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-slate-800">Tenants</h1>
+      <button @click="router.push('/admin/tenants/new')" class="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition">
         Add Tenant
       </button>
     </div>
-    
-    <div class="space-y-4">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       <div v-for="tenant in tenantStore.tenants" :key="tenant.id" 
-           class="bg-white rounded-lg shadow p-4 cursor-pointer hover:shadow-md"
-           @click="router.push(`/tenants/${tenant.id}`)">
-        <h3 class="font-bold text-lg">{{ tenant.name }}</h3>
-        <p class="text-slate-600">Room: {{ tenant.room }}</p>
-        <p class="text-slate-600">Rent: ${{ tenant.rent }}/week</p>
-        <p class="text-slate-600">Bond: ${{ tenant.bond }}</p>
-        <span class="inline-block px-2 py-1 text-xs bg-green-100 text-green-800 rounded">{{ tenant.status }}</span>
+           class="bg-white border border-slate-200 rounded-xl p-5 hover:shadow-lg hover:border-emerald-300 transition cursor-pointer"
+           @click="router.push(`/admin/tenants/${tenant.id}`)">
+        <div class="flex justify-between items-start mb-3">
+          <h3 class="font-bold text-lg text-slate-800">{{ tenant.name }}</h3>
+          <span class="px-2 py-1 text-xs bg-emerald-100 text-emerald-800 rounded-full font-medium">
+            {{ tenant.status }}
+          </span>
+        </div>
+        <div class="space-y-1 text-sm text-slate-600">
+          <p>Room: {{ tenant.room }}</p>
+          <p>Rent: ${{ tenant.rent }}/week</p>
+          <p>Bond: ${{ tenant.bond }}</p>
+        </div>
       </div>
     </div>
   </div>

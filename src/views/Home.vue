@@ -5,45 +5,58 @@ const router = useRouter()
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-slate-100">
-    <div class="bg-white rounded-lg shadow-lg p-12 w-full max-w-md text-center">
-      <h1 class="text-3xl font-bold mb-8">🏢 Apartment 1507</h1>
-
-      <div class="space-y-6">
-        <!-- Landlord Portal -->
-        <div class="space-y-2">
-          <button @click="router.push('/landlord/login')" class="w-full bg-green-600 text-white py-4 rounded-lg text-lg font-semibold hover:bg-green-700 transition">
-            🏠 Landlord Portal
-          </button>
-          <p class="text-sm text-slate-600">Manage tenants, financials, documents</p>
+  <div class="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 to-slate-100">
+    <div class="flex-1 flex items-center justify-center p-6">
+      <div class="w-full max-w-lg">
+        <div class="text-center mb-10">
+          <h1 class="text-4xl font-bold text-slate-800 mb-3">Apartment 1507</h1>
+          <p class="text-slate-500 text-lg">Property Management Portal</p>
         </div>
 
-        <!-- Admin Portal -->
-        <div class="space-y-2">
-          <button @click="router.push('/admin/login')" class="w-full bg-slate-800 text-white py-4 rounded-lg text-lg font-semibold hover:bg-slate-900 transition">
-            🔐 Admin Portal
+        <div class="space-y-4">
+          <button @click="router.push('/flatmate/request-help')" class="w-full bg-white border border-slate-200 rounded-xl p-5 text-left hover:shadow-lg hover:border-blue-300 transition group">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center text-2xl group-hover:bg-blue-100 transition">
+                🆘
+              </div>
+              <div>
+                <h2 class="font-bold text-slate-800 text-lg">Request Help</h2>
+                <p class="text-sm text-slate-500">Submit requests to your flatmates</p>
+              </div>
+            </div>
           </button>
-          <p class="text-sm text-slate-600">Guardian system, cleaning issues, settings</p>
-        </div>
 
-        <!-- Flatmate Portal -->
-        <div class="space-y-2">
-          <button @click="router.push('/flatmate/login')" class="w-full bg-blue-600 text-white py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transition">
-            👥 Request Help with Something
+          <button @click="router.push('/flatmate/repair-requests')" class="w-full bg-white border border-slate-200 rounded-xl p-5 text-left hover:shadow-lg hover:border-orange-300 transition group">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-orange-50 rounded-lg flex items-center justify-center text-2xl group-hover:bg-orange-100 transition">
+                🔧
+              </div>
+              <div>
+                <h2 class="font-bold text-slate-800 text-lg">Repair Requests</h2>
+                <p class="text-sm text-slate-500">Track apartment maintenance issues</p>
+              </div>
+            </div>
           </button>
-          <p class="text-sm text-slate-600">Submit requests and repair issues</p>
+
+          <button @click="router.push('/kevin-cleaning')" class="w-full bg-white border border-slate-200 rounded-xl p-5 text-left hover:shadow-lg hover:border-emerald-300 transition group">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-emerald-50 rounded-lg flex items-center justify-center text-2xl group-hover:bg-emerald-100 transition">
+                🧹
+              </div>
+              <div>
+                <h2 class="font-bold text-slate-800 text-lg">Cleaning Roster</h2>
+                <p class="text-sm text-slate-500">View weekly cleaning tasks</p>
+              </div>
+            </div>
+          </button>
         </div>
       </div>
     </div>
+
+    <footer class="py-6 text-center">
+      <router-link to="/admin/login" class="text-xs text-slate-400 hover:text-slate-600 transition">
+        Admin
+      </router-link>
+    </footer>
   </div>
 </template>
-
-<style scoped>
-/* Responsive full-width on mobile */
-@media (max-width: 640px) {
-  .max-w-md {
-    max-width: 100%;
-    margin: 0 1rem;
-  }
-}
-</style>

@@ -7,9 +7,10 @@ const router = useRouter()
 const auth = useAuthStore()
 const password = ref('')
 const error = ref('')
+const showPassword = ref(false)
 
 const handleLogin = () => {
-  if (password.value === 'Omnfxop09!') {
+  if (password.value === '2595') {
     auth.setAdminPassword(password.value)
     router.push('/admin/dashboard')
     error.value = ''
@@ -27,40 +28,40 @@ const handleKeyup = (e: KeyboardEvent) => {
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-slate-100">
-    <div class="bg-white rounded-lg shadow-lg p-12 w-full max-w-md">
+  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200">
+    <div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-sm">
       <div class="text-center mb-8">
-        <h1 class="text-2xl font-bold mb-2">🔒 Admin Access</h1>
-        <p class="text-sm text-slate-600">Enter admin password to continue</p>
+        <h1 class="text-2xl font-bold text-slate-800 mb-2">Admin Access</h1>
+        <p class="text-sm text-slate-500">Enter password to continue</p>
       </div>
 
-      <div class="space-y-6">
+      <div class="space-y-5">
         <div>
           <input
             v-model="password"
-            type="password"
+            :type="showPassword ? 'text' : 'password'"
             placeholder="Enter admin password"
             @keyup="handleKeyup"
-            class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+            class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
           />
         </div>
 
         <button
           @click="handleLogin"
-          class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition"
+          class="w-full bg-emerald-600 text-white py-3 rounded-xl font-semibold hover:bg-emerald-700 active:scale-[0.98] transition"
         >
-          🔓 Unlock Admin
+          Unlock Admin
         </button>
 
-        <div v-if="error" class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+        <div v-if="error" class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm text-center">
           {{ error }}
         </div>
 
         <button
           @click="router.push('/')"
-          class="w-full bg-slate-200 text-slate-700 py-2 rounded-lg font-semibold hover:bg-slate-300 transition"
+          class="w-full text-slate-500 hover:text-slate-700 py-2 text-sm font-medium transition"
         >
-          ← Back
+          Back to home
         </button>
       </div>
     </div>

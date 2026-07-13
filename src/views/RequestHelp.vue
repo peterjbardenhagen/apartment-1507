@@ -37,7 +37,6 @@ onMounted(async () => {
 const handleSubmit = async () => {
   error.value = ''
 
-  // Validation
   if (!selectedFlatmate.value || !enquiryType.value || !message.value.trim()) {
     error.value = 'Please fill in all fields'
     return
@@ -56,7 +55,6 @@ const handleSubmit = async () => {
   loading.value = true
 
   try {
-    // Create enquiry
     const enquiryId = Date.now()
     const enquiry = {
       id: enquiryId,
@@ -68,12 +66,10 @@ const handleSubmit = async () => {
       notes: ''
     }
 
-    // Save to localStorage
     const enquiries = JSON.parse(localStorage.getItem('helpEnquiries') || '[]')
     enquiries.push(enquiry)
     localStorage.setItem('helpEnquiries', JSON.stringify(enquiries))
 
-    // Send email notification to admin
     await emailService.sendEnquiryNotification(
       selectedFlatmate.value,
       enquiryType.value,
@@ -81,7 +77,6 @@ const handleSubmit = async () => {
       enquiryId
     )
 
-    // Reset form
     submitted.value = true
     selectedFlatmate.value = ''
     enquiryType.value = ''
@@ -100,26 +95,25 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-100">
-    <div class="bg-slate-900 text-white p-8 shadow-lg">
+  <div class="min-h-screen bg-slate-50">
+    <div class="bg-slate-900 text-white p-6 shadow-lg">
       <div class="max-w-2xl mx-auto">
-        <button @click="router.push('/flatmate/dashboard')" class="mb-4 text-blue-400 hover:text-blue-300 flex items-center gap-2">
-          ← Back
+        <button @click="router.push('/flatmate/dashboard')" class="mb-4 text-blue-400 hover:text-blue-300 flex items-center gap-2 text-sm">
+          Back
         </button>
-        <h1 class="text-3xl font-bold">🆘 Request Help with Something</h1>
-        <p class="text-slate-300 mt-2">Submit a request to your flatmates</p>
+        <h1 class="text-2xl font-bold">Request Help</h1>
+        <p class="text-slate-400 mt-1 text-sm">Submit a request to your flatmates</p>
       </div>
     </div>
 
-    <div class="max-w-2xl mx-auto p-8">
-      <div class="bg-white rounded-lg shadow p-8">
-        <form @submit.prevent="handleSubmit" class="space-y-6">
-          <!-- Flatmate Dropdown -->
+    <div class="max-w-2xl mx-auto p-6">
+      <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+        <form @submit.prevent="handleSubmit" class="space-y-5">
           <div>
-            <label class="block text-sm font-bold mb-2">👤 Flatmate</label>
+            <label class="block text-sm font-semibold text-slate-700 mb-2">Flatmate</label>
             <select
               v-model="selectedFlatmate"
-              class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white transition"
             >
               <option value="">Select a flatmate...</option>
               <option v-for="flatmate in flatmates" :key="flatmate.id" :value="flatmate.name">
@@ -128,12 +122,11 @@ const handleSubmit = async () => {
             </select>
           </div>
 
-          <!-- Enquiry Type Dropdown -->
           <div>
-            <label class="block text-sm font-bold mb-2">📋 Enquiry Type</label>
+            <label class="block text-sm font-semibold text-slate-700 mb-2">Enquiry Type</label>
             <select
               v-model="enquiryType"
-              class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white transition"
             >
               <option value="">Select enquiry type...</option>
               <option v-for="type in enquiryTypes" :key="type" :value="type">
@@ -142,11 +135,10 @@ const handleSubmit = async () => {
             </select>
           </div>
 
-          <!-- Message -->
           <div>
             <div class="flex justify-between items-center mb-2">
-              <label class="block text-sm font-bold">💬 Message</label>
-              <span :class="messageLength > 1000 ? 'text-red-600' : 'text-slate-600'" class="text-sm">
+              <label class="block text-sm font-semibold text-slate-700">Message</label>
+              <span :class="messageLength > 1000 ? 'text-red-600' : 'text-slate-400'" class="text-xs">
                 {{ messageLength }}/1000
               </span>
             </div>
@@ -155,39 +147,32 @@ const handleSubmit = async () => {
               placeholder="Describe what you need help with... (at least 10 characters)"
               rows="6"
               maxlength="1000"
-              class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+              class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none transition"
             ></textarea>
-            <p v-if="messageLength < 10" class="text-xs text-slate-500 mt-1">
+            <p v-if="messageLength > 0 && messageLength < 10" class="text-xs text-slate-500 mt-1">
               {{ 10 - messageLength }} more characters needed
             </p>
           </div>
 
-          <!-- Error Message -->
-          <div v-if="error" class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
-            ❌ {{ error }}
+          <div v-if="error" class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+            {{ error }}
           </div>
 
-          <!-- Success Message -->
-          <div v-if="submitted" class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
-            ✅ Request submitted successfully! We'll get back to you soon.
+          <div v-if="submitted" class="bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 rounded-lg text-sm">
+            Request submitted successfully!
           </div>
 
-          <!-- Submit Button -->
           <button
             type="submit"
             :disabled="!isFormValid || loading"
             :class="{
               'bg-blue-600 hover:bg-blue-700': isFormValid && !loading,
-              'bg-slate-400 cursor-not-allowed': !isFormValid || loading
+              'bg-slate-300 cursor-not-allowed': !isFormValid || loading
             }"
             class="w-full text-white py-3 rounded-lg font-semibold transition"
           >
-            <span v-if="loading" class="inline-flex items-center gap-2">
-              ⏳ Submitting...
-            </span>
-            <span v-else>
-              📤 Submit Request
-            </span>
+            <span v-if="loading">Submitting...</span>
+            <span v-else>Submit Request</span>
           </button>
         </form>
       </div>
