@@ -1,0 +1,29 @@
+{
+  "flatmates": [
+    {
+      "id": "peter",
+      "name": "Peter",
+      "email": "peter@bardenhagen.xyz",
+      "color": "#16A34A"
+    },
+    {
+      "id": "kevin",
+      "name": "Kevin",
+      "email": "kevin@boundary-st.apartments",
+      "color": "#3B82F6"
+    },
+    {
+      "id": "kaitlin",
+      "name": "Kaitlin",
+      "email": "kaitlin@boundary-st.apartments",
+      "color": "#F59E0B"
+    },
+    {
+      "id": "jacob",
+      "name": "Jacob",
+      "email": "jacob@boundary-st.apartments",
+      "color": "#8B5CF6"
+    }
+  ],
+  "version": "1.0"
+}

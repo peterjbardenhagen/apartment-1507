@@ -1,0 +1,13 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": "vite",
+  "regions": ["syd"],
+  "git": {
+    "deploymentEnabled": {
+      "main": true,
+      "master": true,
+      "production": true
+    }
+  }
+}
