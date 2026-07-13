@@ -55,7 +55,6 @@ const saveRepairs = () => {
 
 const submitRepair = () => {
   if (!newRepair.value.title.trim() || !newRepair.value.description.trim()) {
-    alert('Please fill in all fields')
     return
   }
 
@@ -90,26 +89,22 @@ const updateStatus = (id: number, newStatus: 'open' | 'in-progress' | 'closed') 
 const getStatusColor = (status: string) => {
   switch (status) {
     case 'open':
-      return 'bg-red-100 text-red-800 border-red-200'
+      return { bg: 'bg-red-50', text: 'text-red-700', border: 'border-red-200', dot: 'bg-red-500' }
     case 'in-progress':
-      return 'bg-amber-100 text-amber-800 border-amber-200'
+      return { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200', dot: 'bg-amber-500' }
     case 'closed':
-      return 'bg-emerald-100 text-emerald-800 border-emerald-200'
+      return { bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-200', dot: 'bg-emerald-500' }
     default:
-      return 'bg-slate-100 text-slate-800 border-slate-200'
+      return { bg: 'bg-slate-50', text: 'text-slate-700', border: 'border-slate-200', dot: 'bg-slate-500' }
   }
 }
 
-const getPriorityColor = (priority: string) => {
+const getPriorityIcon = (priority: string) => {
   switch (priority) {
-    case 'low':
-      return 'text-slate-500'
-    case 'medium':
-      return 'text-amber-600'
-    case 'high':
-      return 'text-red-600'
-    default:
-      return 'text-slate-500'
+    case 'high': return '🔴'
+    case 'medium': return '🟡'
+    case 'low': return '🟢'
+    default: return '⚪'
   }
 }
 </script>
@@ -118,35 +113,49 @@ const getPriorityColor = (priority: string) => {
   <div class="min-h-screen bg-slate-50">
     <div class="bg-slate-900 text-white p-6 shadow-lg">
       <div class="max-w-4xl mx-auto">
-        <button @click="router.push('/flatmate/dashboard')" class="mb-4 text-blue-400 hover:text-blue-300 flex items-center gap-2 text-sm">
+        <button @click="router.push('/flatmate/dashboard')" class="mb-4 text-blue-400 hover:text-blue-300 flex items-center gap-2 text-sm transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
           Back
         </button>
         <div class="flex justify-between items-center">
-          <div>
-            <h1 class="text-2xl font-bold">Repair Requests</h1>
-            <p class="text-slate-400 mt-1 text-sm">Track and manage apartment repairs</p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-orange-600 flex items-center justify-center text-xl">
+              🔧
+            </div>
+            <div>
+              <h1 class="text-2xl font-bold">Repair Requests</h1>
+              <p class="text-slate-400 text-sm">Track and manage apartment repairs</p>
+            </div>
           </div>
           <button
             @click="showForm = !showForm"
-            class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-medium transition text-sm"
+            class="btn-primary text-sm"
           >
-            New Repair
+            <span v-if="showForm">Cancel</span>
+            <span v-else class="flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+              </svg>
+              New Repair
+            </span>
           </button>
         </div>
       </div>
     </div>
 
-    <div class="max-w-4xl mx-auto p-6">
-      <div v-if="showForm" class="bg-white border border-slate-200 rounded-xl p-6 mb-6 shadow-sm">
-        <h2 class="text-lg font-bold text-slate-800 mb-4">Submit New Repair Request</h2>
-        <div class="space-y-4">
+    <div class="max-w-4xl mx-auto p-4 sm:p-6">
+      <div v-if="showForm" class="card p-6 mb-6 animate-slide-up">
+        <h2 class="text-lg font-bold text-slate-900 mb-5">Submit New Repair Request</h2>
+        <div class="space-y-5">
           <div>
             <label class="block text-sm font-medium text-slate-700 mb-2">Issue Title</label>
             <input
               v-model="newRepair.title"
               type="text"
               placeholder="e.g., Leaky faucet"
-              class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              class="input"
             />
           </div>
 
@@ -156,32 +165,41 @@ const getPriorityColor = (priority: string) => {
               v-model="newRepair.description"
               placeholder="Describe the issue in detail..."
               rows="4"
-              class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none transition"
+              class="input resize-none"
             ></textarea>
           </div>
 
           <div>
             <label class="block text-sm font-medium text-slate-700 mb-2">Priority</label>
-            <select
-              v-model="newRepair.priority"
-              class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white transition"
-            >
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
-            </select>
+            <div class="grid grid-cols-3 gap-3">
+              <button
+                v-for="priority in ['low', 'medium', 'high']"
+                :key="priority"
+                type="button"
+                @click="newRepair.priority = priority as 'low' | 'medium' | 'high'"
+                :class="[
+                  newRepair.priority === priority ? 'ring-2 ring-offset-2' : 'border border-slate-200 hover:border-slate-300',
+                  newRepair.priority === priority ? (priority === 'high' ? 'bg-red-50 text-red-700' : priority === 'medium' ? 'bg-amber-50 text-amber-700' : 'bg-emerald-50 text-emerald-700') : 'bg-white text-slate-600'
+                ]"
+                :style="newRepair.priority === priority ? { '--tw-ring-color': priority === 'high' ? '#ef4444' : priority === 'medium' ? '#f59e0b' : '#10b981' } : {}"
+                class="py-2.5 rounded-lg text-sm font-medium transition-all capitalize"
+              >
+                {{ priority }}
+              </button>
+            </div>
           </div>
 
-          <div class="flex gap-3">
+          <div class="flex gap-3 pt-2">
             <button
               @click="submitRepair"
-              class="flex-1 bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition"
+              :disabled="!newRepair.title.trim() || !newRepair.description.trim()"
+              class="btn-primary flex-1"
             >
               Submit Request
             </button>
             <button
               @click="showForm = false"
-              class="flex-1 bg-slate-200 text-slate-700 py-2 rounded-lg font-medium hover:bg-slate-300 transition"
+              class="btn-secondary flex-1"
             >
               Cancel
             </button>
@@ -189,56 +207,48 @@ const getPriorityColor = (priority: string) => {
         </div>
       </div>
 
-      <div v-if="submitted" class="bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 rounded-lg mb-6 text-sm">
+      <div v-if="submitted" class="bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 rounded-lg mb-6 text-sm flex items-center gap-2 animate-in">
+        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+        </svg>
         Repair request submitted!
       </div>
 
-      <div class="space-y-4">
-        <div v-if="repairs.length === 0" class="bg-white border border-slate-200 rounded-xl p-8 text-center text-slate-500">
-          No repair requests yet
-        </div>
+      <div v-if="repairs.length === 0" class="card p-12 text-center">
+        <div class="text-4xl mb-3">🔧</div>
+        <p class="text-slate-500">No repair requests yet</p>
+      </div>
 
-        <div v-for="repair in repairs" :key="repair.id" class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+      <div v-else class="space-y-4">
+        <div v-for="repair in repairs" :key="repair.id" class="card p-5 hover:border-slate-300 transition-all">
           <div class="flex justify-between items-start mb-3">
-            <div>
-              <h3 class="font-bold text-slate-800">{{ repair.title }}</h3>
-              <p class="text-slate-600 text-sm mt-1">{{ repair.description }}</p>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 mb-1">
+                <h3 class="font-bold text-slate-900">{{ repair.title }}</h3>
+                <span class="text-sm">{{ getPriorityIcon(repair.priority) }}</span>
+              </div>
+              <p class="text-slate-600 text-sm">{{ repair.description }}</p>
             </div>
-            <span :class="getStatusColor(repair.status)" class="px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap border">
+            <span :class="[getStatusColor(repair.status).bg, getStatusColor(repair.status).text, getStatusColor(repair.status).border]" class="badge border ml-3 shrink-0">
               {{ repair.status.replace('-', ' ').toUpperCase() }}
             </span>
           </div>
 
-          <div class="flex justify-between items-center mb-4 pb-4 border-b border-slate-100">
-            <div class="text-sm text-slate-500">
-              <span>By <strong class="text-slate-700">{{ repair.submittedBy }}</strong> on {{ repair.submittedDate }}</span>
-              <span :class="getPriorityColor(repair.priority)" class="ml-3 font-medium">
-                {{ repair.priority.toUpperCase() }} Priority
-              </span>
-            </div>
+          <div class="flex items-center gap-4 mb-4 pb-4 border-b border-slate-100 text-sm text-slate-500">
+            <span>By <strong class="text-slate-700">{{ repair.submittedBy }}</strong></span>
+            <span class="text-slate-300">•</span>
+            <span>{{ repair.submittedDate }}</span>
           </div>
 
           <div class="flex gap-2">
             <button
-              @click="updateStatus(repair.id, 'open')"
-              :class="repair.status === 'open' ? 'bg-red-100 text-red-700 border-red-300' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'"
-              class="px-3 py-1.5 rounded-lg border text-sm font-medium transition"
+              v-for="status in ['open', 'in-progress', 'closed']"
+              :key="status"
+              @click="updateStatus(repair.id, status)"
+              :class="repair.status === status ? getStatusColor(status).bg + ' ' + getStatusColor(status).text + ' ' + getStatusColor(status).border + ' ring-1' : 'bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200'"
+              class="px-3 py-1.5 rounded-lg text-xs font-medium transition capitalize"
             >
-              Open
-            </button>
-            <button
-              @click="updateStatus(repair.id, 'in-progress')"
-              :class="repair.status === 'in-progress' ? 'bg-amber-100 text-amber-700 border-amber-300' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'"
-              class="px-3 py-1.5 rounded-lg border text-sm font-medium transition"
-            >
-              In Progress
-            </button>
-            <button
-              @click="updateStatus(repair.id, 'closed')"
-              :class="repair.status === 'closed' ? 'bg-emerald-100 text-emerald-700 border-emerald-300' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'"
-              class="px-3 py-1.5 rounded-lg border text-sm font-medium transition"
-            >
-              Closed
+              {{ status.replace('-', ' ') }}
             </button>
           </div>
         </div>

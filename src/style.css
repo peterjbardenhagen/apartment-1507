@@ -2,14 +2,93 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-slate-50 text-slate-800 antialiased;
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-800 antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-primary {
+    @apply btn bg-emerald-600 text-white hover:bg-emerald-700 focus:ring-emerald-500 active:scale-[0.98];
+  }
+  .btn-secondary {
+    @apply btn bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 focus:ring-slate-500;
+  }
+  .btn-danger {
+    @apply btn bg-red-600 text-white hover:bg-red-700 focus:ring-red-500;
+  }
+  .card {
+    @apply bg-white border border-slate-200 rounded-xl shadow-sm;
+  }
+  .card-hover {
+    @apply card hover:shadow-md hover:border-slate-300 transition-all duration-200;
+  }
+  .input {
+    @apply w-full px-4 py-2.5 border border-slate-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200 text-slate-800 placeholder:text-slate-400;
+  }
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  .sidebar-link {
+    @apply flex items-center px-3 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition-all duration-200;
+  }
+  .sidebar-link-active {
+    @apply bg-emerald-600 text-white shadow-sm;
+  }
+}
+
+@layer utilities {
+  .animate-in {
+    animation: animateIn 0.3s ease-out;
+  }
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease-out;
+  }
+  .animate-slide-up {
+    animation: slideUp 0.4s ease-out;
+  }
+  .animate-pulse-soft {
+    animation: pulseSoft 2s infinite;
+  }
+}
+
+@keyframes animateIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseSoft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
 }
 
 .router-link-active {
   @apply bg-emerald-600 text-white;
-}
-
-input, select, textarea {
-  @apply text-slate-800;
 }

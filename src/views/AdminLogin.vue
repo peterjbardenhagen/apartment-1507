@@ -7,7 +7,6 @@ const router = useRouter()
 const auth = useAuthStore()
 const password = ref('')
 const error = ref('')
-const showPassword = ref(false)
 
 const handleLogin = () => {
   if (password.value === '2595') {
@@ -28,32 +27,39 @@ const handleKeyup = (e: KeyboardEvent) => {
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200">
-    <div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-sm">
-      <div class="text-center mb-8">
-        <h1 class="text-2xl font-bold text-slate-800 mb-2">Admin Access</h1>
-        <p class="text-sm text-slate-500">Enter password to continue</p>
+  <div class="min-h-screen flex items-center justify-center bg-slate-50">
+    <div class="w-full max-w-sm px-4">
+      <div class="text-center mb-8 animate-fade-in">
+        <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-600 mb-4">
+          <span class="text-2xl">🏢</span>
+        </div>
+        <h1 class="text-2xl font-bold text-slate-900">Admin Access</h1>
+        <p class="text-sm text-slate-500 mt-1">Enter password to continue</p>
       </div>
 
-      <div class="space-y-5">
+      <div class="card p-6 space-y-5">
         <div>
+          <label class="block text-sm font-medium text-slate-700 mb-2">Password</label>
           <input
             v-model="password"
-            :type="showPassword ? 'text' : 'password'"
+            type="password"
             placeholder="Enter admin password"
             @keyup="handleKeyup"
-            class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
+            class="input"
           />
         </div>
 
         <button
           @click="handleLogin"
-          class="w-full bg-emerald-600 text-white py-3 rounded-xl font-semibold hover:bg-emerald-700 active:scale-[0.98] transition"
+          class="btn-primary w-full"
         >
           Unlock Admin
         </button>
 
-        <div v-if="error" class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm text-center">
+        <div v-if="error" class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm flex items-center gap-2 animate-in">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
           {{ error }}
         </div>
 

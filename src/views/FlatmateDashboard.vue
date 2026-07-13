@@ -5,31 +5,34 @@ const router = useRouter()
 </script>
 
 <template>
-  <div class="space-y-6">
-    <h1 class="text-2xl font-bold text-slate-800">Flatmate Portal</h1>
+  <div class="space-y-6 animate-fade-in">
+    <div>
+      <h1 class="text-2xl font-bold text-slate-900">Flatmate Portal</h1>
+      <p class="text-sm text-slate-500 mt-1">Submit requests, track repairs, and stay on top of household tasks.</p>
+    </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <button @click="router.push('/flatmate/request-help')" class="bg-white border border-slate-200 rounded-xl p-6 text-left hover:shadow-lg hover:border-blue-300 transition group">
-        <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:bg-blue-100 transition">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+      <button @click="router.push('/flatmate/request-help')" class="card-hover p-6 text-left group">
+        <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
           🆘
         </div>
-        <span class="font-bold text-slate-800 block mb-1">Request Help</span>
+        <span class="font-semibold text-slate-900 block mb-1">Request Help</span>
         <p class="text-sm text-slate-500">Submit requests to your flatmates</p>
       </button>
 
-      <button @click="router.push('/flatmate/repair-requests')" class="bg-white border border-slate-200 rounded-xl p-6 text-left hover:shadow-lg hover:border-orange-300 transition group">
-        <div class="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:bg-orange-100 transition">
+      <button @click="router.push('/flatmate/repair-requests')" class="card-hover p-6 text-left group">
+        <div class="w-12 h-12 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
           🔧
         </div>
-        <span class="font-bold text-slate-800 block mb-1">Repair Requests</span>
+        <span class="font-semibold text-slate-900 block mb-1">Repair Requests</span>
         <p class="text-sm text-slate-500">Track apartment maintenance</p>
       </button>
 
-      <button @click="router.push('/kevin-cleaning')" class="bg-white border border-slate-200 rounded-xl p-6 text-left hover:shadow-lg hover:border-emerald-300 transition group">
-        <div class="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:bg-emerald-100 transition">
+      <button @click="router.push('/kevin-cleaning')" class="card-hover p-6 text-left group">
+        <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
           🧹
         </div>
-        <span class="font-bold text-slate-800 block mb-1">Cleaning Roster</span>
+        <span class="font-semibold text-slate-900 block mb-1">Cleaning Roster</span>
         <p class="text-sm text-slate-500">View weekly cleaning tasks</p>
       </button>
     </div>
