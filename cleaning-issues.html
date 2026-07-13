@@ -384,6 +384,61 @@ footer {
   border-top: 1px solid var(--border);
 }
 
+/* ── TOGGLE BUTTONS ── */
+.nav-toggle-group {
+  display: flex;
+  gap: 8px;
+  margin-right: 20px;
+  border-right: 1px solid #334155;
+  padding-right: 20px;
+}
+.nav-toggle-btn {
+  padding: 8px 14px;
+  background: transparent;
+  border: 1px solid #475569;
+  border-radius: 6px;
+  color: #94A3B8;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.nav-toggle-btn:hover {
+  border-color: #64748B;
+  color: white;
+}
+.nav-toggle-btn.active {
+  background: var(--red-mid);
+  border-color: var(--red-mid);
+  color: white;
+}
+.nav-toggle-btn.resolved {
+  color: #10B981;
+  border-color: #059669;
+}
+.nav-toggle-btn.resolved.active {
+  background: #10B981;
+  border-color: #10B981;
+  color: white;
+}
+
+.issue-resolved {
+  opacity: 0.6;
+  background: #F0FDF4 !important;
+  border-left-color: #10B981 !important;
+}
+.issue-resolved .card-title-wrap h2 {
+  color: #059669;
+}
+.issue-resolved .card-title-wrap p {
+  color: #6B7280;
+}
+
+.hidden-section {
+  display: none;
+}
+
 @media print {
   .sticky-nav { display: none; }
   body { background: white; }
@@ -414,6 +469,10 @@ footer {
 
 <nav class="sticky-nav">
   <div class="nav-inner">
+    <div class="nav-toggle-group">
+      <button class="nav-toggle-btn active" onclick="showCurrent()">🔴 Current Issues</button>
+      <button class="nav-toggle-btn resolved" onclick="showResolved()">✅ Past/Resolved</button>
+    </div>
     <a href="#overview">Overview</a>
     <a href="#kitchen">🍳 Kitchen</a>
     <a href="#oven">🔥 Oven</a>
@@ -427,6 +486,22 @@ footer {
     <a href="#standard">✅ Required Standard</a>
   </div>
 </nav>
+
+<script>
+function showCurrent() {
+  document.getElementById('current-section').classList.remove('hidden-section');
+  document.getElementById('resolved-section').classList.add('hidden-section');
+  document.querySelector('.nav-toggle-btn.active').classList.remove('active');
+  document.querySelector('.nav-toggle-btn:not(.resolved)').classList.add('active');
+}
+
+function showResolved() {
+  document.getElementById('current-section').classList.add('hidden-section');
+  document.getElementById('resolved-section').classList.remove('hidden-section');
+  document.querySelector('.nav-toggle-btn.resolved').classList.add('active');
+  document.querySelector('.nav-toggle-btn:not(.resolved)').classList.remove('active');
+}
+</script>
 
 <!-- SUMMARY BAR -->
 <div class="summary-bar">
@@ -465,6 +540,9 @@ footer {
 </div>
 
 <div class="page-body">
+
+  <!-- CURRENT ISSUES -->
+  <div id="current-section">
 
   <!-- OVERVIEW -->
   <section class="card" id="overview">
@@ -890,6 +968,24 @@ footer {
       Full instructions for every appliance, cleaning product and shared area are in the companion Apartment Instruction Manual. Refer to it if you are unsure how to clean something or which product to use.
     </div>
   </section>
+
+  </div>
+  <!-- END CURRENT SECTION -->
+
+  <!-- RESOLVED SECTION -->
+  <div id="resolved-section" class="hidden-section">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon ok">✅</div>
+        <div class="card-title-wrap">
+          <h2>Past & Resolved Issues</h2>
+          <p>Previously identified issues that have been rectified</p>
+        </div>
+      </div>
+      <p>No past issues recorded yet. As cleaning issues are resolved, they will be archived here for reference.</p>
+    </div>
+  </div>
+  <!-- END RESOLVED SECTION -->
 
 </div>
 
