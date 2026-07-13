@@ -42,6 +42,10 @@ const router = useRouter()
             <span class="text-xl">📊</span>
             <span class="text-sm font-medium text-slate-700 group-hover:text-purple-700">Utilities Evidence</span>
           </a>
+          <a href="/family-command-centre.html" target="_blank" rel="noopener" class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:border-emerald-300 hover:bg-emerald-50 transition group">
+            <span class="text-xl">👨‍👩‍👧</span>
+            <span class="text-sm font-medium text-slate-700 group-hover:text-emerald-700">Family Command Centre</span>
+          </a>
         </div>
       </div>
 
