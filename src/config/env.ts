@@ -1,18 +1,12 @@
 export const config = {
-  // Sendgrid Configuration
-  sendgrid: {
-    apiKey: import.meta.env.VITE_SENDGRID_API_KEY || '',
-    fromEmail: import.meta.env.VITE_SENDGRID_FROM_EMAIL || 'noreply@apartment-1507.local'
-  },
-
-  // Microsoft Configuration
+  // Microsoft Graph/Office 365 Configuration
   microsoft: {
     clientId: import.meta.env.VITE_MICROSOFT_CLIENT_ID || '',
     clientSecret: import.meta.env.VITE_MICROSOFT_CLIENT_SECRET || '',
     tenantId: import.meta.env.VITE_MICROSOFT_TENANT_ID || ''
   },
 
-  // Admin Configuration
+  // Admin Configuration (where enquiries are sent)
   admin: {
     email: import.meta.env.VITE_ADMIN_EMAIL || 'peter@bardenhagen.xyz'
   },

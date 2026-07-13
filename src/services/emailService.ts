@@ -7,64 +7,106 @@ export interface EmailData {
   text?: string
 }
 
+/**
+ * Get Microsoft Graph access token
+ */
+async function getMicrosoftToken(): Promise<string | null> {
+  try {
+    const response = await fetch(
+      `https://login.microsoftonline.com/${config.microsoft.tenantId}/oauth2/v2.0/token`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+          client_id: config.microsoft.clientId,
+          client_secret: config.microsoft.clientSecret,
+          scope: 'https://graph.microsoft.com/.default',
+          grant_type: 'client_credentials'
+        })
+      }
+    )
+
+    if (!response.ok) {
+      console.error('Failed to get Microsoft token')
+      return null
+    }
+
+    const data = await response.json()
+    return data.access_token
+  } catch (error) {
+    console.error('Error getting Microsoft token:', error)
+    return null
+  }
+}
+
 export const emailService = {
   /**
-   * Send email via Sendgrid API
+   * Send email via Microsoft Graph API (Office 365)
    * @param data Email data to send
    */
   async send(data: EmailData): Promise<{ success: boolean; messageId?: string; error?: string }> {
     try {
-      // Check if API key is configured
-      if (!config.sendgrid.apiKey) {
-        console.warn('Sendgrid API key not configured')
+      // Check if Microsoft credentials are configured
+      if (!config.microsoft.clientId || !config.microsoft.clientSecret) {
+        console.warn('Microsoft credentials not configured')
         // In development, just log the email
         if (import.meta.env.DEV) {
-          console.log('Email would be sent:', data)
+          console.log('Email would be sent to:', data.to, data)
           return { success: true, messageId: 'dev-' + Date.now() }
         }
         return {
           success: false,
-          error: 'Sendgrid API key not configured'
+          error: 'Microsoft credentials not configured'
         }
       }
 
-      const response = await fetch('https://api.sendgrid.com/v3/mail/send', {
+      // Get access token
+      const token = await getMicrosoftToken()
+      if (!token) {
+        return {
+          success: false,
+          error: 'Failed to authenticate with Microsoft'
+        }
+      }
+
+      // Send email via Microsoft Graph
+      const response = await fetch('https://graph.microsoft.com/v1.0/me/sendMail', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${config.sendgrid.apiKey}`,
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          personalizations: [
-            {
-              to: [{ email: data.to }],
-              subject: data.subject
-            }
-          ],
-          from: {
-            email: config.sendgrid.fromEmail,
-            name: 'Apartment 1507'
-          },
-          content: [
-            {
-              type: 'text/html',
-              value: data.html
+          message: {
+            subject: data.subject,
+            body: {
+              contentType: 'HTML',
+              content: data.html
             },
-            ...(data.text ? [{ type: 'text/plain', value: data.text }] : [])
-          ]
+            toRecipients: [
+              {
+                emailAddress: {
+                  address: data.to
+                }
+              }
+            ]
+          },
+          saveToSentItems: true
         })
       })
 
       if (!response.ok) {
         const error = await response.json()
+        console.error('Microsoft Graph error:', error)
         return {
           success: false,
-          error: error.message || 'Failed to send email'
+          error: error.error?.message || 'Failed to send email'
         }
       }
 
-      const messageId = response.headers.get('x-message-id') || 'unknown'
-      return { success: true, messageId }
+      return { success: true, messageId: 'msgraph-' + Date.now() }
     } catch (error) {
       console.error('Email service error:', error)
       return {
