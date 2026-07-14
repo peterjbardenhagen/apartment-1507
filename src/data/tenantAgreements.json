@@ -1,0 +1,122 @@
+{
+  "agreements": [
+    {
+      "id": "peter-1",
+      "tenantName": "Peter Bardenhagen",
+      "startDate": "2025-01-01",
+      "status": "active",
+      "weeklyRent": 0,
+      "bond": 0,
+      "utilitiesContribution": 60,
+      "notes": "Landlord and original resident since start of tenancy",
+      "documentName": "Original Setup",
+      "amendments": []
+    },
+    {
+      "id": "kevin-1",
+      "tenantName": "Kevin",
+      "startDate": "2025-01-01",
+      "status": "active",
+      "weeklyRent": 90,
+      "bond": 450,
+      "utilitiesContribution": 90,
+      "notes": "Original tenant, has been here since the start",
+      "documentName": "Kevin__Boarding_Agreement.pdf",
+      "amendments": [
+        {
+          "id": "kevin-amend-1",
+          "type": "other",
+          "description": "Agreement amendment regarding Kaitlin staying arrangement",
+          "effectiveDate": "2026-07-13",
+          "createdDate": "2026-07-13",
+          "details": {
+            "arrangement": "Kaitlin approved for stays up to 7 days per week",
+            "documentName": "Kevin_Amendment.PDF"
+          }
+        }
+      ]
+    },
+    {
+      "id": "kaitlin-1",
+      "tenantName": "Kaitlin",
+      "startDate": "2026-05-01",
+      "status": "active",
+      "weeklyRent": 60,
+      "bond": 300,
+      "utilitiesContribution": 90,
+      "notes": "Frequent guest arrangement with Kevin, approved for stays up to 7 days per week",
+      "amendments": []
+    },
+    {
+      "id": "chloe-1",
+      "tenantName": "Chloe",
+      "startDate": "2026-06-14",
+      "status": "active",
+      "weeklyRent": 60,
+      "bond": 300,
+      "utilitiesContribution": 0,
+      "notes": "Started approximately one month ago. Boarding agreement on file.",
+      "documentName": "Chloe__Boarding_Agreement.docx.pdf",
+      "amendments": []
+    },
+    {
+      "id": "jacob-1",
+      "tenantName": "Jacob",
+      "startDate": "2026-07-18",
+      "status": "pending",
+      "weeklyRent": 60,
+      "bond": 300,
+      "utilitiesContribution": 60,
+      "notes": "Moving in this weekend. Agreement signed as of 2026-07-13. Car space fee pending car purchase ($60/week when car acquired).",
+      "documentName": "Boarding_Agreement_Jacob_signed_260713_202138_1.pdf",
+      "amendments": [
+        {
+          "id": "jacob-amend-1",
+          "type": "other",
+          "description": "Car space arrangement",
+          "effectiveDate": "TBA",
+          "createdDate": "2026-07-13",
+          "details": {
+            "description": "Jacob has agreed to pay $60 per week for dedicated car space",
+            "status": "TBA - pending car purchase"
+          }
+        }
+      ]
+    }
+  ],
+  "utilities": {
+    "summary": {
+      "total": 300,
+      "currency": "AUD",
+      "frequency": "weekly",
+      "note": "Total estimated weekly utilities contributions from active tenants"
+    },
+    "breakdown": [
+      {
+        "tenant": "Peter Bardenhagen",
+        "amount": 60,
+        "type": "Landlord contribution"
+      },
+      {
+        "tenant": "Kevin",
+        "amount": 90,
+        "type": "Utilities contribution"
+      },
+      {
+        "tenant": "Kaitlin",
+        "amount": 90,
+        "type": "Utilities contribution"
+      },
+      {
+        "tenant": "Chloe",
+        "amount": 0,
+        "type": "To be determined"
+      },
+      {
+        "tenant": "Jacob",
+        "amount": 60,
+        "type": "Utilities contribution"
+      }
+    ]
+  }
+}
