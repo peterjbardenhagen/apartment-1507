@@ -29,6 +29,7 @@ const navSections = [
     items: [
       { name: 'Agreements', path: '/admin/flatmate-agreements', icon: '✎' },
       { name: 'Boarding Files', path: '/admin/boarding-agreements', icon: '❐' },
+      { name: 'Utilities Evidence', path: '/admin/utilities-evidence', icon: '◈' },
       { name: 'Payments', path: '/admin/payment-requests', icon: '↗' },
       { name: 'Receipts', path: '/admin/receipts', icon: '✓' }
     ]

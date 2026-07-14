@@ -4,25 +4,27 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cleaning Roster – 1507/477 Boundary Street</title>
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@600,700,800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --green:     #166534;
-  --green-mid: #16A34A;
-  --green-bg:  #F0FDF4;
-  --green-border:#BBF7D0;
-  --teal:      #0F766E;
-  --teal-bg:   #F0FDFA;
-  --navy:      #1E293B;
-  --slate:     #475569;
-  --muted:     #94A3B8;
-  --border:    #E2E8F0;
-  --bg:        #F8FAFC;
+  --green:     #2C450F;
+  --green-mid: #395917;
+  --green-bg:  #E6EFEA;
+  --green-border:#A4C8AE;
+  --teal:      #2C4143;
+  --teal-bg:   #EDF4F5;
+  --navy:      #121212;
+  --slate:     #43515C;
+  --muted:     #8D9891;
+  --border:    #DCE3DC;
+  --bg:        #F5F7F4;
   --card:      #FFFFFF;
-  --ink:       #0F172A;
-  --amber:     #92400E;
-  --amber-bg:  #FEF3C7;
+  --ink:       #121212;
+  --amber:     #6F6046;
+  --amber-bg:  #F7F2E7;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -36,7 +38,7 @@ body {
 
 /* ── HEADER ── */
 .site-header {
-  background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+  background: linear-gradient(135deg, #121212 0%, #20330B 100%);
   border-bottom: 4px solid var(--green-mid);
   padding: 0;
 }
@@ -63,7 +65,7 @@ body {
   margin-bottom: 6px;
 }
 .site-header h1 {
-  font-family: 'Sora', sans-serif;
+  font-family: 'General Sans', sans-serif;
   font-size: clamp(22px, 3.5vw, 34px);
   font-weight: 800;
   color: white;
@@ -128,32 +130,32 @@ body {
   border: 3px solid var(--green-bg);
 }
 .roster-block.kevin::before {
-  background: #3B82F6;
-  border: 3px solid #EFF6FF;
+  background: #595D75;
+  border: 3px solid #EFF0F5;
 }
 .roster-block.kaitlin::before {
-  background: #F59E0B;
-  border: 3px solid #FEF3C7;
+  background: #A39170;
+  border: 3px solid #F7F2E7;
 }
 .roster-block.jacob::before {
-  background: #8B5CF6;
-  border: 3px solid #F3E8FF;
+  background: #5F878B;
+  border: 3px solid #EDF4F5;
 }
 .roster-block.peter {
   border-left-color: var(--green-mid);
   background: var(--green-bg);
 }
 .roster-block.kevin {
-  border-left-color: #3B82F6;
-  background: #EFF6FF;
+  border-left-color: #595D75;
+  background: #EFF0F5;
 }
 .roster-block.kaitlin {
-  border-left-color: #F59E0B;
-  background: #FEF3C7;
+  border-left-color: #A39170;
+  background: #F7F2E7;
 }
 .roster-block.jacob {
-  border-left-color: #8B5CF6;
-  background: #F3E8FF;
+  border-left-color: #5F878B;
+  background: #EDF4F5;
 }
 .roster-date {
   min-width: 140px;
@@ -170,7 +172,7 @@ body {
   flex: 1;
 }
 .roster-person h3 {
-  font-family: 'Sora', sans-serif;
+  font-family: 'General Sans', sans-serif;
   font-size: 18px;
   font-weight: 700;
 }
@@ -182,9 +184,9 @@ body {
   margin-top: 2px;
 }
 .roster-person .role.green { color: var(--green); }
-.roster-person .role.blue { color: #2563EB; }
-.roster-person .role.amber { color: #D97706; }
-.roster-person .role.purple { color: #7C3AED; }
+.roster-person .role.blue { color: #484C60; }
+.roster-person .role.amber { color: var(--amber); }
+.roster-person .role.purple { color: #2C4143; }
 .roster-person .role.navy { color: var(--navy); }
 
 /* ── CARD ── */
@@ -197,7 +199,7 @@ body {
   max-width: 880px;
 }
 .card h2 {
-  font-family: 'Sora', sans-serif;
+  font-family: 'General Sans', sans-serif;
   font-size: 22px;
   font-weight: 700;
   margin-bottom: 6px;
@@ -213,7 +215,7 @@ body {
 }
 .task-section:last-child { margin-bottom: 0; }
 .task-section h3 {
-  font-family: 'Sora', sans-serif;
+  font-family: 'General Sans', sans-serif;
   font-size: 16px;
   font-weight: 700;
   margin-bottom: 10px;
@@ -246,7 +248,7 @@ body {
   font-weight: 600;
 }
 .task-list li .highlight-blue {
-  color: #2563EB;
+  color: #484C60;
   font-weight: 600;
 }
 
@@ -290,7 +292,7 @@ body {
   margin: 0 6px;
   transition: background .2s;
 }
-.nav-links a:hover { background: #334155; }
+.nav-links a:hover { background: #2C450F; }
 footer {
   text-align: center;
   color: var(--muted);
@@ -332,7 +334,7 @@ footer {
 
 <!-- ── ROSTER TIMELINE ── -->
 <div class="timeline-wrap">
-  <h2 style="font-family:'Sora',sans-serif;font-size:20px;font-weight:700;margin-bottom:16px;">🗓️ Roster Schedule</h2>
+  <h2 style="font-family:'General Sans',sans-serif;font-size:20px;font-weight:700;margin-bottom:16px;">🗓️ Roster Schedule</h2>
   <div class="timeline">
 
     <div class="roster-block peter">

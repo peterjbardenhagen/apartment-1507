@@ -55,6 +55,7 @@ const tools = [
   { name: 'Transactions', desc: 'Import & analyse Frollo exports', path: '/admin/transactions', tile: 'bg-purple-100 text-purple-600' },
   { name: 'Agreements', desc: 'Create & amend accommodation agreements', path: '/admin/flatmate-agreements', tile: 'bg-amber-100 text-amber-700' },
   { name: 'Boarding Files', desc: 'Signed agreements & amendments', path: '/admin/boarding-agreements', tile: 'bg-emerald-100 text-emerald-700' },
+  { name: 'Utilities Evidence', desc: 'Normalised bills evidence pack', path: '/admin/utilities-evidence', tile: 'bg-purple-100 text-purple-600' },
   { name: 'Guest Tracking', desc: 'Monitor guest nights and charges', path: '/admin/guest-tracking', tile: 'bg-purple-100 text-purple-600' },
   { name: 'Enquiries', desc: 'Requests and submissions inbox', path: '/admin/enquiries', tile: 'bg-teal-100 text-teal-700' },
   { name: 'Guardian System', desc: 'Security protocols & sensors', path: '/admin/guardian', tile: 'bg-slate-100 text-slate-600' },
@@ -100,8 +101,8 @@ const quickActions = [
       <div class="absolute -top-12 -right-12 w-48 h-48 rounded-full bg-emerald-600/40 blur-2xl pointer-events-none"></div>
       <div class="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
         <div>
-          <h2 class="font-display text-lg font-bold">Quick actions</h2>
-          <p class="text-sm text-emerald-100/80 mt-1">Create documents and payment requests in seconds.</p>
+          <h2 class="font-display text-lg font-bold text-white">Quick actions</h2>
+          <p class="text-sm text-emerald-100/90 mt-1">Create documents and payment requests in seconds.</p>
         </div>
         <div class="flex flex-wrap gap-2.5">
           <button

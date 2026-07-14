@@ -5,7 +5,7 @@ const router = useRouter()
 
 const actions = [
   {
-    title: 'Utilities Tracker',
+    title: 'Bills Tracker',
     desc: 'Weekly & monthly cost analytics with Brisbane benchmarks',
     cta: 'View costs',
     path: '/flatmate/utilities',
@@ -100,7 +100,7 @@ const actions = [
             <p class="font-semibold text-slate-900 text-sm">Apartment 1507</p>
             <p class="text-sm text-slate-500">477 Boundary St, Spring Hill QLD 4000</p>
           </div>
-          <a href="/instructions.html" target="_blank" rel="noopener" class="btn-secondary text-xs px-4 py-2">
+          <a href="/instructions.html" rel="noopener" class="btn-secondary text-xs px-4 py-2">
             House guide ↗
           </a>
         </div>

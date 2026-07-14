@@ -1,7 +1,28 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { getCurrentRosterTurn, formatRosterRange } from '@/services/cleaningRosterService'
 
 const router = useRouter()
+
+const repairQueueCount = computed(() => {
+  try {
+    const stored = JSON.parse(localStorage.getItem('repairRequests') || '[]')
+    return stored.filter((r: { status: string }) => r.status !== 'closed').length
+  } catch {
+    return 0
+  }
+})
+
+const repairQueueLabel = computed(() =>
+  repairQueueCount.value === 0 ? '0 requests' : `${repairQueueCount.value} in the queue`
+)
+
+const rosterTurn = computed(() => getCurrentRosterTurn())
+const rosterLabel = computed(() => {
+  const turn = rosterTurn.value
+  return `${turn.name} · ${formatRosterRange(turn)}`
+})
 
 const primaryActions = [
   {
@@ -21,7 +42,7 @@ const primaryActions = [
     icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z'
   },
   {
-    title: 'Utilities Tracker',
+    title: 'Bills Tracker',
     desc: 'Weekly costs, contributions and Brisbane benchmarks',
     cta: 'View analytics',
     path: '/flatmate/utilities',
@@ -109,7 +130,7 @@ const manuals = [
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
               </svg>
             </button>
-            <a href="/instructions.html" target="_blank" rel="noopener" class="btn-secondary w-full sm:w-auto">
+            <a href="/instructions.html" rel="noopener" class="btn-secondary w-full sm:w-auto">
               Read the House Guide
             </a>
           </div>
@@ -130,7 +151,15 @@ const manuals = [
                 <path stroke-linecap="round" stroke-linejoin="round" :d="action.icon"/>
               </svg>
             </div>
-            <h2 class="font-display text-lg font-bold text-slate-900 mb-1.5">{{ action.title }}</h2>
+            <div class="flex items-center gap-2 mb-1.5">
+              <h2 class="font-display text-lg font-bold text-slate-900">{{ action.title }}</h2>
+              <span
+                v-if="action.path === '/flatmate/repair-requests'"
+                :class="['badge', repairQueueCount > 0 ? 'badge-warning' : 'badge-success']"
+              >
+                {{ repairQueueLabel }}
+              </span>
+            </div>
             <p class="text-sm text-slate-500 mb-4 leading-relaxed">{{ action.desc }}</p>
             <span class="inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-700">
               {{ action.cta }}
@@ -163,7 +192,10 @@ const manuals = [
                   </div>
                   <div class="min-w-0">
                     <p class="font-semibold text-slate-900 text-sm">{{ r.title }}</p>
-                    <p class="text-xs text-slate-500 truncate">{{ r.desc }}</p>
+                    <p class="text-xs text-slate-500 truncate">
+                      <span v-if="r.path === '/kevin-cleaning'">{{ rosterLabel }}</span>
+                      <span v-else>{{ r.desc }}</span>
+                    </p>
                   </div>
                 </div>
                 <svg class="w-4 h-4 text-slate-300 group-hover:text-emerald-600 group-hover:translate-x-0.5 transition shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -181,7 +213,6 @@ const manuals = [
                 v-for="manual in manuals"
                 :key="manual.href"
                 :href="manual.href"
-                target="_blank"
                 rel="noopener"
                 class="w-full flex items-center justify-between gap-4 p-3.5 rounded-2xl hover:bg-emerald-50 transition group"
               >

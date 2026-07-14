@@ -15,22 +15,18 @@ const router = useRouter()
       <div class="card p-6">
         <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">Reference Manuals</h2>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <a href="/apartment-guardian-system.html" target="_blank" rel="noopener" class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:border-blue-300 hover:bg-blue-50 transition group">
+          <a href="/apartment-guardian-system.html" rel="noopener" class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:border-blue-300 hover:bg-blue-50 transition group">
             <span class="text-xl">🛡️</span>
             <span class="text-sm font-medium text-slate-700 group-hover:text-blue-700">Guardian System</span>
           </a>
-          <a href="/cleaning-issues.html" target="_blank" rel="noopener" class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:border-orange-300 hover:bg-orange-50 transition group">
+          <a href="/cleaning-issues.html" rel="noopener" class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:border-orange-300 hover:bg-orange-50 transition group">
             <span class="text-xl">🧽</span>
             <span class="text-sm font-medium text-slate-700 group-hover:text-orange-700">Cleaning Issues</span>
           </a>
-          <a href="/utilities-evidence.html" target="_blank" rel="noopener" class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:border-purple-300 hover:bg-purple-50 transition group">
+          <router-link to="/admin/utilities-evidence" class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:border-purple-300 hover:bg-purple-50 transition group">
             <span class="text-xl">📊</span>
             <span class="text-sm font-medium text-slate-700 group-hover:text-purple-700">Utilities Evidence</span>
-          </a>
-          <a href="/family-command-centre.html" target="_blank" rel="noopener" class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:border-emerald-300 hover:bg-emerald-50 transition group">
-            <span class="text-xl">👨‍👩‍👧</span>
-            <span class="text-sm font-medium text-slate-700 group-hover:text-emerald-700">Family Command Centre</span>
-          </a>
+          </router-link>
         </div>
       </div>
 

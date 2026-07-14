@@ -22,7 +22,7 @@ const tasks = [
             </svg>
             Flatmate Portal
           </button>
-          <a href="/cleaning-roster.html" target="_blank" rel="noopener" class="btn-primary text-xs px-4 py-2">
+          <a href="/cleaning-roster.html" rel="noopener" class="btn-primary text-xs px-4 py-2">
             Full roster ↗
           </a>
         </div>
@@ -81,7 +81,6 @@ const tasks = [
           </ul>
           <a
             href="/cleaning-roster.html"
-            target="_blank"
             rel="noopener"
             class="text-sm font-semibold text-emerald-700 hover:text-emerald-800 transition"
           >
