@@ -20,6 +20,7 @@ import GuardianSystem from './views/GuardianSystem.vue'
 import GuardianDocs from './views/GuardianDocs.vue'
 import AdminEnquiries from './views/AdminEnquiries.vue'
 import TransactionImport from './views/TransactionImport.vue'
+import FlatmateUtilities from './views/FlatmateUtilities.vue'
 
 const routes = [
   { path: '/', component: Home },
@@ -36,6 +37,7 @@ const routes = [
   { path: '/flatmate/dashboard', component: FlatmateDashboard },
   { path: '/flatmate/request-help', component: RequestHelp },
   { path: '/flatmate/repair-requests', component: RepairRequests },
+  { path: '/flatmate/utilities', component: FlatmateUtilities },
   { path: '/kevin-cleaning', component: KevinCleaning }
 ]
 
