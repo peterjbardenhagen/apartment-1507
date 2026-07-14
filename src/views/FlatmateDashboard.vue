@@ -2,123 +2,107 @@
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+
+const actions = [
+  {
+    title: 'Utilities Tracker',
+    desc: 'Weekly & monthly cost analytics with Brisbane benchmarks',
+    cta: 'View costs',
+    path: '/flatmate/utilities',
+    tile: 'bg-emerald-50 text-emerald-600',
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z'
+  },
+  {
+    title: 'Request Help',
+    desc: 'Submit requests and ideas to your flatmates',
+    cta: 'Send request',
+    path: '/flatmate/request-help',
+    tile: 'bg-teal-100 text-teal-700',
+    icon: 'M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z'
+  },
+  {
+    title: 'Repair Requests',
+    desc: 'Log maintenance issues and track their status',
+    cta: 'Report issue',
+    path: '/flatmate/repair-requests',
+    tile: 'bg-amber-100 text-amber-700',
+    icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z'
+  },
+  {
+    title: 'Cleaning Roster',
+    desc: 'This week’s tasks and the fortnightly rotation',
+    cta: 'View schedule',
+    path: '/kevin-cleaning',
+    tile: 'bg-purple-100 text-purple-600',
+    icon: 'M5 13l4 4L19 7'
+  }
+]
 </script>
 
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-emerald-50 -mx-4 sm:-mx-6 lg:-mx-8 -my-4 sm:-my-6 lg:-my-8 px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-    <!-- Hero Section -->
-    <div class="max-w-5xl mx-auto mb-12 animate-fade-in">
-      <div class="text-center mb-10">
-        <div class="inline-flex items-center justify-center w-16 h-16 rounded-3xl bg-gradient-to-br from-blue-50 to-blue-100 text-blue-600 mb-6 shadow-lg">
-          <span class="text-4xl">👥</span>
-        </div>
-        <h1 class="text-5xl sm:text-6xl font-bold text-slate-900 tracking-tight mb-4">
-          Flatmate Portal
-        </h1>
-        <p class="text-xl text-slate-600 max-w-2xl mx-auto">
-          Collaborate with your flatmates, track household tasks, and stay organized
-        </p>
-      </div>
-
-      <!-- Feature Pills -->
-      <div class="flex flex-wrap justify-center gap-3">
-        <div class="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-sm border border-slate-200">
-          <span class="text-lg">📊</span>
-          <span class="text-sm font-medium text-slate-700">Cost Tracking</span>
-        </div>
-        <div class="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-sm border border-slate-200">
-          <span class="text-lg">🔧</span>
-          <span class="text-sm font-medium text-slate-700">Maintenance</span>
-        </div>
-        <div class="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-sm border border-slate-200">
-          <span class="text-lg">💬</span>
-          <span class="text-sm font-medium text-slate-700">Communication</span>
+  <div class="min-h-screen bg-emerald-50 flex flex-col">
+    <!-- Top nav -->
+    <header class="px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6">
+      <div class="max-w-5xl mx-auto">
+        <div class="bg-white rounded-full shadow-card px-4 sm:px-6 py-3 flex items-center justify-between">
+          <router-link to="/" class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-emerald-700 text-white flex items-center justify-center font-display font-bold text-xs shadow-pill">
+              15
+            </div>
+            <span class="font-display font-bold text-slate-900">Apartment 1507</span>
+          </router-link>
+          <router-link to="/" class="text-sm font-semibold text-slate-500 hover:text-slate-900 transition">
+            ← Home
+          </router-link>
         </div>
       </div>
-    </div>
+    </header>
 
-    <!-- Primary Actions Grid -->
-    <div class="max-w-5xl mx-auto mb-12">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <!-- Utilities Tracker -->
-        <button
-          @click="router.push('/flatmate/utilities')"
-          class="card-elevated p-8 text-left group hover:shadow-xl hover:-translate-y-1 transition-all"
-        >
-          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-50 to-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mb-5 group-hover:scale-110 transition-transform">
-            💡
-          </div>
-          <h2 class="text-xl font-bold text-slate-900 mb-2">Utilities Tracker</h2>
-          <p class="text-slate-600 mb-4">Weekly & monthly cost analytics</p>
-          <div class="inline-flex items-center gap-1 text-emerald-600 font-semibold text-sm">
-            View costs <svg class="w-4 h-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          </div>
-        </button>
+    <div class="flex-1 px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+      <div class="max-w-5xl mx-auto">
+        <!-- Heading -->
+        <div class="mb-8 sm:mb-10 animate-fade-in">
+          <h1 class="font-display text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
+            Flatmate Portal
+          </h1>
+          <p class="mt-2 text-slate-500 max-w-xl">
+            Collaborate with your flatmates, track household costs and stay organised.
+          </p>
+        </div>
 
-        <!-- Request Help -->
-        <button
-          @click="router.push('/flatmate/request-help')"
-          class="card-elevated p-8 text-left group hover:shadow-xl hover:-translate-y-1 transition-all"
-        >
-          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 text-blue-600 flex items-center justify-center text-3xl mb-5 group-hover:scale-110 transition-transform">
-            🆘
-          </div>
-          <h2 class="text-xl font-bold text-slate-900 mb-2">Request Help</h2>
-          <p class="text-slate-600 mb-4">Submit requests to your flatmates</p>
-          <div class="inline-flex items-center gap-1 text-blue-600 font-semibold text-sm">
-            Send request <svg class="w-4 h-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          </div>
-        </button>
-
-        <!-- Repair Requests -->
-        <button
-          @click="router.push('/flatmate/repair-requests')"
-          class="card-elevated p-8 text-left group hover:shadow-xl hover:-translate-y-1 transition-all"
-        >
-          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-50 to-orange-100 text-orange-600 flex items-center justify-center text-3xl mb-5 group-hover:scale-110 transition-transform">
-            🔧
-          </div>
-          <h2 class="text-xl font-bold text-slate-900 mb-2">Repair Requests</h2>
-          <p class="text-slate-600 mb-4">Track apartment maintenance</p>
-          <div class="inline-flex items-center gap-1 text-orange-600 font-semibold text-sm">
-            Report issue <svg class="w-4 h-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          </div>
-        </button>
-
-        <!-- Cleaning Roster -->
-        <button
-          @click="router.push('/kevin-cleaning')"
-          class="card-elevated p-8 text-left group hover:shadow-xl hover:-translate-y-1 transition-all"
-        >
-          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-50 to-purple-100 text-purple-600 flex items-center justify-center text-3xl mb-5 group-hover:scale-110 transition-transform">
-            🧹
-          </div>
-          <h2 class="text-xl font-bold text-slate-900 mb-2">Cleaning Roster</h2>
-          <p class="text-slate-600 mb-4">View weekly cleaning tasks</p>
-          <div class="inline-flex items-center gap-1 text-purple-600 font-semibold text-sm">
-            View schedule <svg class="w-4 h-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          </div>
-        </button>
-      </div>
-    </div>
-
-    <!-- Footer Section -->
-    <div class="max-w-5xl mx-auto">
-      <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <p class="font-semibold text-slate-900">Apartment 1507</p>
-            <p class="text-sm text-slate-500">Spring Hill, Brisbane QLD 4000</p>
-          </div>
+        <!-- Action cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
           <button
-            @click="router.push('/')"
-            class="text-sm text-slate-600 hover:text-slate-900 font-medium flex items-center gap-2 transition self-start sm:self-auto"
+            v-for="a in actions"
+            :key="a.path"
+            @click="router.push(a.path)"
+            class="card-hover p-6 sm:p-7 text-left group"
           >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-            </svg>
-            Back to Home
+            <div class="flex items-start justify-between">
+              <div :class="['w-12 h-12 rounded-2xl flex items-center justify-center mb-5 transition-transform group-hover:scale-105', a.tile]">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" :d="a.icon"/>
+                </svg>
+              </div>
+              <svg class="w-4 h-4 mt-1 text-slate-300 group-hover:text-emerald-600 group-hover:translate-x-0.5 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </div>
+            <h2 class="font-display text-lg font-bold text-slate-900 mb-1.5">{{ a.title }}</h2>
+            <p class="text-sm text-slate-500 leading-relaxed mb-3">{{ a.desc }}</p>
+            <span class="text-sm font-semibold text-emerald-700">{{ a.cta }} →</span>
           </button>
+        </div>
+
+        <!-- Address footer card -->
+        <div class="mt-8 card p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div>
+            <p class="font-semibold text-slate-900 text-sm">Apartment 1507</p>
+            <p class="text-sm text-slate-500">477 Boundary St, Spring Hill QLD 4000</p>
+          </div>
+          <a href="/instructions.html" target="_blank" rel="noopener" class="btn-secondary text-xs px-4 py-2">
+            House guide ↗
+          </a>
         </div>
       </div>
     </div>

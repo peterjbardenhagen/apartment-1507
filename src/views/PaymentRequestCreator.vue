@@ -104,33 +104,18 @@ loadRequests()
 </script>
 
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-    <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white shadow-lg mb-8">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-6">
-        <div class="flex items-center gap-4 mb-4">
-          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-2xl shadow-lg">
-            💳
-          </div>
-          <div>
-            <h1 class="text-3xl font-bold">Payment Requests</h1>
-            <p class="text-blue-100 text-sm mt-0.5">Create and manage payment requests for flatmates</p>
-          </div>
-        </div>
-        <button
-          @click="showForm = !showForm"
-          class="btn-primary"
-        >
-          <span class="flex items-center gap-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-            </svg>
-            New Payment Request
-          </span>
-        </button>
+  <div class="space-y-6 animate-fade-in">
+    <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 pt-2">
+      <div>
+        <h1 class="font-display text-2xl sm:text-3xl font-bold text-slate-900">Payment Requests</h1>
+        <p class="text-sm text-slate-500 mt-1.5">Create payment requests and export professional PDFs.</p>
       </div>
+      <button @click="showForm = !showForm" class="btn-primary self-start sm:self-auto shrink-0">
+        {{ showForm ? 'Cancel' : '+ New Payment Request' }}
+      </button>
     </div>
 
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 pb-8">
+    <div>
       <!-- Form -->
       <div v-if="showForm" class="card-elevated p-8 mb-8">
         <h2 class="text-xl font-bold text-slate-900 mb-6">Create Payment Request</h2>

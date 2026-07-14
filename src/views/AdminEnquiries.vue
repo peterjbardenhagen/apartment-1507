@@ -111,35 +111,18 @@ const getTypeColor = (type: string) => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-50">
-    <div class="bg-slate-900 text-white p-6 shadow-lg">
-      <div class="max-w-6xl mx-auto">
-        <button @click="router.push('/admin/dashboard')" class="mb-4 text-blue-400 hover:text-blue-300 flex items-center gap-2 text-sm transition">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-          </svg>
-          Back to Admin
-        </button>
-        <div class="flex justify-between items-center">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-purple-600 flex items-center justify-center text-xl">
-              📨
-            </div>
-            <div>
-              <h1 class="text-2xl font-bold">Flatmate Enquiries</h1>
-              <p class="text-slate-400 text-sm">
-                Manage requests and enquiries from flatmates
-                <span v-if="unreadCount" class="ml-3 bg-red-600 px-2 py-0.5 rounded-full text-xs font-bold">
-                  {{ unreadCount }} new
-                </span>
-              </p>
-            </div>
-          </div>
-        </div>
+  <div class="space-y-6 animate-fade-in">
+    <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 pt-2">
+      <div>
+        <h1 class="font-display text-2xl sm:text-3xl font-bold text-slate-900">Enquiries</h1>
+        <p class="text-sm text-slate-500 mt-1.5">
+          Manage requests and enquiries from flatmates
+        </p>
       </div>
+      <span v-if="unreadCount" class="badge-danger self-start sm:self-auto">{{ unreadCount }} new</span>
     </div>
 
-    <div class="max-w-6xl mx-auto p-4 sm:p-6">
+    <div>
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-2">
           <div class="card overflow-hidden">

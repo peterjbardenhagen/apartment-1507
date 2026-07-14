@@ -1,263 +1,147 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
 import { useTenantStore } from '@/stores/tenant'
 
 const router = useRouter()
-const auth = useAuthStore()
 const tenantStore = useTenantStore()
 
 const totalRent = tenantStore.tenants.reduce((sum, t) => sum + t.rent, 0)
 const totalBond = tenantStore.tenants.reduce((sum, t) => sum + t.bond, 0)
 const activeTenants = tenantStore.tenants.filter(t => t.status === 'active').length
-const monthlyRevenue = totalRent * 4.33
+const monthlyRevenue = Math.round(totalRent * 4.33)
 
-const handleLogout = () => {
-  auth.logout()
-  router.push('/')
-}
+const metrics = [
+  {
+    label: 'Weekly Rent',
+    value: `$${totalRent}`,
+    detail: `From ${activeTenants} active tenants`,
+    pill: '+ on track',
+    pillClass: 'stat-change-positive',
+    tile: 'bg-emerald-50 text-emerald-600',
+    icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
+  },
+  {
+    label: 'Est. Monthly Revenue',
+    value: `$${monthlyRevenue}`,
+    detail: '4.33 weeks per month',
+    pill: 'monthly',
+    pillClass: 'badge-neutral',
+    tile: 'bg-teal-100 text-teal-700',
+    icon: 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6'
+  },
+  {
+    label: 'Bond Held',
+    value: `$${totalBond}`,
+    detail: 'Tenant security deposits',
+    pill: 'secured',
+    pillClass: 'badge-info',
+    tile: 'bg-purple-100 text-purple-600',
+    icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z'
+  },
+  {
+    label: 'Active Tenants',
+    value: `${activeTenants}`,
+    detail: `Of ${tenantStore.tenants.length} total`,
+    pill: 'active',
+    pillClass: 'stat-change-positive',
+    tile: 'bg-amber-100 text-amber-700',
+    icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z'
+  }
+]
+
+const tools = [
+  { name: 'Tenants', desc: 'Manage tenant list and details', path: '/admin/tenants', tile: 'bg-emerald-50 text-emerald-600' },
+  { name: 'Financials', desc: 'Rent, bond and payment overview', path: '/admin/financials', tile: 'bg-teal-100 text-teal-700' },
+  { name: 'Transactions', desc: 'Import & analyse Frollo exports', path: '/admin/transactions', tile: 'bg-purple-100 text-purple-600' },
+  { name: 'Agreements', desc: 'Create & amend accommodation agreements', path: '/admin/flatmate-agreements', tile: 'bg-amber-100 text-amber-700' },
+  { name: 'Boarding Files', desc: 'Signed agreements & amendments', path: '/admin/boarding-agreements', tile: 'bg-emerald-100 text-emerald-700' },
+  { name: 'Guest Tracking', desc: 'Monitor guest nights and charges', path: '/admin/guest-tracking', tile: 'bg-purple-100 text-purple-600' },
+  { name: 'Enquiries', desc: 'Requests and submissions inbox', path: '/admin/enquiries', tile: 'bg-teal-100 text-teal-700' },
+  { name: 'Guardian System', desc: 'Security protocols & sensors', path: '/admin/guardian', tile: 'bg-slate-100 text-slate-600' },
+  { name: 'Settings', desc: 'Rates, thresholds & preferences', path: '/admin/settings', tile: 'bg-slate-100 text-slate-600' }
+]
 
 const quickActions = [
-  { label: 'View Agreements', icon: '📋', path: '/admin/flatmate-agreements' },
-  { label: 'Create Payment', icon: '💳', path: '/admin/payment-requests' },
-  { label: 'Generate Receipt', icon: '🧾', path: '/admin/receipts' }
+  { label: 'New Agreement', path: '/admin/flatmate-agreements' },
+  { label: 'Request Payment', path: '/admin/payment-requests' },
+  { label: 'Issue Receipt', path: '/admin/receipts' }
 ]
 </script>
 
 <template>
-  <div class="space-y-8 animate-fade-in">
-    <!-- Header -->
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+  <div class="space-y-6 animate-fade-in">
+    <!-- Greeting -->
+    <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 pt-2">
       <div>
-        <h1 class="text-3xl font-bold text-slate-900">Admin Dashboard</h1>
-        <p class="text-slate-500 mt-2">Property 1507 • 477 Boundary St, Spring Hill QLD 4000</p>
-      </div>
-      <button @click="handleLogout" class="btn-secondary flex items-center gap-2">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-        </svg>
-        Exit Admin
-      </button>
-    </div>
-
-    <!-- Key Metrics -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-      <div class="card-elevated p-6 group hover:shadow-lg transition-all">
-        <div class="flex items-start justify-between mb-4">
-          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-50 to-emerald-100 flex items-center justify-center text-2xl">
-            💰
-          </div>
-          <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">Weekly</span>
-        </div>
-        <p class="text-sm font-medium text-slate-600 mb-1">Weekly Rent</p>
-        <p class="text-3xl font-bold text-slate-900">${{ totalRent }}</p>
-        <p class="text-xs text-slate-500 mt-3">From {{ activeTenants }} active tenants</p>
-      </div>
-
-      <div class="card-elevated p-6 group hover:shadow-lg transition-all">
-        <div class="flex items-start justify-between mb-4">
-          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center text-2xl">
-            📈
-          </div>
-          <span class="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-1 rounded-full">Monthly</span>
-        </div>
-        <p class="text-sm font-medium text-slate-600 mb-1">Estimated Revenue</p>
-        <p class="text-3xl font-bold text-slate-900">${{ monthlyRevenue.toFixed(0) }}</p>
-        <p class="text-xs text-slate-500 mt-3">4.33 weeks per month</p>
-      </div>
-
-      <div class="card-elevated p-6 group hover:shadow-lg transition-all">
-        <div class="flex items-start justify-between mb-4">
-          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-50 to-purple-100 flex items-center justify-center text-2xl">
-            🛡️
-          </div>
-          <span class="text-xs font-semibold text-purple-600 bg-purple-50 px-2 py-1 rounded-full">Held</span>
-        </div>
-        <p class="text-sm font-medium text-slate-600 mb-1">Bond Held</p>
-        <p class="text-3xl font-bold text-slate-900">${{ totalBond }}</p>
-        <p class="text-xs text-slate-500 mt-3">Tenant security deposit</p>
-      </div>
-
-      <div class="card-elevated p-6 group hover:shadow-lg transition-all">
-        <div class="flex items-start justify-between mb-4">
-          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center text-2xl">
-            👥
-          </div>
-          <span class="text-xs font-semibold text-orange-600 bg-orange-50 px-2 py-1 rounded-full">Active</span>
-        </div>
-        <p class="text-sm font-medium text-slate-600 mb-1">Tenants</p>
-        <p class="text-3xl font-bold text-slate-900">{{ activeTenants }}</p>
-        <p class="text-xs text-slate-500 mt-3">Of {{ tenantStore.tenants.length }} total</p>
+        <h1 class="font-display text-2xl sm:text-3xl font-bold text-slate-900">Hello, Peter 👋</h1>
+        <p class="text-sm text-slate-500 mt-1.5">Here's what's happening at 1507/477 Boundary St.</p>
       </div>
     </div>
 
-    <!-- Quick Actions -->
-    <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 rounded-2xl p-8 text-white shadow-xl">
-      <h2 class="text-xl font-bold mb-6">Quick Actions</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <button
-          v-for="action in quickActions"
-          :key="action.path"
-          @click="router.push(action.path)"
-          class="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 rounded-xl p-4 transition-all text-left group"
-        >
-          <div class="text-2xl mb-2 group-hover:scale-110 transition-transform">{{ action.icon }}</div>
-          <p class="font-semibold">{{ action.label }}</p>
-        </button>
+    <!-- Metrics -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+      <div v-for="m in metrics" :key="m.label" class="card-metric">
+        <div class="flex items-start justify-between mb-4">
+          <div :class="['w-11 h-11 rounded-2xl flex items-center justify-center', m.tile]">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" :d="m.icon"/>
+            </svg>
+          </div>
+          <span :class="m.pillClass">{{ m.pill }}</span>
+        </div>
+        <p class="card-metric-header">{{ m.label }}</p>
+        <p class="card-metric-value text-slate-900">{{ m.value }}</p>
+        <p class="card-metric-detail">{{ m.detail }}</p>
       </div>
     </div>
 
-    <!-- Features Grid -->
+    <!-- Quick actions -->
+    <div class="rounded-3xl bg-emerald-700 text-white p-6 sm:p-8 shadow-card-lg overflow-hidden relative">
+      <div class="absolute -top-12 -right-12 w-48 h-48 rounded-full bg-emerald-600/40 blur-2xl pointer-events-none"></div>
+      <div class="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
+        <div>
+          <h2 class="font-display text-lg font-bold">Quick actions</h2>
+          <p class="text-sm text-emerald-100/80 mt-1">Create documents and payment requests in seconds.</p>
+        </div>
+        <div class="flex flex-wrap gap-2.5">
+          <button
+            v-for="action in quickActions"
+            :key="action.path"
+            @click="router.push(action.path)"
+            class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 ring-1 ring-white/20 rounded-full px-4 py-2 text-sm font-semibold transition"
+          >
+            {{ action.label }}
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Management tools -->
     <div>
-      <h2 class="text-lg font-bold text-slate-900 mb-5">Management Tools</h2>
-
+      <p class="form-section-title mb-4">Management tools</p>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <!-- Tenant Management Section -->
-        <div @click="router.push('/admin/tenants')" class="card-elevated p-6 cursor-pointer group hover:shadow-lg hover:-translate-y-1 transition-all">
+        <button
+          v-for="tool in tools"
+          :key="tool.path"
+          @click="router.push(tool.path)"
+          class="card-hover p-5 sm:p-6 text-left group"
+        >
           <div class="flex items-start justify-between mb-4">
-            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-50 to-emerald-100 text-emerald-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-              👥
+            <div :class="['w-11 h-11 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-105', tool.tile]">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+              </svg>
             </div>
-            <svg class="w-5 h-5 text-slate-300 group-hover:text-slate-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-4 h-4 text-slate-300 group-hover:text-emerald-600 group-hover:translate-x-0.5 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
             </svg>
           </div>
-          <h3 class="font-semibold text-slate-900 mb-1">Tenants</h3>
-          <p class="text-sm text-slate-500">Manage tenant list and details</p>
-        </div>
-
-        <!-- Financials Section -->
-        <div @click="router.push('/admin/financials')" class="card-elevated p-6 cursor-pointer group hover:shadow-lg hover:-translate-y-1 transition-all">
-          <div class="flex items-start justify-between mb-4">
-            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 text-blue-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-              💰
-            </div>
-            <svg class="w-5 h-5 text-slate-300 group-hover:text-slate-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-            </svg>
-          </div>
-          <h3 class="font-semibold text-slate-900 mb-1">Financials</h3>
-          <p class="text-sm text-slate-500">Rent, bond, and payment overview</p>
-        </div>
-
-        <!-- Transactions Section -->
-        <div @click="router.push('/admin/transactions')" class="card-elevated p-6 cursor-pointer group hover:shadow-lg hover:-translate-y-1 transition-all">
-          <div class="flex items-start justify-between mb-4">
-            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-50 to-purple-100 text-purple-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-              📥
-            </div>
-            <svg class="w-5 h-5 text-slate-300 group-hover:text-slate-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-            </svg>
-          </div>
-          <h3 class="font-semibold text-slate-900 mb-1">Transactions</h3>
-          <p class="text-sm text-slate-500">Import & analyze Frollo exports</p>
-        </div>
-
-        <!-- Agreements Section -->
-        <div @click="router.push('/admin/flatmate-agreements')" class="card-elevated p-6 cursor-pointer group hover:shadow-lg hover:-translate-y-1 transition-all">
-          <div class="flex items-start justify-between mb-4">
-            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-50 to-indigo-100 text-indigo-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-              📋
-            </div>
-            <svg class="w-5 h-5 text-slate-300 group-hover:text-slate-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-            </svg>
-          </div>
-          <h3 class="font-semibold text-slate-900 mb-1">Agreements</h3>
-          <p class="text-sm text-slate-500">Create & manage accommodation agreements</p>
-        </div>
-
-        <!-- Boarding Files Section -->
-        <div @click="router.push('/admin/boarding-agreements')" class="card-elevated p-6 cursor-pointer group hover:shadow-lg hover:-translate-y-1 transition-all">
-          <div class="flex items-start justify-between mb-4">
-            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-teal-50 to-teal-100 text-teal-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-              📄
-            </div>
-            <svg class="w-5 h-5 text-slate-300 group-hover:text-slate-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-            </svg>
-          </div>
-          <h3 class="font-semibold text-slate-900 mb-1">Boarding Files</h3>
-          <p class="text-sm text-slate-500">View signed agreements & amendments</p>
-        </div>
-
-        <!-- Guest Tracking Section -->
-        <div @click="router.push('/admin/guest-tracking')" class="card-elevated p-6 cursor-pointer group hover:shadow-lg hover:-translate-y-1 transition-all">
-          <div class="flex items-start justify-between mb-4">
-            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-50 to-amber-100 text-amber-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-              🏠
-            </div>
-            <svg class="w-5 h-5 text-slate-300 group-hover:text-slate-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-            </svg>
-          </div>
-          <h3 class="font-semibold text-slate-900 mb-1">Guest Tracking</h3>
-          <p class="text-sm text-slate-500">Monitor guest nights and charges</p>
-        </div>
-
-        <!-- Settings Section -->
-        <div @click="router.push('/admin/settings')" class="card-elevated p-6 cursor-pointer group hover:shadow-lg hover:-translate-y-1 transition-all">
-          <div class="flex items-start justify-between mb-4">
-            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-slate-50 to-slate-100 text-slate-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-              ⚙️
-            </div>
-            <svg class="w-5 h-5 text-slate-300 group-hover:text-slate-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-            </svg>
-          </div>
-          <h3 class="font-semibold text-slate-900 mb-1">Settings</h3>
-          <p class="text-sm text-slate-500">Configure rates and thresholds</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Advanced Features -->
-    <div>
-      <h2 class="text-lg font-bold text-slate-900 mb-5">Advanced Features</h2>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div @click="router.push('/admin/guardian')" class="card-elevated p-6 cursor-pointer group hover:shadow-lg hover:-translate-y-1 transition-all border-l-4 border-l-blue-500">
-          <div class="flex items-start justify-between mb-4">
-            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 text-blue-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-              🛡️
-            </div>
-            <svg class="w-5 h-5 text-slate-300 group-hover:text-slate-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-            </svg>
-          </div>
-          <h3 class="font-semibold text-slate-900 mb-1">Guardian System</h3>
-          <p class="text-sm text-slate-500 mb-3">Security protocols and sensor status</p>
-          <span class="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-1 rounded-full">Security</span>
-        </div>
-
-        <div @click="router.push('/admin/guardian-docs')" class="card-elevated p-6 cursor-pointer group hover:shadow-lg hover:-translate-y-1 transition-all border-l-4 border-l-blue-500">
-          <div class="flex items-start justify-between mb-4">
-            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 text-blue-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-              📖
-            </div>
-            <svg class="w-5 h-5 text-slate-300 group-hover:text-slate-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-            </svg>
-          </div>
-          <h3 class="font-semibold text-slate-900 mb-1">Guardian Documentation</h3>
-          <p class="text-sm text-slate-500 mb-3">Hardware requirements and billing</p>
-          <span class="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-1 rounded-full">Reference</span>
-        </div>
-
-        <div @click="router.push('/admin/enquiries')" class="card-elevated p-6 cursor-pointer group hover:shadow-lg hover:-translate-y-1 transition-all border-l-4 border-l-purple-500">
-          <div class="flex items-start justify-between mb-4">
-            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-50 to-purple-100 text-purple-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-              📨
-            </div>
-            <svg class="w-5 h-5 text-slate-300 group-hover:text-slate-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-            </svg>
-          </div>
-          <h3 class="font-semibold text-slate-900 mb-1">Enquiries</h3>
-          <p class="text-sm text-slate-500 mb-3">Manage requests and submissions</p>
-          <span class="text-xs font-semibold text-purple-600 bg-purple-50 px-2 py-1 rounded-full">Communication</span>
-        </div>
+          <h3 class="font-semibold text-slate-900 mb-1">{{ tool.name }}</h3>
+          <p class="text-sm text-slate-500">{{ tool.desc }}</p>
+        </button>
       </div>
     </div>
   </div>
