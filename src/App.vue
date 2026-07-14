@@ -12,6 +12,7 @@ const navigation = [
   { name: 'Dashboard', path: '/admin/dashboard', icon: '📊' },
   { name: 'Tenants', path: '/admin/tenants', icon: '👥' },
   { name: 'Financials', path: '/admin/financials', icon: '💰' },
+  { name: 'Transactions', path: '/admin/transactions', icon: '📥' },
   { name: 'Guest Tracking', path: '/admin/guest-tracking', icon: '📋' },
   { name: 'Settings', path: '/admin/settings', icon: '⚙️' },
   { name: 'Guardian', path: '/admin/guardian', icon: '🛡️' },
