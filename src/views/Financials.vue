@@ -59,7 +59,7 @@ const getStatusColor = (status: string) => {
     <!-- Page Header -->
     <div>
       <h1 class="text-3xl font-bold text-slate-900">Financials</h1>
-      <p class="text-sm text-slate-500 mt-2">Weekly rent collection, bonds, and payment analysis for property management.</p>
+      <p class="text-slate-500 mt-2">Weekly rent collection, bonds, and payment analysis for property management</p>
     </div>
 
     <!-- Key Metrics Row -->
