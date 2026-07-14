@@ -21,6 +21,9 @@ import GuardianDocs from './views/GuardianDocs.vue'
 import AdminEnquiries from './views/AdminEnquiries.vue'
 import TransactionImport from './views/TransactionImport.vue'
 import FlatmateUtilities from './views/FlatmateUtilities.vue'
+import FlatmateAgreementManager from './views/FlatmateAgreementManager.vue'
+import PaymentRequestCreator from './views/PaymentRequestCreator.vue'
+import ReceiptCreator from './views/ReceiptCreator.vue'
 
 const routes = [
   { path: '/', component: Home },
@@ -34,6 +37,9 @@ const routes = [
   { path: '/admin/guardian-docs', component: GuardianDocs, meta: { requiresAuth: true, role: 'admin_portal' } },
   { path: '/admin/enquiries', component: AdminEnquiries, meta: { requiresAuth: true, role: 'admin_portal' } },
   { path: '/admin/transactions', component: TransactionImport, meta: { requiresAuth: true, role: 'admin_portal' } },
+  { path: '/admin/flatmate-agreements', component: FlatmateAgreementManager, meta: { requiresAuth: true, role: 'admin_portal' } },
+  { path: '/admin/payment-requests', component: PaymentRequestCreator, meta: { requiresAuth: true, role: 'admin_portal' } },
+  { path: '/admin/receipts', component: ReceiptCreator, meta: { requiresAuth: true, role: 'admin_portal' } },
   { path: '/flatmate/dashboard', component: FlatmateDashboard },
   { path: '/flatmate/request-help', component: RequestHelp },
   { path: '/flatmate/repair-requests', component: RepairRequests },
