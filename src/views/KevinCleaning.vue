@@ -1,13 +1,4 @@
 <script setup lang="ts">
-const tasks = [
-  'Vacuum common areas',
-  'Clean kitchen surfaces',
-  'Wipe bathroom fixtures',
-  'Take out trash/recycling'
-]
-</script>
-
-<script setup lang="ts">
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
