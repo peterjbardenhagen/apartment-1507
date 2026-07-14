@@ -14,6 +14,7 @@ const navigation = [
   { name: 'Financials', path: '/admin/financials', icon: '💰' },
   { name: 'Transactions', path: '/admin/transactions', icon: '📥' },
   { name: 'Agreements', path: '/admin/flatmate-agreements', icon: '📋' },
+  { name: 'Boarding Files', path: '/admin/boarding-agreements', icon: '📄' },
   { name: 'Payments', path: '/admin/payment-requests', icon: '💳' },
   { name: 'Receipts', path: '/admin/receipts', icon: '🧾' },
   { name: 'Guest Tracking', path: '/admin/guest-tracking', icon: '🏠' },

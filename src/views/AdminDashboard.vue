@@ -168,6 +168,20 @@ const quickActions = [
           <p class="text-sm text-slate-500">Create & manage accommodation agreements</p>
         </div>
 
+        <!-- Boarding Files Section -->
+        <div @click="router.push('/admin/boarding-agreements')" class="card-elevated p-6 cursor-pointer group hover:shadow-lg hover:-translate-y-1 transition-all">
+          <div class="flex items-start justify-between mb-4">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-teal-50 to-teal-100 text-teal-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+              📄
+            </div>
+            <svg class="w-5 h-5 text-slate-300 group-hover:text-slate-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </div>
+          <h3 class="font-semibold text-slate-900 mb-1">Boarding Files</h3>
+          <p class="text-sm text-slate-500">View signed agreements & amendments</p>
+        </div>
+
         <!-- Guest Tracking Section -->
         <div @click="router.push('/admin/guest-tracking')" class="card-elevated p-6 cursor-pointer group hover:shadow-lg hover:-translate-y-1 transition-all">
           <div class="flex items-start justify-between mb-4">
