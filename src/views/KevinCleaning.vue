@@ -11,119 +11,81 @@ const tasks = [
 </script>
 
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-slate-50 via-slate-50 to-green-50 -mx-4 sm:-mx-6 lg:-mx-8 -my-4 sm:-my-6 lg:-my-8 px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-    <!-- Header -->
-    <div class="max-w-4xl mx-auto mb-12 animate-fade-in">
-      <div class="flex items-center justify-between mb-8">
-        <button
-          @click="router.push('/flatmate/dashboard')"
-          class="text-slate-600 hover:text-slate-900 flex items-center gap-2 font-medium transition"
-        >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-          </svg>
-          Back to Flatmate Portal
-        </button>
-        <a
-          href="/cleaning-roster.html"
-          target="_blank"
-          rel="noopener"
-          class="btn-primary text-sm inline-flex items-center gap-2"
-        >
-          <span>📋</span>
-          Open Full Roster
-        </a>
+  <div class="min-h-screen bg-emerald-50">
+    <!-- Top nav -->
+    <header class="px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6">
+      <div class="max-w-4xl mx-auto">
+        <div class="bg-white rounded-full shadow-card px-4 sm:px-6 py-3 flex items-center justify-between">
+          <button @click="router.push('/flatmate/dashboard')" class="flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-slate-900 transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Flatmate Portal
+          </button>
+          <a href="/cleaning-roster.html" rel="noopener" class="btn-primary text-xs px-4 py-2">
+            Full roster ↗
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+      <!-- Heading -->
+      <div class="mb-8 animate-fade-in">
+        <span class="inline-flex items-center gap-2 bg-white rounded-full px-4 py-1.5 text-xs font-semibold text-emerald-700 shadow-card mb-5">
+          <span class="status-dot bg-emerald-400"></span>
+          Fortnightly rotation
+        </span>
+        <h1 class="font-display text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">Cleaning Roster</h1>
+        <p class="mt-2 text-slate-500 max-w-xl">Weekly cleaning schedule and responsibilities for Apartment 1507.</p>
       </div>
 
-      <div class="text-center mb-12">
-        <div class="inline-flex items-center justify-center w-16 h-16 rounded-3xl bg-gradient-to-br from-green-50 to-green-100 text-green-600 mb-6 shadow-lg">
-          <span class="text-4xl">🧹</span>
-        </div>
-        <h1 class="text-5xl sm:text-6xl font-bold text-slate-900 tracking-tight mb-4">
-          Cleaning Roster
-        </h1>
-        <p class="text-xl text-slate-600 max-w-2xl mx-auto">
-          Weekly cleaning schedule and responsibilities for Apartment 1507
-        </p>
-      </div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="max-w-4xl mx-auto mb-8">
-      <!-- This Week's Tasks -->
-      <div class="card-elevated p-8 mb-6">
-        <div class="flex items-center gap-3 mb-6">
-          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-green-50 to-green-100 text-green-600 flex items-center justify-center text-2xl">
-            ✓
-          </div>
-          <div>
-            <h2 class="text-xl font-bold text-slate-900">This Week's Tasks</h2>
-            <p class="text-sm text-slate-500 mt-0.5">Your cleaning responsibilities</p>
-          </div>
-        </div>
-
-        <ul class="space-y-4">
-          <li
-            v-for="task in tasks"
-            :key="task"
-            class="flex items-center gap-4 p-4 bg-slate-50 rounded-lg hover:bg-slate-100 transition"
-          >
-            <div class="flex-shrink-0">
-              <div class="flex items-center justify-center h-6 w-6 rounded-full bg-green-100">
-                <svg class="h-4 w-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-5">
+        <!-- Tasks -->
+        <div class="card p-6 sm:p-7 lg:col-span-3">
+          <p class="form-section-title mb-5">This week's tasks</p>
+          <ul class="space-y-2.5">
+            <li
+              v-for="task in tasks"
+              :key="task"
+              class="flex items-center gap-3.5 p-3.5 rounded-2xl bg-emerald-50"
+            >
+              <span class="w-6 h-6 rounded-full bg-emerald-200 text-emerald-800 flex items-center justify-center shrink-0">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                 </svg>
-              </div>
-            </div>
-            <span class="text-slate-700 font-medium">{{ task }}</span>
-          </li>
-        </ul>
-
-        <div class="mt-6 pt-6 border-t border-slate-100">
-          <p class="text-sm text-slate-600 flex items-start gap-2">
-            <span class="text-lg mt-0.5">💡</span>
-            <span><strong>Tip:</strong> Complete these tasks by Sunday evening to keep our apartment clean and welcoming</span>
+              </span>
+              <span class="text-sm font-medium text-slate-800">{{ task }}</span>
+            </li>
+          </ul>
+          <p class="mt-5 text-xs text-slate-500">
+            Complete tasks by Sunday evening to keep the apartment clean and welcoming.
           </p>
         </div>
-      </div>
 
-      <!-- Boarding Agreement Section -->
-      <div class="card-elevated p-8 border-l-4 border-l-blue-500">
-        <div class="flex items-start gap-4">
-          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 text-blue-600 flex items-center justify-center text-2xl shrink-0">
-            📋
+        <!-- Agreement -->
+        <div class="card p-6 sm:p-7 lg:col-span-2">
+          <div class="w-11 h-11 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center mb-5">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
           </div>
-          <div>
-            <h2 class="text-xl font-bold text-slate-900 mb-2">Boarding Agreement — Clause G</h2>
-            <p class="text-slate-600 mb-4">
-              Cleanliness & Care requirements apply to all residents. This includes:
-            </p>
-            <ul class="space-y-2 text-sm text-slate-600">
-              <li class="flex items-center gap-2">
-                <span class="text-blue-600">•</span>
-                Maintaining common areas in a clean and hygienic state
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-blue-600">•</span>
-                Respecting the weekly cleaning schedule
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-blue-600">•</span>
-                Guests/Visitors policy as documented in the full cleaning roster
-              </li>
-            </ul>
-            <a
-              href="/cleaning-roster.html"
-              target="_blank"
-              rel="noopener"
-              class="mt-4 inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition"
-            >
-              View full cleaning roster & agreement
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-              </svg>
-            </a>
-          </div>
+          <h2 class="font-display font-bold text-slate-900 mb-2">Boarding Agreement — Clause G</h2>
+          <p class="text-sm text-slate-500 leading-relaxed mb-4">
+            Cleanliness &amp; care requirements apply to all residents:
+          </p>
+          <ul class="space-y-2 text-sm text-slate-600 mb-5">
+            <li class="flex gap-2"><span class="text-emerald-600">•</span> Keep common areas clean and hygienic</li>
+            <li class="flex gap-2"><span class="text-emerald-600">•</span> Respect the weekly cleaning schedule</li>
+            <li class="flex gap-2"><span class="text-emerald-600">•</span> Follow the guests &amp; visitors policy</li>
+          </ul>
+          <a
+            href="/cleaning-roster.html"
+            rel="noopener"
+            class="text-sm font-semibold text-emerald-700 hover:text-emerald-800 transition"
+          >
+            View full roster &amp; agreement ↗
+          </a>
         </div>
       </div>
     </div>

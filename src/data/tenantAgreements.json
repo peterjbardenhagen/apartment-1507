@@ -20,7 +20,7 @@
       "weeklyRent": 90,
       "bond": 450,
       "utilitiesContribution": 90,
-      "notes": "Original tenant, has been here since the start",
+      "notes": "Original tenant, has been here since the start. $90/week utilities is combined with Kaitlin, not per person.",
       "documentName": "Kevin__Boarding_Agreement.pdf",
       "amendments": [
         {
@@ -43,8 +43,8 @@
       "status": "active",
       "weeklyRent": 60,
       "bond": 300,
-      "utilitiesContribution": 90,
-      "notes": "Frequent guest arrangement with Kevin, approved for stays up to 7 days per week",
+      "utilitiesContribution": 0,
+      "notes": "Frequent guest arrangement with Kevin, approved for stays up to 7 days per week. Utilities contribution of $90/week is combined with Kevin's, not additional.",
       "amendments": []
     },
     {
@@ -86,10 +86,10 @@
   ],
   "utilities": {
     "summary": {
-      "total": 300,
+      "total": 210,
       "currency": "AUD",
       "frequency": "weekly",
-      "note": "Total estimated weekly utilities contributions from active tenants"
+      "note": "Total estimated weekly bills/utilities contributions from active tenants. Kevin & Kaitlin's $90/week is a combined household amount, not per person."
     },
     "breakdown": [
       {
@@ -98,14 +98,9 @@
         "type": "Landlord contribution"
       },
       {
-        "tenant": "Kevin",
+        "tenant": "Kevin & Kaitlin",
         "amount": 90,
-        "type": "Utilities contribution"
-      },
-      {
-        "tenant": "Kaitlin",
-        "amount": 90,
-        "type": "Utilities contribution"
+        "type": "Combined utilities contribution"
       },
       {
         "tenant": "Chloe",

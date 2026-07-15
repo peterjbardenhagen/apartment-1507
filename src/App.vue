@@ -1,39 +1,66 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
 const router = useRouter()
 const route = useRoute()
 const auth = useAuthStore()
-const sidebarOpen = ref(true)
+const sidebarOpen = ref(false)
 
-const navigation = [
-  { name: 'Dashboard', path: '/admin/dashboard', icon: '📊' },
-  { name: 'Tenants', path: '/admin/tenants', icon: '👥' },
-  { name: 'Financials', path: '/admin/financials', icon: '💰' },
-  { name: 'Transactions', path: '/admin/transactions', icon: '📥' },
-  { name: 'Agreements', path: '/admin/flatmate-agreements', icon: '📋' },
-  { name: 'Boarding Files', path: '/admin/boarding-agreements', icon: '📄' },
-  { name: 'Payments', path: '/admin/payment-requests', icon: '💳' },
-  { name: 'Receipts', path: '/admin/receipts', icon: '🧾' },
-  { name: 'Guest Tracking', path: '/admin/guest-tracking', icon: '🏠' },
-  { name: 'Settings', path: '/admin/settings', icon: '⚙️' },
-  { name: 'Guardian', path: '/admin/guardian', icon: '🛡️' },
-  { name: 'Docs', path: '/admin/guardian-docs', icon: '📖' },
-  { name: 'Enquiries', path: '/admin/enquiries', icon: '📨' }
+const navSections = [
+  {
+    label: 'Overview',
+    items: [
+      { name: 'Dashboard', path: '/admin/dashboard', icon: '▦' }
+    ]
+  },
+  {
+    label: 'Property',
+    items: [
+      { name: 'Tenants', path: '/admin/tenants', icon: '◉' },
+      { name: 'Financials', path: '/admin/financials', icon: '◈' },
+      { name: 'Transactions', path: '/admin/transactions', icon: '⇅' },
+      { name: 'Guest Tracking', path: '/admin/guest-tracking', icon: '☾' }
+    ]
+  },
+  {
+    label: 'Documents',
+    items: [
+      { name: 'Agreements', path: '/admin/flatmate-agreements', icon: '✎' },
+      { name: 'Boarding Files', path: '/admin/boarding-agreements', icon: '❐' },
+      { name: 'Utilities Evidence', path: '/admin/utilities-evidence', icon: '◈' },
+      { name: 'Payments', path: '/admin/payment-requests', icon: '↗' },
+      { name: 'Receipts', path: '/admin/receipts', icon: '✓' }
+    ]
+  },
+  {
+    label: 'System',
+    items: [
+      { name: 'Enquiries', path: '/admin/enquiries', icon: '✉' },
+      { name: 'Guardian', path: '/admin/guardian', icon: '◇' },
+      { name: 'Guardian Docs', path: '/admin/guardian-docs', icon: '≡' },
+      { name: 'Settings', path: '/admin/settings', icon: '⚙' }
+    ]
+  }
 ]
 
+const allItems = navSections.flatMap(s => s.items)
+
 const pageTitle = computed(() => {
-  const current = navigation.find(n => n.path === route.path)
+  const current = allItems.find(n => route.path.startsWith(n.path))
   return current?.name || 'Admin'
 })
 
-const breadcrumbs = computed(() => {
-  return [
-    { name: 'Admin', path: '/admin/dashboard' },
-    { name: pageTitle.value }
-  ]
+const today = new Date().toLocaleDateString('en-AU', {
+  weekday: 'short',
+  day: 'numeric',
+  month: 'short'
+})
+
+// Close the drawer whenever the route changes (mobile nav)
+watch(() => route.path, () => {
+  sidebarOpen.value = false
 })
 
 const logout = () => {
@@ -43,81 +70,123 @@ const logout = () => {
 </script>
 
 <template>
-  <div v-if="auth.isAdminAuthenticated" class="min-h-screen bg-slate-50 flex">
-    <nav :class="[sidebarOpen ? 'w-64' : 'w-20', 'bg-slate-900 text-white transition-all duration-300 flex flex-col']">
-      <div class="p-4 border-b border-slate-700">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-lg font-bold shrink-0">
-            A
-          </div>
-          <div v-if="sidebarOpen" class="min-w-0">
-            <h1 class="text-sm font-bold truncate">Apartment 1507</h1>
-            <p class="text-xs text-slate-400 truncate">Admin Panel</p>
-          </div>
-        </div>
-      </div>
+  <div v-if="auth.isAdminAuthenticated" class="min-h-screen bg-emerald-50">
+    <!-- Mobile backdrop -->
+    <transition name="fade">
+      <div
+        v-if="sidebarOpen"
+        class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-30 lg:hidden"
+        @click="sidebarOpen = false"
+      ></div>
+    </transition>
 
-      <div class="p-3 flex-1 overflow-y-auto">
-        <router-link 
-          v-for="item in navigation" 
-          :key="item.path" 
-          :to="item.path" 
-          class="sidebar-link mb-1"
-          active-class="sidebar-link-active"
-        >
-          <span class="text-lg shrink-0">{{ item.icon }}</span>
-          <span v-if="sidebarOpen" class="ml-3 truncate">{{ item.name }}</span>
+    <!-- Sidebar -->
+    <aside
+      :class="[
+        'fixed inset-y-0 left-0 z-40 w-72 bg-white flex flex-col transition-transform duration-300 ease-out',
+        'border-r border-slate-100 shadow-card-lg lg:shadow-none',
+        sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+      ]"
+    >
+      <!-- Brand -->
+      <div class="px-6 pt-6 pb-5 flex items-center justify-between">
+        <router-link to="/admin/dashboard" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 rounded-2xl bg-emerald-700 text-white flex items-center justify-center font-display font-bold text-sm shadow-pill">
+            15
+          </div>
+          <div>
+            <p class="font-display font-bold text-slate-900 leading-tight">Apartment 1507</p>
+            <p class="text-[11px] text-slate-400 font-medium tracking-wide uppercase">Property Manager</p>
+          </div>
         </router-link>
-      </div>
-
-      <div class="p-4 border-t border-slate-700">
-        <button @click="logout" class="sidebar-link w-full">
-          <span class="text-lg shrink-0">🚪</span>
-          <span v-if="sidebarOpen" class="ml-3">Exit Admin</span>
+        <button
+          class="lg:hidden p-2 -mr-2 text-slate-400 hover:text-slate-900 transition"
+          @click="sidebarOpen = false"
+          aria-label="Close menu"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
         </button>
       </div>
-    </nav>
 
-    <div class="flex-1 overflow-auto">
-      <header class="bg-white border-b border-slate-200 sticky top-0 z-10">
-        <div class="flex items-center justify-between px-4 sm:px-6 h-14">
-          <div class="flex items-center gap-4">
-            <button @click="sidebarOpen = !sidebarOpen" class="p-2 -ml-2 hover:bg-slate-100 rounded-lg transition">
-              <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <!-- Nav -->
+      <nav class="flex-1 overflow-y-auto px-4 pb-4 space-y-6">
+        <div v-for="section in navSections" :key="section.label">
+          <p class="px-3.5 mb-2 text-[11px] font-semibold text-slate-400 uppercase tracking-widest">
+            {{ section.label }}
+          </p>
+          <div class="space-y-1">
+            <router-link
+              v-for="item in section.items"
+              :key="item.path"
+              :to="item.path"
+              class="sidebar-link"
+              active-class="sidebar-link-active"
+            >
+              <span class="w-6 text-center text-base leading-none shrink-0" aria-hidden="true">{{ item.icon }}</span>
+              <span class="ml-2.5 truncate">{{ item.name }}</span>
+            </router-link>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Footer / logout -->
+      <div class="p-4 border-t border-slate-100">
+        <div class="rounded-2xl bg-emerald-50 p-4 mb-3">
+          <p class="text-xs font-semibold text-emerald-700">1507/477 Boundary St</p>
+          <p class="text-xs text-slate-500 mt-0.5">Spring Hill, QLD 4000</p>
+        </div>
+        <button @click="logout" class="sidebar-link w-full text-red-600 hover:bg-red-50 hover:text-red-700">
+          <span class="w-6 text-center text-base leading-none shrink-0">⏻</span>
+          <span class="ml-2.5">Exit Admin</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main column -->
+    <div class="lg:pl-72 flex flex-col min-h-screen">
+      <!-- Topbar -->
+      <header class="sticky top-0 z-20 bg-emerald-50/80 backdrop-blur-md">
+        <div class="flex items-center justify-between px-4 sm:px-6 lg:px-10 h-16">
+          <div class="flex items-center gap-3">
+            <button
+              class="lg:hidden p-2 -ml-2 rounded-xl text-slate-600 hover:bg-white hover:shadow-card transition"
+              @click="sidebarOpen = true"
+              aria-label="Open menu"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
               </svg>
             </button>
-            <nav class="hidden sm:flex items-center text-sm">
-              <template v-for="(crumb, index) in breadcrumbs" :key="index">
-                <span v-if="index > 0" class="mx-2 text-slate-400">/</span>
-                <router-link 
-                  :to="crumb.path" 
-                  class="text-slate-500 hover:text-slate-700 transition"
-                  :class="index === breadcrumbs.length - 1 ? 'text-slate-900 font-medium' : ''"
-                >
-                  {{ crumb.name }}
-                </router-link>
-              </template>
-            </nav>
+            <h1 class="font-display font-bold text-slate-900 text-lg">{{ pageTitle }}</h1>
           </div>
-          <div class="text-sm text-slate-500">
-            {{ new Date().toLocaleDateString('en-AU', { weekday: 'short', month: 'short', day: 'numeric' }) }}
+          <div class="flex items-center gap-2">
+            <span class="hidden sm:inline-flex items-center gap-2 bg-white rounded-full px-4 py-1.5 text-xs font-semibold text-slate-600 shadow-card">
+              <span class="status-dot bg-emerald-400"></span>
+              {{ today }}
+            </span>
+            <button
+              @click="logout"
+              class="sm:hidden p-2 rounded-xl text-slate-500 hover:bg-white hover:shadow-card transition"
+              aria-label="Exit admin"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+              </svg>
+            </button>
           </div>
         </div>
       </header>
-      <main class="p-4 sm:p-6 lg:p-8">
+
+      <!-- Page content -->
+      <main class="flex-1 px-4 sm:px-6 lg:px-10 pb-12 pt-2">
         <div class="max-w-6xl mx-auto">
           <router-view />
         </div>
       </main>
     </div>
   </div>
-  
+
   <router-view v-else />
 </template>
-
-<style scoped>
-.router-link-active {
-  @apply bg-emerald-600 text-white;
-}
-</style>

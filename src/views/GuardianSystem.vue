@@ -5,28 +5,13 @@ const router = useRouter()
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-50">
-    <div class="bg-slate-900 text-white p-6 shadow-lg">
-      <div class="max-w-6xl mx-auto">
-        <button @click="router.push('/admin/dashboard')" class="mb-4 text-blue-400 hover:text-blue-300 flex items-center gap-2 text-sm transition">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-          </svg>
-          Back to Admin
-        </button>
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-xl">
-            🛡️
-          </div>
-          <div>
-            <h1 class="text-2xl font-bold">Apartment Guardian System</h1>
-            <p class="text-slate-400 text-sm">Home monitoring and security protocols for Apartment 1507</p>
-          </div>
-        </div>
-      </div>
+  <div class="space-y-6 animate-fade-in">
+    <div class="pt-2">
+      <h1 class="font-display text-2xl sm:text-3xl font-bold text-slate-900">Guardian System</h1>
+      <p class="text-sm text-slate-500 mt-1.5">Home monitoring and security protocols for Apartment 1507.</p>
     </div>
 
-    <div class="max-w-4xl mx-auto p-4 sm:p-6 space-y-6">
+    <div class="space-y-6">
       <div class="card p-6">
         <div class="flex items-center gap-3 mb-6 pb-6 border-b border-slate-100">
           <div class="text-3xl">🛡️</div>

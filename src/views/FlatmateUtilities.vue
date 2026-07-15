@@ -20,14 +20,17 @@ const weeklyMetrics = ref<WeeklyMetrics[]>([])
 const costAllocations = ref<CostAllocation[]>([])
 const selectedView = ref<'weekly' | 'monthly'>('weekly')
 const selectedService = ref<'all' | 'Electricity' | 'Water' | 'Broadband'>('all')
+const isSampleData = ref(false)
+
+const WEEKLY_BUDGET = 210
+const MONTHLY_BUDGET = WEEKLY_BUDGET * 4.33
+const BUDGET_TOLERANCE = 0.07 // within 7% counts as "on budget"
 
 onMounted(() => {
   loadAnalytics()
 })
 
 const loadAnalytics = () => {
-  const stored = localStorage.getItem('helpEnquiries')
-  const repairsStored = localStorage.getItem('repairRequests')
   const transactionsStored = localStorage.getItem('importedTransactions')
 
   let transactions: any[] = []
@@ -39,9 +42,13 @@ const loadAnalytics = () => {
     }
   }
 
-  // If no transactions yet, load sample data for demonstration
+  // If no real transactions have been imported yet, show sample data so the
+  // page isn't empty — clearly labelled so it's never mistaken for real bills.
   if (transactions.length === 0) {
     transactions = generateSampleData()
+    isSampleData.value = true
+  } else {
+    isSampleData.value = false
   }
 
   weeklyMetrics.value = parseTransactionsForAnalytics(transactions)
@@ -104,6 +111,34 @@ const avgWeeklyCost = computed(() => {
 
 const avgMonthlyCost = computed(() => avgWeeklyCost.value * 4.33)
 
+// Bills take a while to land, so we compare the most recently *completed*
+// month of tracked data against the monthly budget rather than the
+// still-filling-up current month.
+const lastMonthStatus = computed(() => {
+  const months = monthlyMetrics.value
+  if (months.length === 0) {
+    return { label: 'No data yet', month: '', total: 0, tone: 'neutral' as const }
+  }
+
+  const last = months[months.length - 1]
+  const varianceRatio = (last.totalCost - MONTHLY_BUDGET) / MONTHLY_BUDGET
+
+  let label: string
+  let tone: 'over' | 'under' | 'on' | 'neutral'
+  if (varianceRatio > BUDGET_TOLERANCE) {
+    label = 'Exceeding Budget'
+    tone = 'over'
+  } else if (varianceRatio < -BUDGET_TOLERANCE) {
+    label = 'Below Budget'
+    tone = 'under'
+  } else {
+    label = 'On Budget'
+    tone = 'on'
+  }
+
+  return { label, month: last.month, total: last.totalCost, tone }
+})
+
 const filteredMetrics = computed(() => {
   if (selectedService.value === 'all') {
     return weeklyMetrics.value
@@ -137,42 +172,59 @@ const getVarianceStatus = (allocation: CostAllocation) => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-slate-50 via-slate-50 to-emerald-50">
-    <!-- Header -->
-    <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white shadow-lg">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-6">
-        <button
-          @click="router.push('/flatmate/dashboard')"
-          class="mb-4 text-emerald-300 hover:text-emerald-100 flex items-center gap-2 text-sm transition"
-        >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-          </svg>
-          Back to Dashboard
-        </button>
-        <div class="flex items-center gap-4">
-          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center text-2xl shadow-lg">
-            💡
-          </div>
-          <div>
-            <h1 class="text-3xl font-bold">Utilities Tracker</h1>
-            <p class="text-emerald-100 text-sm mt-0.5">Track weekly & monthly costs and see how you compare to Brisbane benchmarks</p>
-          </div>
+  <div class="min-h-screen bg-emerald-50">
+    <!-- Top nav -->
+    <header class="px-4 sm:px-6 pt-4 sm:pt-6">
+      <div class="max-w-6xl mx-auto">
+        <div class="bg-white rounded-full shadow-card px-4 sm:px-6 py-3 flex items-center justify-between">
+          <button @click="router.push('/flatmate/dashboard')" class="flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-slate-900 transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Flatmate Portal
+          </button>
+          <span class="font-display font-bold text-slate-900 text-sm">Apartment 1507</span>
         </div>
       </div>
+    </header>
+
+    <!-- Heading -->
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 pt-10 pb-2 animate-fade-in">
+      <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-5">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+        </svg>
+      </div>
+      <h1 class="font-display text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">Bills Tracker</h1>
+      <p class="mt-2 text-slate-500 max-w-xl">
+        Utilities, consumables and everything supplied by the owner — tracked weekly &amp; monthly against Brisbane benchmarks.
+      </p>
     </div>
 
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+      <!-- Sample data notice -->
+      <div v-if="isSampleData" class="alert-warning mb-6">
+        <svg class="w-4 h-4 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.72-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.743 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-.25-6.25a.75.75 0 00-1.5 0v3.5a.75.75 0 001.5 0v-3.5z" clip-rule="evenodd"/>
+        </svg>
+        <span>
+          <strong>Sample data.</strong> No Frollo transactions have been imported yet, so the figures below are randomly
+          generated placeholders — not real bills. Upload a real export from
+          <router-link to="/admin/transactions" class="underline font-semibold">Transactions</router-link>
+          to replace them with actual costs.
+        </span>
+      </div>
+
       <!-- Key Metrics -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
         <div class="card-elevated p-6">
           <p class="text-sm font-medium text-slate-500 mb-1 uppercase tracking-wide">Average Weekly Cost</p>
           <p class="text-3xl font-bold text-slate-900 mb-3">{{ formatCurrency(avgWeeklyCost) }}</p>
           <p class="text-xs text-slate-500">
-            Budget: {{ formatCurrency(210) }} •
-            <span :class="avgWeeklyCost > 210 ? 'text-red-600 font-semibold' : 'text-emerald-600 font-semibold'">
-              {{ avgWeeklyCost > 210 ? '↑' : '↓' }}
-              {{ formatCurrency(Math.abs(avgWeeklyCost - 210)) }}
+            Budget: {{ formatCurrency(WEEKLY_BUDGET) }} •
+            <span :class="avgWeeklyCost > WEEKLY_BUDGET ? 'text-red-600 font-semibold' : 'text-emerald-600 font-semibold'">
+              {{ avgWeeklyCost > WEEKLY_BUDGET ? '↑' : '↓' }}
+              {{ formatCurrency(Math.abs(avgWeeklyCost - WEEKLY_BUDGET)) }}
             </span>
           </p>
         </div>
@@ -181,10 +233,26 @@ const getVarianceStatus = (allocation: CostAllocation) => {
           <p class="text-sm font-medium text-slate-500 mb-1 uppercase tracking-wide">Average Monthly Cost</p>
           <p class="text-3xl font-bold text-slate-900 mb-3">{{ formatCurrency(avgMonthlyCost) }}</p>
           <p class="text-xs text-slate-500">
-            Budget: {{ formatCurrency(210 * 4.33) }} •
-            <span :class="avgMonthlyCost > 910 ? 'text-red-600 font-semibold' : 'text-emerald-600 font-semibold'">
-              {{ avgMonthlyCost > 910 ? 'Over' : 'Under' }}
+            Budget: {{ formatCurrency(MONTHLY_BUDGET) }} •
+            <span :class="avgMonthlyCost > MONTHLY_BUDGET ? 'text-red-600 font-semibold' : 'text-emerald-600 font-semibold'">
+              {{ avgMonthlyCost > MONTHLY_BUDGET ? 'Over' : 'Under' }}
             </span>
+          </p>
+        </div>
+
+        <div class="card-elevated p-6">
+          <p class="text-sm font-medium text-slate-500 mb-1 uppercase tracking-wide">Last Month</p>
+          <p
+            :class="[
+              'text-2xl font-bold mb-1',
+              lastMonthStatus.tone === 'over' ? 'text-red-600' : lastMonthStatus.tone === 'under' ? 'text-emerald-600' : lastMonthStatus.tone === 'on' ? 'text-slate-900' : 'text-slate-400'
+            ]"
+          >
+            {{ lastMonthStatus.label }}
+          </p>
+          <p class="text-xs text-slate-500">
+            <span v-if="lastMonthStatus.month">{{ lastMonthStatus.month }} · {{ formatCurrency(lastMonthStatus.total) }}</span>
+            <span v-else>Bills take a while to land</span>
           </p>
         </div>
 

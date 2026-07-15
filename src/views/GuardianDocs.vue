@@ -5,47 +5,28 @@ const router = useRouter()
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-50">
-    <div class="bg-slate-900 text-white p-6 shadow-lg">
-      <div class="max-w-6xl mx-auto">
-        <button @click="router.push('/admin/dashboard')" class="mb-4 text-blue-400 hover:text-blue-300 flex items-center gap-2 text-sm transition">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-          </svg>
-          Back to Admin
-        </button>
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-xl">
-            📖
-          </div>
-          <div>
-            <h1 class="text-2xl font-bold">Guardian System Documentation</h1>
-            <p class="text-slate-400 text-sm">Comprehensive guides and operational protocols</p>
-          </div>
-        </div>
-      </div>
+  <div class="space-y-6 animate-fade-in">
+    <div class="pt-2">
+      <h1 class="font-display text-2xl sm:text-3xl font-bold text-slate-900">Guardian Documentation</h1>
+      <p class="text-sm text-slate-500 mt-1.5">Comprehensive guides and operational protocols.</p>
     </div>
 
-    <div class="max-w-4xl mx-auto p-4 sm:p-6 space-y-6">
+    <div class="space-y-6">
       <div class="card p-6">
         <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">Reference Manuals</h2>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <a href="/apartment-guardian-system.html" target="_blank" rel="noopener" class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:border-blue-300 hover:bg-blue-50 transition group">
+          <a href="/apartment-guardian-system.html" rel="noopener" class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:border-blue-300 hover:bg-blue-50 transition group">
             <span class="text-xl">🛡️</span>
             <span class="text-sm font-medium text-slate-700 group-hover:text-blue-700">Guardian System</span>
           </a>
-          <a href="/cleaning-issues.html" target="_blank" rel="noopener" class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:border-orange-300 hover:bg-orange-50 transition group">
+          <a href="/cleaning-issues.html" rel="noopener" class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:border-orange-300 hover:bg-orange-50 transition group">
             <span class="text-xl">🧽</span>
             <span class="text-sm font-medium text-slate-700 group-hover:text-orange-700">Cleaning Issues</span>
           </a>
-          <a href="/utilities-evidence.html" target="_blank" rel="noopener" class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:border-purple-300 hover:bg-purple-50 transition group">
+          <router-link to="/admin/utilities-evidence" class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:border-purple-300 hover:bg-purple-50 transition group">
             <span class="text-xl">📊</span>
             <span class="text-sm font-medium text-slate-700 group-hover:text-purple-700">Utilities Evidence</span>
-          </a>
-          <a href="/family-command-centre.html" target="_blank" rel="noopener" class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:border-emerald-300 hover:bg-emerald-50 transition group">
-            <span class="text-xl">👨‍👩‍👧</span>
-            <span class="text-sm font-medium text-slate-700 group-hover:text-emerald-700">Family Command Centre</span>
-          </a>
+          </router-link>
         </div>
       </div>
 

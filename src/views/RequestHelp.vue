@@ -112,29 +112,31 @@ const getFieldError = (field: string) => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-slate-50 via-slate-50 to-blue-50">
-    <!-- Header -->
-    <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white shadow-lg">
-      <div class="max-w-2xl mx-auto px-4 sm:px-6 py-6">
-        <button
-          @click="router.push('/flatmate/dashboard')"
-          class="mb-4 text-blue-300 hover:text-blue-100 flex items-center gap-2 text-sm transition"
-        >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-          </svg>
-          Back to Dashboard
-        </button>
-        <div class="flex items-center gap-4">
-          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-2xl shadow-lg">
-            🆘
-          </div>
-          <div>
-            <h1 class="text-3xl font-bold">Request Help</h1>
-            <p class="text-blue-100 text-sm mt-0.5">Collaborate with your flatmates on improvements or concerns</p>
-          </div>
+  <div class="min-h-screen bg-emerald-50">
+    <!-- Top nav -->
+    <header class="px-4 sm:px-6 pt-4 sm:pt-6">
+      <div class="max-w-2xl mx-auto">
+        <div class="bg-white rounded-full shadow-card px-4 sm:px-6 py-3 flex items-center justify-between">
+          <button @click="router.push('/flatmate/dashboard')" class="flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-slate-900 transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Flatmate Portal
+          </button>
+          <span class="font-display font-bold text-slate-900 text-sm">Apartment 1507</span>
         </div>
       </div>
+    </header>
+
+    <!-- Heading -->
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 pt-10 pb-2 animate-fade-in">
+      <div class="w-12 h-12 rounded-2xl bg-teal-100 text-teal-700 flex items-center justify-center mb-5">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+        </svg>
+      </div>
+      <h1 class="font-display text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">Request Help</h1>
+      <p class="mt-2 text-slate-500">Collaborate with your flatmates on improvements or concerns.</p>
     </div>
 
     <div class="max-w-2xl mx-auto px-4 sm:px-6 py-8">
@@ -295,13 +297,11 @@ const getFieldError = (field: string) => {
       </div>
 
       <!-- Info Box -->
-      <div class="mt-6 p-4 rounded-lg bg-blue-50 border border-blue-100">
-        <p class="text-sm text-blue-700 flex items-start gap-2">
-          <svg class="w-4 h-4 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"/>
-          </svg>
-          <span><strong>Tip:</strong> Be clear and specific about your request. Include any relevant details that will help your flatmate understand the issue.</span>
-        </p>
+      <div class="mt-6 alert-info">
+        <svg class="w-4 h-4 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"/>
+        </svg>
+        <span><strong>Tip:</strong> Be clear and specific about your request. Include any relevant details that will help your flatmate understand the issue.</span>
       </div>
     </div>
   </div>

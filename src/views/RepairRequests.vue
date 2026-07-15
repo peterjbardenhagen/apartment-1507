@@ -110,47 +110,39 @@ const getPriorityIcon = (priority: string) => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-slate-50 via-slate-50 to-orange-50">
-    <!-- Header -->
-    <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white shadow-lg">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 py-6">
-        <button
-          @click="router.push('/flatmate/dashboard')"
-          class="mb-4 text-orange-300 hover:text-orange-100 flex items-center gap-2 text-sm transition"
-        >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-          </svg>
-          Back to Dashboard
-        </button>
-        <div class="flex justify-between items-center">
-          <div class="flex items-center gap-4">
-            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center text-2xl shadow-lg">
-              🔧
-            </div>
-            <div>
-              <h1 class="text-3xl font-bold">Repair Requests</h1>
-              <p class="text-orange-100 text-sm mt-0.5">Submit and track apartment maintenance and repairs</p>
-            </div>
-          </div>
-          <button
-            @click="showForm = !showForm"
-            class="btn-primary"
-          >
-            <span v-if="showForm" class="flex items-center gap-2">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-              </svg>
-              Cancel
-            </span>
-            <span v-else class="flex items-center gap-2">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-              </svg>
-              New Repair Request
-            </span>
+  <div class="min-h-screen bg-emerald-50">
+    <!-- Top nav -->
+    <header class="px-4 sm:px-6 pt-4 sm:pt-6">
+      <div class="max-w-4xl mx-auto">
+        <div class="bg-white rounded-full shadow-card px-4 sm:px-6 py-3 flex items-center justify-between">
+          <button @click="router.push('/flatmate/dashboard')" class="flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-slate-900 transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Flatmate Portal
           </button>
+          <span class="font-display font-bold text-slate-900 text-sm">Apartment 1507</span>
         </div>
+      </div>
+    </header>
+
+    <!-- Heading -->
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 pt-10 pb-2 animate-fade-in">
+      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+        <div>
+          <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+          </div>
+          <h1 class="font-display text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">Repair Requests</h1>
+          <p class="mt-2 text-slate-500">Submit and track apartment maintenance and repairs.</p>
+        </div>
+        <button @click="showForm = !showForm" class="btn-primary self-start sm:self-auto shrink-0">
+          <span v-if="showForm">Cancel</span>
+          <span v-else>+ New Request</span>
+        </button>
       </div>
     </div>
 
