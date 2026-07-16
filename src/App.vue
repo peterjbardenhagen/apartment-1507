@@ -25,6 +25,14 @@ const navSections = [
     ]
   },
   {
+    label: 'Communication',
+    items: [
+      { name: 'Messages', path: '/admin/messages', icon: '✉' },
+      { name: 'Contacts', path: '/admin/contacts', icon: '☺' },
+      { name: 'Landlord Details', path: '/admin/landlord-details', icon: '⚑' }
+    ]
+  },
+  {
     label: 'Documents',
     items: [
       { name: 'Agreements', path: '/admin/flatmate-agreements', icon: '✎' },
@@ -37,7 +45,7 @@ const navSections = [
   {
     label: 'System',
     items: [
-      { name: 'Enquiries', path: '/admin/enquiries', icon: '✉' },
+      { name: 'Enquiries', path: '/admin/enquiries', icon: '❓' },
       { name: 'Guardian', path: '/admin/guardian', icon: '◇' },
       { name: 'Guardian Docs', path: '/admin/guardian-docs', icon: '≡' },
       { name: 'Settings', path: '/admin/settings', icon: '⚙' }

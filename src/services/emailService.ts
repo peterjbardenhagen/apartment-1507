@@ -72,5 +72,36 @@ export const emailService = {
       success: result.success,
       error: result.error
     }
+  },
+
+  async sendMessageNotification(
+    to: string,
+    fromName: string,
+    toLabel: string,
+    subject: string,
+    body: string,
+    attachmentCount: number
+  ): Promise<{ success: boolean; error?: string }> {
+    const html = `
+      <h2>New Message from ${fromName}</h2>
+      <p><strong>To:</strong> ${toLabel}</p>
+      ${subject ? `<p><strong>Subject:</strong> ${subject}</p>` : ''}
+      <p>${body.replace(/\n/g, '<br>')}</p>
+      ${attachmentCount > 0 ? `<p><small>${attachmentCount} attachment(s) included — sign in to view.</small></p>` : ''}
+      <hr>
+      <p><small>Sent: ${new Date().toLocaleString()}</small></p>
+    `
+
+    const result = await this.send({
+      to,
+      subject: subject ? `New message: ${subject}` : `New message from ${fromName}`,
+      html,
+      text: `New message from ${fromName}\n${body}`
+    })
+
+    return {
+      success: result.success,
+      error: result.error
+    }
   }
 }

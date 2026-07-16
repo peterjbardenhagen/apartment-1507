@@ -1,14 +1,9 @@
 <script setup lang="ts">
 import { useTenantStore } from '@/stores/tenant'
 import { useRouter } from 'vue-router'
-import { onMounted } from 'vue'
 
 const tenantStore = useTenantStore()
 const router = useRouter()
-
-onMounted(() => {
-  tenantStore.$reset()
-})
 </script>
 
 <template>
@@ -79,8 +74,18 @@ onMounted(() => {
           </div>
         </div>
 
-        <!-- Action Arrow -->
-        <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-end">
+        <!-- Contact -->
+        <div v-if="tenant.email || tenant.contact" class="mt-4 pt-4 border-t border-slate-100 space-y-1 text-xs text-slate-500">
+          <p v-if="tenant.email" class="truncate">{{ tenant.email }}</p>
+          <p v-if="tenant.contact">{{ tenant.contact }}</p>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
+          <span v-if="tenant.username" class="badge bg-purple-50 text-purple-700 border border-purple-200">
+            Login enabled
+          </span>
+          <span v-else class="text-xs text-slate-400">No login access</span>
           <svg class="w-4 h-4 text-slate-400 group-hover:text-slate-600 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
           </svg>

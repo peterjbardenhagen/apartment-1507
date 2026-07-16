@@ -6,13 +6,14 @@ import './style.css'
 import { useAuthStore } from '@/stores/auth'
 
 import Home from './views/Home.vue'
-import AdminLogin from './views/AdminLogin.vue'
+import Login from './views/Login.vue'
 import AdminDashboard from './views/AdminDashboard.vue'
 import FlatmateDashboard from './views/FlatmateDashboard.vue'
 import RequestHelp from './views/RequestHelp.vue'
 import RepairRequests from './views/RepairRequests.vue'
 import KevinCleaning from './views/KevinCleaning.vue'
 import Tenants from './views/Tenants.vue'
+import TenantForm from './views/TenantForm.vue'
 import Financials from './views/Financials.vue'
 import GuestTracking from './views/GuestTracking.vue'
 import Settings from './views/Settings.vue'
@@ -26,28 +27,43 @@ import PaymentRequestCreator from './views/PaymentRequestCreator.vue'
 import ReceiptCreator from './views/ReceiptCreator.vue'
 import AdminBoardingAgreements from './views/AdminBoardingAgreements.vue'
 import AdminUtilitiesEvidence from './views/AdminUtilitiesEvidence.vue'
+import AdminLandlordDetails from './views/AdminLandlordDetails.vue'
+import AdminMessages from './views/AdminMessages.vue'
+import AdminContacts from './views/AdminContacts.vue'
+import FlatmateMessages from './views/FlatmateMessages.vue'
+import FlatmateContacts from './views/FlatmateContacts.vue'
+
+const ADMIN = { role: 'admin_portal' }
 
 const routes = [
   { path: '/', component: Home },
-  { path: '/admin/login', component: AdminLogin },
-  { path: '/admin/dashboard', component: AdminDashboard, meta: { requiresAuth: true, role: 'admin_portal' } },
-  { path: '/admin/tenants', component: Tenants, meta: { requiresAuth: true, role: 'admin_portal' } },
-  { path: '/admin/financials', component: Financials, meta: { requiresAuth: true, role: 'admin_portal' } },
-  { path: '/admin/guest-tracking', component: GuestTracking, meta: { requiresAuth: true, role: 'admin_portal' } },
-  { path: '/admin/settings', component: Settings, meta: { requiresAuth: true, role: 'admin_portal' } },
-  { path: '/admin/guardian', component: GuardianSystem, meta: { requiresAuth: true, role: 'admin_portal' } },
-  { path: '/admin/guardian-docs', component: GuardianDocs, meta: { requiresAuth: true, role: 'admin_portal' } },
-  { path: '/admin/enquiries', component: AdminEnquiries, meta: { requiresAuth: true, role: 'admin_portal' } },
-  { path: '/admin/transactions', component: TransactionImport, meta: { requiresAuth: true, role: 'admin_portal' } },
-  { path: '/admin/flatmate-agreements', component: FlatmateAgreementManager, meta: { requiresAuth: true, role: 'admin_portal' } },
-  { path: '/admin/boarding-agreements', component: AdminBoardingAgreements, meta: { requiresAuth: true, role: 'admin_portal' } },
-  { path: '/admin/utilities-evidence', component: AdminUtilitiesEvidence, meta: { requiresAuth: true, role: 'admin_portal' } },
-  { path: '/admin/payment-requests', component: PaymentRequestCreator, meta: { requiresAuth: true, role: 'admin_portal' } },
-  { path: '/admin/receipts', component: ReceiptCreator, meta: { requiresAuth: true, role: 'admin_portal' } },
+  { path: '/login', component: Login },
+  { path: '/admin/login', redirect: '/login' },
+  { path: '/admin/dashboard', component: AdminDashboard, meta: ADMIN },
+  { path: '/admin/tenants', component: Tenants, meta: ADMIN },
+  { path: '/admin/tenants/new', component: TenantForm, meta: ADMIN },
+  { path: '/admin/tenants/:id', component: TenantForm, meta: ADMIN },
+  { path: '/admin/messages', component: AdminMessages, meta: ADMIN },
+  { path: '/admin/contacts', component: AdminContacts, meta: ADMIN },
+  { path: '/admin/landlord-details', component: AdminLandlordDetails, meta: ADMIN },
+  { path: '/admin/financials', component: Financials, meta: ADMIN },
+  { path: '/admin/guest-tracking', component: GuestTracking, meta: ADMIN },
+  { path: '/admin/settings', component: Settings, meta: ADMIN },
+  { path: '/admin/guardian', component: GuardianSystem, meta: ADMIN },
+  { path: '/admin/guardian-docs', component: GuardianDocs, meta: ADMIN },
+  { path: '/admin/enquiries', component: AdminEnquiries, meta: ADMIN },
+  { path: '/admin/transactions', component: TransactionImport, meta: ADMIN },
+  { path: '/admin/flatmate-agreements', component: FlatmateAgreementManager, meta: ADMIN },
+  { path: '/admin/boarding-agreements', component: AdminBoardingAgreements, meta: ADMIN },
+  { path: '/admin/utilities-evidence', component: AdminUtilitiesEvidence, meta: ADMIN },
+  { path: '/admin/payment-requests', component: PaymentRequestCreator, meta: ADMIN },
+  { path: '/admin/receipts', component: ReceiptCreator, meta: ADMIN },
   { path: '/flatmate/dashboard', component: FlatmateDashboard },
   { path: '/flatmate/request-help', component: RequestHelp },
   { path: '/flatmate/repair-requests', component: RepairRequests },
   { path: '/flatmate/utilities', component: FlatmateUtilities },
+  { path: '/flatmate/messages', component: FlatmateMessages },
+  { path: '/flatmate/contacts', component: FlatmateContacts },
   { path: '/kevin-cleaning', component: KevinCleaning }
 ]
 
@@ -58,11 +74,27 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const auth = useAuthStore()
-  if (to.meta.requiresAuth && !auth.isAdminAuthenticated) {
-    next('/admin/login')
-  } else {
-    next()
+
+  if (to.path === '/login') {
+    if (auth.isLoggedIn) {
+      next(auth.isAdminAuthenticated ? '/admin/dashboard' : '/flatmate/dashboard')
+    } else {
+      next()
+    }
+    return
   }
+
+  if (!auth.isLoggedIn) {
+    next('/login')
+    return
+  }
+
+  if (to.meta.role === 'admin_portal' && !auth.isAdminAuthenticated) {
+    next('/flatmate/dashboard')
+    return
+  }
+
+  next()
 })
 
 const app = createApp(App)
