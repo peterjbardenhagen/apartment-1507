@@ -51,6 +51,9 @@ const metrics = [
 
 const tools = [
   { name: 'Tenants', desc: 'Manage tenant list and details', path: '/admin/tenants', tile: 'bg-emerald-50 text-emerald-600' },
+  { name: 'Messages', desc: 'Message tenants or everyone at once', path: '/admin/messages', tile: 'bg-teal-100 text-teal-700' },
+  { name: 'Contacts', desc: 'Everyone\'s contact details', path: '/admin/contacts', tile: 'bg-amber-100 text-amber-700' },
+  { name: 'Landlord Details', desc: 'Your contact & login details', path: '/admin/landlord-details', tile: 'bg-slate-100 text-slate-600' },
   { name: 'Financials', desc: 'Rent, bond and payment overview', path: '/admin/financials', tile: 'bg-teal-100 text-teal-700' },
   { name: 'Transactions', desc: 'Import & analyse Frollo exports', path: '/admin/transactions', tile: 'bg-purple-100 text-purple-600' },
   { name: 'Agreements', desc: 'Create & amend accommodation agreements', path: '/admin/flatmate-agreements', tile: 'bg-amber-100 text-amber-700' },
@@ -59,6 +62,7 @@ const tools = [
   { name: 'Guest Tracking', desc: 'Monitor guest nights and charges', path: '/admin/guest-tracking', tile: 'bg-purple-100 text-purple-600' },
   { name: 'Enquiries', desc: 'Requests and submissions inbox', path: '/admin/enquiries', tile: 'bg-teal-100 text-teal-700' },
   { name: 'Guardian System', desc: 'Security protocols & sensors', path: '/admin/guardian', tile: 'bg-slate-100 text-slate-600' },
+  { name: 'Medical & Health', desc: 'Hospitals, GPs & home doctors nearby', path: '/flatmate/health-services', tile: 'bg-red-50 text-red-600' },
   { name: 'Settings', desc: 'Rates, thresholds & preferences', path: '/admin/settings', tile: 'bg-slate-100 text-slate-600' }
 ]
 
