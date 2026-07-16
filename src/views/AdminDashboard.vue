@@ -62,6 +62,7 @@ const tools = [
   { name: 'Guest Tracking', desc: 'Monitor guest nights and charges', path: '/admin/guest-tracking', tile: 'bg-purple-100 text-purple-600' },
   { name: 'Enquiries', desc: 'Requests and submissions inbox', path: '/admin/enquiries', tile: 'bg-teal-100 text-teal-700' },
   { name: 'Guardian System', desc: 'Security protocols & sensors', path: '/admin/guardian', tile: 'bg-slate-100 text-slate-600' },
+  { name: 'Medical & Health', desc: 'Hospitals, GPs & home doctors nearby', path: '/flatmate/health-services', tile: 'bg-red-50 text-red-600' },
   { name: 'Settings', desc: 'Rates, thresholds & preferences', path: '/admin/settings', tile: 'bg-slate-100 text-slate-600' }
 ]
 

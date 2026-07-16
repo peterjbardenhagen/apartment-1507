@@ -32,6 +32,7 @@ import AdminMessages from './views/AdminMessages.vue'
 import AdminContacts from './views/AdminContacts.vue'
 import FlatmateMessages from './views/FlatmateMessages.vue'
 import FlatmateContacts from './views/FlatmateContacts.vue'
+import HealthServices from './views/HealthServices.vue'
 
 const ADMIN = { role: 'admin_portal' }
 
@@ -64,6 +65,7 @@ const routes = [
   { path: '/flatmate/utilities', component: FlatmateUtilities },
   { path: '/flatmate/messages', component: FlatmateMessages },
   { path: '/flatmate/contacts', component: FlatmateContacts },
+  { path: '/flatmate/health-services', component: HealthServices },
   { path: '/kevin-cleaning', component: KevinCleaning }
 ]
 
