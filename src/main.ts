@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
 import './style.css'
 import { useAuthStore } from '@/stores/auth'
+import { ensureCoreTenants } from '@/services/coreTenantsBootstrap'
 
 import Home from './views/Home.vue'
 import Login from './views/Login.vue'
@@ -108,4 +109,7 @@ router.beforeEach((to, from, next) => {
 const app = createApp(App)
 app.use(createPinia())
 app.use(router)
+
+ensureCoreTenants()
+
 app.mount('#app')
