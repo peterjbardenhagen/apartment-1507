@@ -23,13 +23,16 @@ export interface Message {
   body: string
   attachments: MessageAttachment[]
   createdAt: string
+  readBy: string[]
 }
 
 const STORAGE_KEY = 'apartmentMessages'
 
 function loadAll(): Message[] {
   try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
+    const raw: any[] = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
+    // Backfill readBy for messages saved before read-tracking existed.
+    return raw.map(m => ({ readBy: [], ...m }))
   } catch {
     return []
   }
@@ -39,11 +42,15 @@ function saveAll(messages: Message[]): void {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(messages))
 }
 
+function participantKey(p: { type: string; id: number | string }): string {
+  return `${p.type}:${p.id}`
+}
+
 function isSameParticipant(
   a: { type: string; id: number | string },
   b: { type: string; id: number | string }
 ): boolean {
-  return a.type === b.type && a.id === b.id
+  return participantKey(a) === participantKey(b)
 }
 
 export const messagesService = {
@@ -60,11 +67,12 @@ export const messagesService = {
     })
   },
 
-  send(message: Omit<Message, 'id' | 'createdAt'>): Message {
+  send(message: Omit<Message, 'id' | 'createdAt' | 'readBy'>): Message {
     const full: Message = {
       ...message,
       id: Date.now(),
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      readBy: []
     }
     const all = loadAll()
     all.push(full)
@@ -74,6 +82,31 @@ export const messagesService = {
 
   deleteMessage(id: number): void {
     saveAll(loadAll().filter(m => m.id !== id))
+  },
+
+  isRead(message: Message, user: MessageParticipant): boolean {
+    return message.readBy.includes(participantKey(user))
+  },
+
+  // Marks every message in this user's inbox that they didn't send as read.
+  markAllRead(user: MessageParticipant): void {
+    const key = participantKey(user)
+    const all = loadAll()
+    let changed = false
+    all.forEach(m => {
+      const sentByMe = isSameParticipant(m.from, user)
+      const sentToMe = m.toType === 'all' || isSameParticipant({ type: m.toType, id: m.toId }, user)
+      if (!sentByMe && sentToMe && !m.readBy.includes(key)) {
+        m.readBy.push(key)
+        changed = true
+      }
+    })
+    if (changed) saveAll(all)
+  },
+
+  getUnreadCount(user: MessageParticipant): number {
+    const key = participantKey(user)
+    return this.getInboxFor(user).filter(m => !isSameParticipant(m.from, user) && !m.readBy.includes(key)).length
   }
 }
 
