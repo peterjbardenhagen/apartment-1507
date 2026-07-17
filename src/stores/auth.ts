@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { verifyPassword } from '@/services/cryptoService'
 import { landlordService } from '@/services/landlordService'
 import { useTenantStore } from '@/stores/tenant'
+import { eventLogService } from '@/services/eventLogService'
 
 type Role = 'landlord' | 'tenant' | null
 
@@ -54,11 +55,15 @@ export const useAuthStore = defineStore('auth', {
       const landlord = await landlordService.getLandlord()
       if (cleanUsername.toLowerCase() === landlord.username.toLowerCase()) {
         const ok = await verifyPassword(password, landlord.passwordHash)
-        if (!ok) return { success: false, error: 'Incorrect password.' }
+        if (!ok) {
+          eventLogService.log('warning', `Failed login attempt for "${landlord.username}" (incorrect password)`, landlord.username)
+          return { success: false, error: 'Incorrect password.' }
+        }
         this.role = 'landlord'
         this.tenantId = null
         this.name = landlord.name
         this.persist()
+        eventLogService.log('login', `${landlord.name} signed in as landlord`, landlord.username)
         return { success: true }
       }
 
@@ -66,14 +71,19 @@ export const useAuthStore = defineStore('auth', {
       const tenant = tenantStore.findByUsername(cleanUsername)
       if (tenant) {
         const ok = await verifyPassword(password, tenant.passwordHash || '')
-        if (!ok) return { success: false, error: 'Incorrect password.' }
+        if (!ok) {
+          eventLogService.log('warning', `Failed login attempt for "${tenant.username}" (incorrect password)`, tenant.username)
+          return { success: false, error: 'Incorrect password.' }
+        }
         this.role = 'tenant'
         this.tenantId = tenant.id
         this.name = tenant.name
         this.persist()
+        eventLogService.log('login', `${tenant.name} signed in`, tenant.username)
         return { success: true }
       }
 
+      eventLogService.log('warning', `Failed login attempt for unknown username "${cleanUsername}"`, cleanUsername)
       return { success: false, error: 'No account found with that username.' }
     },
 
@@ -83,6 +93,9 @@ export const useAuthStore = defineStore('auth', {
     },
 
     logout() {
+      if (this.name) {
+        eventLogService.log('login', `${this.name} signed out`, this.name)
+      }
       this.role = null
       this.tenantId = null
       this.name = ''

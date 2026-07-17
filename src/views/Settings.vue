@@ -1,9 +1,24 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { settingsService, TIMEZONES, DATE_FORMATS, formatDate, formatTime, type AppSettings } from '@/services/settingsService'
 
 const standardRate = ref(450)
 const guestThreshold = ref(2)
 const currency = ref('AUD')
+
+const localeSettings = ref<AppSettings>(settingsService.get())
+const localeSaved = ref(false)
+
+const saveLocaleSettings = () => {
+  localeSettings.value = settingsService.save(localeSettings.value)
+  localeSaved.value = true
+  setTimeout(() => { localeSaved.value = false }, 2500)
+}
+
+const previewNow = computed(() => {
+  const now = new Date().toISOString()
+  return `${formatDate(now, localeSettings.value)}, ${formatTime(now, localeSettings.value)}`
+})
 </script>
 
 <template>
@@ -112,6 +127,59 @@ const currency = ref('AUD')
             Save Changes
           </button>
         </div>
+      </div>
+    </div>
+
+    <!-- Locale & Time Settings -->
+    <div class="card-elevated p-8 border-l-4 border-l-teal-500">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-teal-50 to-teal-100 text-teal-600 flex items-center justify-center text-xl">
+          🕒
+        </div>
+        <div>
+          <h2 class="text-lg font-bold text-slate-900">Locale &amp; Time</h2>
+          <p class="text-sm text-slate-500">Time zone and how dates/times are displayed</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-2">Time Zone</label>
+          <select v-model="localeSettings.timezone" class="input">
+            <option v-for="tz in TIMEZONES" :key="tz.value" :value="tz.value">{{ tz.label }}</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-2">Date Format</label>
+          <select v-model="localeSettings.dateFormat" class="input">
+            <option v-for="f in DATE_FORMATS" :key="f.value" :value="f.value">{{ f.label }}</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-2">Time Format</label>
+          <select v-model="localeSettings.timeFormat" class="input">
+            <option value="12h">12-hour (1:00pm)</option>
+            <option value="24h">24-hour (13:00)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mt-6 bg-teal-50 border border-teal-100 rounded-lg p-4">
+        <p class="text-sm text-teal-700">
+          <strong>Preview:</strong> {{ previewNow }}
+        </p>
+      </div>
+
+      <div class="mt-8 pt-6 border-t border-slate-100 flex items-center justify-end gap-3">
+        <span v-if="localeSaved" class="text-sm font-medium text-emerald-600">Saved</span>
+        <button @click="saveLocaleSettings" class="btn-primary inline-flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          </svg>
+          Save Changes
+        </button>
       </div>
     </div>
 

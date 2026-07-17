@@ -5,6 +5,7 @@ import App from './App.vue'
 import './style.css'
 import { useAuthStore } from '@/stores/auth'
 import { ensureCoreTenants } from '@/services/coreTenantsBootstrap'
+import { eventLogService } from '@/services/eventLogService'
 
 import Home from './views/Home.vue'
 import Login from './views/Login.vue'
@@ -33,6 +34,7 @@ import AdminUtilitiesEvidence from './views/AdminUtilitiesEvidence.vue'
 import AdminLandlordDetails from './views/AdminLandlordDetails.vue'
 import AdminMessages from './views/AdminMessages.vue'
 import AdminContacts from './views/AdminContacts.vue'
+import AdminEventLog from './views/AdminEventLog.vue'
 import FlatmateMessages from './views/FlatmateMessages.vue'
 import FlatmateContacts from './views/FlatmateContacts.vue'
 import HealthServices from './views/HealthServices.vue'
@@ -52,6 +54,7 @@ const routes = [
   { path: '/admin/tenants/:id', component: TenantForm, meta: ADMIN },
   { path: '/admin/messages', component: AdminMessages, meta: ADMIN },
   { path: '/admin/contacts', component: AdminContacts, meta: ADMIN },
+  { path: '/admin/event-log', component: AdminEventLog, meta: ADMIN },
   { path: '/admin/landlord-details', component: AdminLandlordDetails, meta: ADMIN },
   { path: '/admin/financials', component: Financials, meta: ADMIN },
   { path: '/admin/guest-tracking', component: GuestTracking, meta: ADMIN },
@@ -111,5 +114,18 @@ app.use(createPinia())
 app.use(router)
 
 ensureCoreTenants()
+
+app.config.errorHandler = (err, _instance, info) => {
+  const message = err instanceof Error ? err.message : String(err)
+  eventLogService.log('error', `${message} (${info})`)
+  console.error(err)
+}
+window.addEventListener('error', (event) => {
+  eventLogService.log('error', event.message)
+})
+window.addEventListener('unhandledrejection', (event) => {
+  const reason = event.reason instanceof Error ? event.reason.message : String(event.reason)
+  eventLogService.log('error', `Unhandled promise rejection: ${reason}`)
+})
 
 app.mount('#app')

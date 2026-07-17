@@ -59,6 +59,7 @@ const tools = [
   { name: 'Tenants', desc: 'Manage tenant list and details', path: '/admin/tenants', tile: 'bg-emerald-50 text-emerald-600' },
   { name: 'Messages', desc: 'Message tenants or everyone at once', path: '/admin/messages', tile: 'bg-teal-100 text-teal-700' },
   { name: 'Contacts', desc: 'Everyone\'s contact details', path: '/admin/contacts', tile: 'bg-amber-100 text-amber-700' },
+  { name: 'Event Log', desc: 'Logins, warnings and errors', path: '/admin/event-log', tile: 'bg-slate-100 text-slate-600' },
   { name: 'Landlord Details', desc: 'Your contact & login details', path: '/admin/landlord-details', tile: 'bg-slate-100 text-slate-600' },
   { name: 'Financials', desc: 'Rent, bond and payment overview', path: '/admin/financials', tile: 'bg-teal-100 text-teal-700' },
   { name: 'Transactions', desc: 'Import & analyse Frollo exports', path: '/admin/transactions', tile: 'bg-purple-100 text-purple-600' },
