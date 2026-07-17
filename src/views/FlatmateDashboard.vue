@@ -1,7 +1,15 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+import { messagesService } from '@/services/messagesService'
 
 const router = useRouter()
+const auth = useAuthStore()
+
+const unreadMessageCount = computed(() =>
+  messagesService.getUnreadCount({ type: 'tenant', id: auth.currentTenantId as number, name: auth.name })
+)
 
 const actions = [
   {
@@ -108,7 +116,13 @@ const actions = [
                   <path stroke-linecap="round" stroke-linejoin="round" :d="a.icon"/>
                 </svg>
               </div>
-              <svg class="w-4 h-4 mt-1 text-slate-300 group-hover:text-emerald-600 group-hover:translate-x-0.5 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <span
+                v-if="a.path === '/flatmate/messages' && unreadMessageCount > 0"
+                class="badge-danger"
+              >
+                {{ unreadMessageCount }} new
+              </span>
+              <svg v-else class="w-4 h-4 mt-1 text-slate-300 group-hover:text-emerald-600 group-hover:translate-x-0.5 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
               </svg>
             </div>

@@ -1,9 +1,15 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useTenantStore } from '@/stores/tenant'
+import { messagesService } from '@/services/messagesService'
 
 const router = useRouter()
 const tenantStore = useTenantStore()
+
+const unreadMessageCount = computed(() =>
+  messagesService.getUnreadCount({ type: 'landlord', id: 'landlord', name: 'Peter Bardenhagen' })
+)
 
 const totalRent = tenantStore.tenants.reduce((sum, t) => sum + t.rent, 0)
 const totalBond = tenantStore.tenants.reduce((sum, t) => sum + t.bond, 0)
@@ -140,7 +146,13 @@ const quickActions = [
                 <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
               </svg>
             </div>
-            <svg class="w-4 h-4 text-slate-300 group-hover:text-emerald-600 group-hover:translate-x-0.5 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <span
+              v-if="tool.path === '/admin/messages' && unreadMessageCount > 0"
+              class="badge-danger"
+            >
+              {{ unreadMessageCount }} new
+            </span>
+            <svg v-else class="w-4 h-4 text-slate-300 group-hover:text-emerald-600 group-hover:translate-x-0.5 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
             </svg>
           </div>

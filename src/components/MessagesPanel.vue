@@ -17,6 +17,8 @@ const tenantStore = useTenantStore()
 
 const landlord = ref<LandlordAccount | null>(null)
 const messages = ref<Message[]>([])
+const unreadIds = ref<Set<number>>(new Set())
+const searchQuery = ref('')
 const showCompose = ref(false)
 const sending = ref(false)
 const sendError = ref('')
@@ -77,9 +79,36 @@ const recipientOptions = computed<RecipientOption[]>(() => {
   return options
 })
 
-const loadMessages = () => {
-  messages.value = messagesService.getInboxFor(me.value)
+const isMine = (m: Message) => m.from.type === me.value.type && m.from.id === me.value.id
+
+const recipientLabel = (m: Message) => {
+  if (m.toType === 'all') return 'Everyone'
+  return m.toName
 }
+
+const loadMessages = () => {
+  const inbox = messagesService.getInboxFor(me.value)
+  // Snapshot which messages were unread *before* we mark them read below, so
+  // the "New" indicator still shows for this viewing even once persisted.
+  inbox.forEach(m => {
+    if (!isMine(m) && !messagesService.isRead(m, me.value)) {
+      unreadIds.value.add(m.id)
+    }
+  })
+  messages.value = inbox
+  messagesService.markAllRead(me.value)
+}
+
+const filteredMessages = computed(() => {
+  const q = searchQuery.value.trim().toLowerCase()
+  if (!q) return messages.value
+  return messages.value.filter(m =>
+    m.subject.toLowerCase().includes(q) ||
+    m.body.toLowerCase().includes(q) ||
+    m.from.name.toLowerCase().includes(q) ||
+    recipientLabel(m).toLowerCase().includes(q)
+  )
+})
 
 onMounted(async () => {
   landlord.value = await landlordService.getLandlord()
@@ -181,13 +210,6 @@ const sendMessage = async () => {
   setTimeout(() => { sendSuccess.value = false }, 3000)
 }
 
-const isMine = (m: Message) => m.from.type === me.value.type && m.from.id === me.value.id
-
-const recipientLabel = (m: Message) => {
-  if (m.toType === 'all') return 'Everyone'
-  return m.toName
-}
-
 const formatDate = (iso: string) =>
   new Date(iso).toLocaleString('en-AU', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
 </script>
@@ -195,11 +217,24 @@ const formatDate = (iso: string) =>
 <template>
   <div class="space-y-6">
     <!-- Compose toggle -->
-    <div class="flex items-center justify-between">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
       <p class="text-sm text-slate-500">{{ messages.length }} message{{ messages.length === 1 ? '' : 's' }}</p>
-      <button @click="showCompose = !showCompose" class="btn-primary">
+      <button @click="showCompose = !showCompose" class="btn-primary self-start sm:self-auto">
         {{ showCompose ? 'Cancel' : '+ New Message' }}
       </button>
+    </div>
+
+    <!-- Search -->
+    <div v-if="messages.length > 0" class="relative">
+      <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"/>
+      </svg>
+      <input
+        v-model="searchQuery"
+        type="text"
+        placeholder="Search messages…"
+        class="input pl-10"
+      />
     </div>
 
     <transition name="fade">
@@ -263,9 +298,15 @@ const formatDate = (iso: string) =>
       <p class="text-slate-600">Start a conversation with your flatmates or landlord</p>
     </div>
 
+    <div v-else-if="filteredMessages.length === 0" class="card-elevated p-12 text-center">
+      <div class="text-4xl mb-3">🔍</div>
+      <h3 class="text-lg font-bold text-slate-900 mb-2">No Matches</h3>
+      <p class="text-slate-600">No messages match "{{ searchQuery }}"</p>
+    </div>
+
     <div v-else class="space-y-3">
       <div
-        v-for="m in messages"
+        v-for="m in filteredMessages"
         :key="m.id"
         :class="['card-elevated p-5 sm:p-6', isMine(m) ? 'border-l-4 border-l-emerald-500' : 'border-l-4 border-l-purple-500']"
       >
@@ -279,6 +320,7 @@ const formatDate = (iso: string) =>
             <p v-if="m.subject" class="text-sm font-medium text-slate-700 mt-0.5">{{ m.subject }}</p>
           </div>
           <div class="flex items-center gap-2 shrink-0">
+            <span v-if="unreadIds.has(m.id)" class="badge-danger">New</span>
             <span v-if="isMine(m)" class="badge-success">Sent</span>
             <span v-else class="badge-info">Received</span>
           </div>

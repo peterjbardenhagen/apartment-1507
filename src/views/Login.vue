@@ -111,6 +111,13 @@ const handleKeyup = (e: KeyboardEvent) => {
             </svg>
             <span>{{ loading ? 'Signing in…' : 'Sign in' }}</span>
           </button>
+
+          <button
+            @click="router.push('/forgot-password')"
+            class="w-full text-center text-sm font-medium text-slate-500 hover:text-emerald-700 transition mt-4"
+          >
+            Forgot your password?
+          </button>
         </div>
 
         <p class="text-center text-xs text-slate-400 mt-6">
