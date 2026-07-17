@@ -7,6 +7,8 @@ import { useAuthStore } from '@/stores/auth'
 
 import Home from './views/Home.vue'
 import Login from './views/Login.vue'
+import ForgotPassword from './views/ForgotPassword.vue'
+import ResetPassword from './views/ResetPassword.vue'
 import AdminDashboard from './views/AdminDashboard.vue'
 import FlatmateDashboard from './views/FlatmateDashboard.vue'
 import RequestHelp from './views/RequestHelp.vue'
@@ -35,10 +37,13 @@ import FlatmateContacts from './views/FlatmateContacts.vue'
 import HealthServices from './views/HealthServices.vue'
 
 const ADMIN = { role: 'admin_portal' }
+const PUBLIC_AUTH_PATHS = ['/login', '/forgot-password', '/reset-password']
 
 const routes = [
   { path: '/', component: Home },
   { path: '/login', component: Login },
+  { path: '/forgot-password', component: ForgotPassword },
+  { path: '/reset-password', component: ResetPassword },
   { path: '/admin/login', redirect: '/login' },
   { path: '/admin/dashboard', component: AdminDashboard, meta: ADMIN },
   { path: '/admin/tenants', component: Tenants, meta: ADMIN },
@@ -77,12 +82,13 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const auth = useAuthStore()
 
-  if (to.path === '/login') {
-    if (auth.isLoggedIn) {
-      next(auth.isAdminAuthenticated ? '/admin/dashboard' : '/flatmate/dashboard')
-    } else {
-      next()
-    }
+  if (to.path === '/login' && auth.isLoggedIn) {
+    next(auth.isAdminAuthenticated ? '/admin/dashboard' : '/flatmate/dashboard')
+    return
+  }
+
+  if (PUBLIC_AUTH_PATHS.includes(to.path)) {
+    next()
     return
   }
 
