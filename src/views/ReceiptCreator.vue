@@ -135,7 +135,7 @@ loadReceipts()
     <div>
       <!-- Form -->
       <div v-if="showForm" class="card-elevated p-8 mb-8">
-        <h2 class="text-xl font-bold text-slate-900 mb-6">Create Receipt</h2>
+        <h2 class="text-xl font-bold text-slate-900 mb-6">New Receipt</h2>
         <div class="space-y-6">
           <div>
             <label class="input-label">Flatmate Name</label>
@@ -170,7 +170,7 @@ loadReceipts()
           </div>
 
           <div class="flex gap-3 pt-4 border-t border-slate-100">
-            <button @click="submitReceipt" class="btn-primary flex-1">Create Receipt</button>
+            <button @click="submitReceipt" class="btn-primary flex-1">New Receipt</button>
             <button @click="showForm = false" class="btn-secondary">Cancel</button>
           </div>
         </div>
@@ -201,7 +201,7 @@ loadReceipts()
         <p class="text-6xl mb-4">🧾</p>
         <h3 class="text-lg font-bold text-slate-900 mb-2">No Receipts Generated</h3>
         <p class="text-slate-600 mb-6">Create a receipt to document payment received</p>
-        <button @click="showForm = true" class="btn-primary">Create Receipt</button>
+        <button @click="showForm = true" class="btn-primary">New Receipt</button>
       </div>
     </div>
   </div>

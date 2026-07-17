@@ -89,6 +89,7 @@ const router = useRouter()
             </div>
           </div>
         </div>
+        <div class="overflow-x-auto">
         <table class="w-full">
           <thead class="bg-slate-50">
             <tr>
@@ -115,6 +116,7 @@ const router = useRouter()
             </tr>
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   </div>

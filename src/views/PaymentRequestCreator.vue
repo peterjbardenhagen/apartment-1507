@@ -118,7 +118,7 @@ loadRequests()
     <div>
       <!-- Form -->
       <div v-if="showForm" class="card-elevated p-8 mb-8">
-        <h2 class="text-xl font-bold text-slate-900 mb-6">Create Payment Request</h2>
+        <h2 class="text-xl font-bold text-slate-900 mb-6">New Payment Request</h2>
         <div class="space-y-6">
           <div>
             <label class="input-label">Flatmate Name</label>
@@ -142,7 +142,7 @@ loadRequests()
           </div>
 
           <div class="flex gap-3 pt-4 border-t border-slate-100">
-            <button @click="submitPaymentRequest" class="btn-primary flex-1">Create Request</button>
+            <button @click="submitPaymentRequest" class="btn-primary flex-1">New Request</button>
             <button @click="showForm = false" class="btn-secondary">Cancel</button>
           </div>
         </div>
@@ -178,7 +178,7 @@ loadRequests()
         <p class="text-6xl mb-4">💳</p>
         <h3 class="text-lg font-bold text-slate-900 mb-2">No Payment Requests</h3>
         <p class="text-slate-600 mb-6">Create a payment request to invoice flatmates</p>
-        <button @click="showForm = true" class="btn-primary">Create Request</button>
+        <button @click="showForm = true" class="btn-primary">New Request</button>
       </div>
     </div>
   </div>

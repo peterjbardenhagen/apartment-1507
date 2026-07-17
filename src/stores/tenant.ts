@@ -7,6 +7,8 @@ export interface Guest {
   nights: number
 }
 
+export type RentCycle = 'weekly' | 'fortnightly' | 'monthly'
+
 export interface Tenant {
   id: number
   name: string
@@ -21,6 +23,12 @@ export interface Tenant {
   guests: Guest[]
   username?: string
   passwordHash?: string
+  // Rent is always paid in advance. rentCycle is the ongoing cadence once any
+  // upfront advance payment (advancePaidUntil) runs out.
+  rentCycle?: RentCycle
+  advancePaidUntil?: string
+  billsIncluded?: boolean
+  billsIncludedAmount?: number
 }
 
 const STORAGE_KEY = 'tenants'

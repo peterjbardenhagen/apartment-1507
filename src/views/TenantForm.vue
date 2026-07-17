@@ -21,7 +21,11 @@ const form = ref({
   contact: '',
   email: '',
   status: 'active',
-  username: ''
+  username: '',
+  rentCycle: 'weekly' as 'weekly' | 'fortnightly' | 'monthly',
+  advancePaidUntil: '',
+  billsIncluded: false,
+  billsIncludedAmount: 0
 })
 
 const newPassword = ref('')
@@ -42,7 +46,11 @@ onMounted(() => {
         contact: tenant.contact,
         email: tenant.email,
         status: tenant.status,
-        username: tenant.username || ''
+        username: tenant.username || '',
+        rentCycle: tenant.rentCycle || 'weekly',
+        advancePaidUntil: tenant.advancePaidUntil || '',
+        billsIncluded: tenant.billsIncluded || false,
+        billsIncludedAmount: tenant.billsIncludedAmount || 0
       }
     }
   }
@@ -142,6 +150,38 @@ const remove = () => {
         </div>
       </div>
 
+      <!-- Rent cycle & billing -->
+      <div class="border-t border-slate-100 pt-6">
+        <p class="form-section-title mb-4">Rent Cycle &amp; Billing</p>
+        <p class="text-xs text-slate-500 mb-4">Rent is always paid in advance. Choose the ongoing cycle, and optionally record a date the tenant has already pre-paid through (e.g. several months upfront at move-in) — after that date, rent follows the cycle below.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="input-label">Rent Cycle</label>
+            <select v-model="form.rentCycle" class="input">
+              <option value="weekly">Weekly</option>
+              <option value="fortnightly">Fortnightly</option>
+              <option value="monthly">Monthly</option>
+            </select>
+          </div>
+          <div>
+            <label class="input-label">Paid In Advance Until <span class="text-slate-400 font-normal normal-case">(optional)</span></label>
+            <input v-model="form.advancePaidUntil" type="date" class="input" />
+          </div>
+        </div>
+
+        <div class="mt-4 flex items-center gap-2">
+          <input id="bills-included" v-model="form.billsIncluded" type="checkbox" class="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500" />
+          <label for="bills-included" class="text-sm font-medium text-slate-700">Rent includes bills</label>
+        </div>
+        <div v-if="form.billsIncluded" class="mt-3 max-w-xs">
+          <label class="input-label">Bills Included, Per Week</label>
+          <div class="relative">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 font-semibold">$</span>
+            <input v-model.number="form.billsIncludedAmount" type="number" class="input pl-8" placeholder="0" />
+          </div>
+        </div>
+      </div>
+
       <!-- Contact details -->
       <div class="border-t border-slate-100 pt-6">
         <p class="form-section-title mb-4">Contact Details <span class="text-slate-400 font-normal normal-case">(optional)</span></p>
@@ -164,7 +204,7 @@ const remove = () => {
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label class="input-label">Username</label>
-            <input v-model="form.username" type="text" class="input" placeholder="e.g. jacob" />
+            <input v-model="form.username" type="text" class="input" placeholder="e.g. jack" />
           </div>
           <div>
             <label class="input-label">Password</label>

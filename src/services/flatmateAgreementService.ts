@@ -1,3 +1,5 @@
+import tenantAgreementsData from '@/data/tenantAgreements.json'
+
 export interface FlatmateAgreement {
   id: string
   flatmateName: string
@@ -67,4 +69,40 @@ export function createNewAgreement(flatmateName: string): FlatmateAgreement {
     createdAt: new Date().toISOString(),
     amendments: []
   }
+}
+
+const SEED_FLAG = 'flatmateAgreementsSeeded'
+
+// Backfills this page's own storage from the real boarding-agreement records
+// (src/data/tenantAgreements.json, the same source Admin > Boarding Files
+// reads) so it doesn't show an empty "No Agreements Yet" state on top of
+// real tenancies. Only runs once, and only if nothing's been created yet.
+export function ensureSeededFromRealData(): void {
+  if (localStorage.getItem(SEED_FLAG)) return
+  localStorage.setItem(SEED_FLAG, '1')
+  if (getFlatmateAgreements().length > 0) return
+
+  tenantAgreementsData.agreements
+    .filter(a => a.tenantName !== 'Peter Bardenhagen')
+    .forEach(a => {
+      saveFlatmateAgreement({
+        id: a.id,
+        flatmateName: a.tenantName,
+        startDate: a.startDate,
+        endDate: null,
+        weeklyRent: a.weeklyRent,
+        bond: a.bond,
+        utilities: {},
+        terms: a.notes || '',
+        createdAt: a.startDate,
+        amendments: (a.amendments || []).map(am => ({
+          id: am.id,
+          agreementId: a.id,
+          type: (am.type === 'other' ? 'conditions-change' : am.type) as AgreementAmendment['type'],
+          description: am.description,
+          effectiveDate: am.effectiveDate,
+          createdAt: am.createdDate
+        }))
+      })
+    })
 }
