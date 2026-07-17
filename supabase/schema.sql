@@ -11,6 +11,43 @@
 
 create extension if not exists "pgcrypto";
 
+-- security-definer helper: policies that need to check "is this caller the
+-- landlord" must not query `profiles` directly from a policy *on* `profiles`
+-- itself — that's self-referential and Postgres rejects it with "infinite
+-- recursion detected in policy for relation profiles". Routing the check
+-- through a security-definer function sidesteps RLS for this one lookup.
+create or replace function is_landlord(uid uuid)
+returns boolean
+language sql
+security definer
+set search_path = public
+stable
+as $$
+  select exists (select 1 from profiles where id = uid and role = 'landlord');
+$$;
+
+-- Resolves a login username to its Supabase Auth email so the client can
+-- call signInWithPassword — needed because the login form takes a username,
+-- not an email, and the caller isn't authenticated yet (so normal RLS-gated
+-- reads of `profiles` aren't available). Only ever returns an email, never
+-- a password hash or anything else.
+create or replace function get_login_email(p_username text)
+returns text
+language sql
+security definer
+set search_path = public
+stable
+as $$
+  select au.email
+  from profiles p
+  join auth.users au on au.id = p.id
+  where lower(p.username) = lower(p_username)
+  limit 1;
+$$;
+
+revoke all on function get_login_email(text) from public;
+grant execute on function get_login_email(text) to anon, authenticated;
+
 -- ---------------------------------------------------------------- profiles
 create table if not exists profiles (
   id uuid primary key references auth.users(id) on delete cascade,
@@ -41,8 +78,8 @@ create policy "profiles readable by any signed-in user"
 
 create policy "landlord manages all profiles"
   on profiles for all
-  using (exists (select 1 from profiles p where p.id = auth.uid() and p.role = 'landlord'))
-  with check (exists (select 1 from profiles p where p.id = auth.uid() and p.role = 'landlord'));
+  using (is_landlord(auth.uid()))
+  with check (is_landlord(auth.uid()));
 
 create policy "tenants update their own profile"
   on profiles for update
@@ -96,7 +133,7 @@ alter table event_log enable row level security;
 
 create policy "landlord reads the event log"
   on event_log for select
-  using (exists (select 1 from profiles p where p.id = auth.uid() and p.role = 'landlord'));
+  using (is_landlord(auth.uid()));
 
 create policy "anyone can write an event"
   on event_log for insert
@@ -104,7 +141,7 @@ create policy "anyone can write an event"
 
 create policy "landlord clears the event log"
   on event_log for delete
-  using (exists (select 1 from profiles p where p.id = auth.uid() and p.role = 'landlord'));
+  using (is_landlord(auth.uid()));
 
 -- -------------------------------------------------------------app_settings
 create table if not exists app_settings (
@@ -125,12 +162,14 @@ create policy "settings readable by any signed-in user"
 
 create policy "landlord updates settings"
   on app_settings for update
-  using (exists (select 1 from profiles p where p.id = auth.uid() and p.role = 'landlord'));
+  using (is_landlord(auth.uid()));
 
 -- ---------------------------------------------------------- initial seed
--- Create the actual auth users for Peter (landlord), Kevin, Kaitlin and
--- Jacob from the Supabase dashboard (Authentication > Users > Add user),
--- or via the app's Admin > Tenants "Add Tenant" flow once it's wired to
--- Supabase Auth. Then insert/keep the matching `profiles` row in sync —
--- the app does this automatically on signup once the client-side migration
--- lands.
+-- The landlord (Peter) and any tenants can be created two ways:
+--  1. Supabase dashboard > Authentication > Users > Add user, then insert
+--     a matching `profiles` row by hand (fine for the first landlord user).
+--  2. Admin > Tenants > Add Tenant in the app, which calls the
+--     /api/create-tenant serverless function (see api/create-tenant.ts) —
+--     this is the normal path once that's wired up, since creating a new
+--     Supabase Auth user requires the service-role key, which only that
+--     server-side function has access to (never the browser).
