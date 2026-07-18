@@ -78,8 +78,10 @@ const actions = [
       <div class="max-w-5xl mx-auto">
         <div class="bg-white rounded-full shadow-card px-4 sm:px-6 py-3 flex items-center justify-between">
           <router-link to="/" class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-full bg-emerald-700 text-white flex items-center justify-center font-display font-bold text-xs shadow-pill">
-              15
+            <div class="w-9 h-9 rounded-full bg-emerald-700 text-white flex items-center justify-center shadow-pill">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 21h18M3 10h18M3 7l9-4 9 4M6 10v11h4V10h4v11h4V10"/>
+              </svg>
             </div>
             <span class="font-display font-bold text-slate-900">Apartment 1507</span>
           </router-link>

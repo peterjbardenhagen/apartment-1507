@@ -8,6 +8,7 @@ import { ensureCoreTenants } from '@/services/coreTenantsBootstrap'
 
 import Home from './views/Home.vue'
 import Login from './views/Login.vue'
+import Register from './views/Register.vue'
 import ForgotPassword from './views/ForgotPassword.vue'
 import ResetPassword from './views/ResetPassword.vue'
 import AdminDashboard from './views/AdminDashboard.vue'
@@ -38,11 +39,12 @@ import FlatmateContacts from './views/FlatmateContacts.vue'
 import HealthServices from './views/HealthServices.vue'
 
 const ADMIN = { role: 'admin_portal' }
-const PUBLIC_AUTH_PATHS = ['/login', '/forgot-password', '/reset-password']
+const PUBLIC_AUTH_PATHS = ['/login', '/register', '/forgot-password', '/reset-password']
 
 const routes = [
   { path: '/', component: Home },
   { path: '/login', component: Login },
+  { path: '/register', component: Register },
   { path: '/forgot-password', component: ForgotPassword },
   { path: '/reset-password', component: ResetPassword },
   { path: '/admin/login', redirect: '/login' },
