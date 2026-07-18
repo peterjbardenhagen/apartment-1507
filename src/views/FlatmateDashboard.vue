@@ -67,6 +67,14 @@ const actions = [
     path: '/flatmate/health-services',
     tile: 'bg-red-50 text-red-600',
     icon: 'M19 8v6M22 11h-6M4 10a4 4 0 118 0v1h.5a2.5 2.5 0 010 5H15v3l-3 2-3-2v-3H7.5a2.5 2.5 0 010-5H8v-1z'
+  },
+  {
+    title: 'Hotel Registration',
+    desc: 'Register with Art Series Hotel for after-hours keycard access',
+    cta: 'Register now',
+    path: '/flatmate/hotel-registration',
+    tile: 'bg-blue-100 text-blue-600',
+    icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4'
   }
 ]
 </script>

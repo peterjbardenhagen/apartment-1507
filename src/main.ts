@@ -37,6 +37,7 @@ import AdminContacts from './views/AdminContacts.vue'
 import FlatmateMessages from './views/FlatmateMessages.vue'
 import FlatmateContacts from './views/FlatmateContacts.vue'
 import HealthServices from './views/HealthServices.vue'
+import HotelRegistration from './views/HotelRegistration.vue'
 
 const ADMIN = { role: 'admin_portal' }
 const PUBLIC_AUTH_PATHS = ['/login', '/register', '/forgot-password', '/reset-password']
@@ -74,6 +75,7 @@ const routes = [
   { path: '/flatmate/messages', component: FlatmateMessages },
   { path: '/flatmate/contacts', component: FlatmateContacts },
   { path: '/flatmate/health-services', component: HealthServices },
+  { path: '/flatmate/hotel-registration', component: HotelRegistration },
   { path: '/kevin-cleaning', component: KevinCleaning }
 ]
 
