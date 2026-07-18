@@ -10,14 +10,25 @@ export interface PaymentRequest {
 
 export interface Receipt {
   id: string
+  receiptNo: string
   paymentRequestId?: string
   flatmateName: string
   description: string
   amount: number
+  amountWords: string
   date: string
   paymentMethod: string
+  bankRef: string
   notes: string
   createdAt: string
+}
+
+let receiptCounter = Date.now()
+
+export function generateReceiptNo(): string {
+  receiptCounter++
+  const ts = receiptCounter.toString()
+  return 'N' + ts.slice(-12)
 }
 
 export function savePaymentRequest(request: PaymentRequest): void {
@@ -70,11 +81,14 @@ export function getReceipts(): Receipt[] {
 export function createReceipt(flatmateName: string, amount: number, description: string): Receipt {
   return {
     id: Date.now().toString(),
+    receiptNo: generateReceiptNo(),
     flatmateName,
     description,
     amount,
+    amountWords: '',
     date: new Date().toISOString().split('T')[0],
     paymentMethod: '',
+    bankRef: '',
     notes: '',
     createdAt: new Date().toISOString()
   }

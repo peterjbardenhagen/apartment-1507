@@ -1,123 +1,109 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import {
   getReceipts,
-  createReceipt,
   saveReceipt,
   type Receipt
 } from '@/services/paymentService'
-import jsPDF from 'jspdf'
-import { DEFAULT_PROPERTY, DEFAULT_LANDLORD, formatDate, formatCurrency } from '@/services/pdfService'
+import { generateReceiptNo, numberToWords, formatDateLong, formatCurrency, generateReceiptPDF, type ReceiptData } from '@/services/pdfService'
+import { useTenantStore } from '@/stores/tenant'
 
-const receipts = ref<Receipt[]>([])
+const tenantStore = useTenantStore()
+const receipts = ref<Receipt[]>(getReceipts())
 const showForm = ref(false)
+const successMessage = ref('')
+
 const form = ref({
-  flatmateName: '',
+  tenantId: 0,
+  tenantName: '',
   description: '',
   amount: 0,
   paymentMethod: 'bank-transfer',
+  bankRef: '',
   notes: ''
 })
 
-const loadReceipts = () => {
-  receipts.value = getReceipts()
+const activeTenants = computed(() =>
+  tenantStore.tenants.filter(t => t.status === 'active' || t.status === 'pending')
+)
+
+const amountWords = computed(() => {
+  if (!form.value.amount || form.value.amount <= 0) return ''
+  return numberToWords(form.value.amount)
+})
+
+const newReceiptNo = computed(() => generateReceiptNo())
+
+function selectTenant(id: number) {
+  const t = tenantStore.tenants.find(t => t.id === id)
+  if (t) {
+    form.value.tenantId = t.id
+    form.value.tenantName = t.name
+  }
 }
 
-const submitReceipt = () => {
-  if (!form.value.flatmateName || !form.value.amount) return
-
-  const receipt = createReceipt(form.value.flatmateName, form.value.amount, form.value.description)
-  receipt.paymentMethod = form.value.paymentMethod
-  receipt.notes = form.value.notes
-  saveReceipt(receipt)
-  loadReceipts()
-  showForm.value = false
-  form.value = { flatmateName: '', description: '', amount: 0, paymentMethod: 'bank-transfer', notes: '' }
+function resetForm() {
+  form.value = {
+    tenantId: 0,
+    tenantName: '',
+    description: '',
+    amount: 0,
+    paymentMethod: 'bank-transfer',
+    bankRef: '',
+    notes: ''
+  }
 }
 
-const generateReceiptPDF = (receipt: Receipt) => {
-  const doc = new jsPDF()
-  const pageWidth = doc.internal.pageSize.getWidth()
-  const pageHeight = doc.internal.pageSize.getHeight()
+function submitReceipt() {
+  if (!form.value.tenantName || !form.value.amount || !form.value.description) return
 
-  let yPos = 15
-
-  // Header with address
-  doc.setFontSize(10)
-  doc.text(`${DEFAULT_PROPERTY.unit}/${DEFAULT_PROPERTY.address}`, pageWidth / 2, yPos, { align: 'center' })
-  yPos += 6
-  doc.text(`${DEFAULT_PROPERTY.city}, ${DEFAULT_PROPERTY.state} ${DEFAULT_PROPERTY.postcode}`, pageWidth / 2, yPos, { align: 'center' })
-
-  // Line
-  doc.setLineWidth(0.5)
-  yPos += 8
-  doc.line(10, yPos, pageWidth - 10, yPos)
-
-  // Title
-  yPos += 10
-  doc.setFontSize(20)
-  doc.setFont(undefined, 'bold')
-  doc.text('RECEIPT', pageWidth / 2, yPos, { align: 'center' })
-
-  // Receipt details
-  yPos += 15
-  doc.setFontSize(10)
-  doc.setFont(undefined, 'normal')
-  doc.text(`Receipt #: ${receipt.id}`, 10, yPos)
-  yPos += 6
-  doc.text(`Date: ${formatDate(new Date(receipt.date))}`, 10, yPos)
-
-  // Recipient
-  yPos += 12
-  doc.setFont(undefined, 'bold')
-  doc.text('Received from:', 10, yPos)
-  yPos += 6
-  doc.setFont(undefined, 'normal')
-  doc.text(receipt.flatmateName, 10, yPos)
-
-  // Amount Box
-  yPos += 15
-  doc.setFillColor(230, 240, 250)
-  doc.rect(10, yPos, pageWidth - 20, 20, 'F')
-  doc.setFontSize(14)
-  doc.setFont(undefined, 'bold')
-  doc.text(`Amount: ${formatCurrency(receipt.amount)}`, pageWidth / 2, yPos + 12, { align: 'center' })
-
-  // Details
-  yPos += 25
-  doc.setFontSize(10)
-  doc.setFont(undefined, 'normal')
-  doc.text('Payment Description:', 10, yPos)
-  yPos += 6
-  doc.setFont(undefined, 'bold')
-  doc.text(receipt.description, 10, yPos, { maxWidth: pageWidth - 20 })
-
-  yPos += 10
-  doc.setFont(undefined, 'normal')
-  doc.text(`Payment Method: ${receipt.paymentMethod}`, 10, yPos)
-
-  if (receipt.notes) {
-    yPos += 8
-    doc.text('Notes:', 10, yPos)
-    yPos += 6
-    doc.text(receipt.notes, 10, yPos, { maxWidth: pageWidth - 20 })
+  const paymentMethodLabels: Record<string, string> = {
+    'bank-transfer': 'Electronic funds transfer (Osko)',
+    'cash': 'Cash',
+    'cheque': 'Cheque',
+    'credit-card': 'Credit Card',
+    'other': 'Other'
   }
 
-  // Footer
-  yPos = pageHeight - 40
-  doc.setFontSize(10)
-  doc.text('Landlord Signature:', 10, yPos)
-  doc.line(50, yPos + 2, 100, yPos + 2)
-  yPos += 8
-  doc.setFont(undefined, 'normal')
-  doc.text(DEFAULT_LANDLORD.name, 50, yPos)
-  yPos += 8
-  doc.text(DEFAULT_LANDLORD.email, 50, yPos)
+  const receipt: Receipt = {
+    id: Date.now().toString(),
+    receiptNo: newReceiptNo.value,
+    flatmateName: form.value.tenantName,
+    description: form.value.description,
+    amount: form.value.amount,
+    amountWords: amountWords.value,
+    date: new Date().toISOString().split('T')[0],
+    paymentMethod: paymentMethodLabels[form.value.paymentMethod] || form.value.paymentMethod,
+    bankRef: form.value.bankRef,
+    notes: form.value.notes,
+    createdAt: new Date().toISOString()
+  }
 
-  doc.save(`receipt-${receipt.flatmateName.replace(/\s/g, '-')}-${receipt.id}.pdf`)
+  saveReceipt(receipt)
+  receipts.value = getReceipts()
+  showForm.value = false
+  successMessage.value = `Receipt ${receipt.receiptNo} created for ${receipt.flatmateName}`
+
+  setTimeout(() => { successMessage.value = '' }, 4000)
+  resetForm()
 }
 
-loadReceipts()
+async function downloadPDF(receipt: Receipt) {
+  const data: ReceiptData = {
+    receiptNo: receipt.receiptNo,
+    dateIssued: formatDateLong(new Date(receipt.date)),
+    tenantName: receipt.flatmateName,
+    amount: receipt.amount,
+    amountWords: receipt.amountWords || numberToWords(receipt.amount),
+    description: receipt.description,
+    paymentMethod: receipt.paymentMethod,
+    bankRef: receipt.bankRef || undefined,
+    notes: receipt.notes || undefined,
+    landlordName: 'Peter Bardenhagen',
+    propertyAddress: '477 Boundary Street, Apartment 1507, Spring Hill, QLD 4000'
+  }
+  await generateReceiptPDF(data)
+}
 </script>
 
 <template>
@@ -127,82 +113,118 @@ loadReceipts()
         <h1 class="font-display text-2xl sm:text-3xl font-bold text-slate-900">Receipts</h1>
         <p class="text-sm text-slate-500 mt-1.5">Create and download signed payment receipts.</p>
       </div>
-      <button @click="showForm = !showForm" class="btn-primary self-start sm:self-auto shrink-0">
+      <button @click="showForm = !showForm; resetForm()" class="btn-primary self-start sm:self-auto shrink-0">
         {{ showForm ? 'Cancel' : '+ New Receipt' }}
       </button>
     </div>
 
-    <div>
-      <!-- Form -->
-      <div v-if="showForm" class="card-elevated p-8 mb-8">
-        <h2 class="text-xl font-bold text-slate-900 mb-6">Create Receipt</h2>
-        <div class="space-y-6">
+    <!-- Success Toast -->
+    <div v-if="successMessage" class="fixed top-4 right-4 z-50 bg-emerald-600 text-white px-5 py-3 rounded-lg shadow-lg text-sm animate-slide-in">
+      {{ successMessage }}
+    </div>
+
+    <!-- Form -->
+    <div v-if="showForm" class="card-elevated p-8 mb-8">
+      <h2 class="text-xl font-bold text-slate-900 mb-6">Create Receipt</h2>
+      <div class="space-y-6">
+
+        <!-- Tenant Selection -->
+        <div>
+          <label class="input-label">Tenant</label>
+          <select v-model="form.tenantId" @change="selectTenant(form.tenantId)" class="input">
+            <option :value="0" disabled>Select tenant...</option>
+            <option v-for="t in activeTenants" :key="t.id" :value="t.id">
+              {{ t.name }} — {{ t.room }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Description -->
+        <div>
+          <label class="input-label">Payment For</label>
+          <input v-model="form.description" type="text" class="input" placeholder="e.g., 3 months rent paid in advance" />
+        </div>
+
+        <!-- Amount -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label class="input-label">Flatmate Name</label>
-            <input v-model="form.flatmateName" type="text" class="input" placeholder="e.g., Jacob Smith" />
+            <label class="input-label">Amount (AUD $)</label>
+            <input v-model.number="form.amount" type="number" step="0.01" min="0" class="input" placeholder="0.00" />
+            <p v-if="amountWords" class="text-xs text-slate-500 mt-1 italic">Amount in words: {{ amountWords }}</p>
           </div>
-
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label class="input-label">Amount</label>
-              <input v-model.number="form.amount" type="number" class="input" placeholder="0.00" />
-            </div>
-            <div>
-              <label class="input-label">Payment Method</label>
-              <select v-model="form.paymentMethod" class="input">
-                <option value="bank-transfer">Bank Transfer</option>
-                <option value="cash">Cash</option>
-                <option value="cheque">Cheque</option>
-                <option value="credit-card">Credit Card</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-          </div>
-
           <div>
-            <label class="input-label">Payment Description</label>
-            <input v-model="form.description" type="text" class="input" placeholder="e.g., Weekly rent" />
-          </div>
-
-          <div>
-            <label class="input-label">Notes (Optional)</label>
-            <textarea v-model="form.notes" rows="3" class="input resize-none" placeholder="Any additional notes..."></textarea>
-          </div>
-
-          <div class="flex gap-3 pt-4 border-t border-slate-100">
-            <button @click="submitReceipt" class="btn-primary flex-1">Create Receipt</button>
-            <button @click="showForm = false" class="btn-secondary">Cancel</button>
+            <label class="input-label">Payment Method</label>
+            <select v-model="form.paymentMethod" class="input">
+              <option value="bank-transfer">Bank Transfer / Osko</option>
+              <option value="cash">Cash</option>
+              <option value="cheque">Cheque</option>
+              <option value="credit-card">Credit Card</option>
+              <option value="other">Other</option>
+            </select>
           </div>
         </div>
-      </div>
 
-      <!-- List -->
-      <div v-if="receipts.length > 0" class="space-y-4">
-        <div v-for="receipt in receipts" :key="receipt.id" class="card-elevated p-6">
-          <div class="flex justify-between items-start mb-4">
-            <div>
-              <h3 class="text-lg font-bold text-slate-900">{{ receipt.flatmateName }}</h3>
-              <p class="text-sm text-slate-500">{{ formatDate(new Date(receipt.date)) }} • Receipt #{{ receipt.id }}</p>
-            </div>
-            <span class="badge bg-emerald-50 text-emerald-700">✓ Issued</span>
-          </div>
+        <!-- Bank Reference -->
+        <div>
+          <label class="input-label">Bank Reference (Optional)</label>
+          <input v-model="form.bankRef" type="text" class="input" placeholder="e.g., Osko Payment ID 485287 / Rent advance" />
+        </div>
 
-          <div class="mb-6 p-4 bg-slate-50 rounded-lg">
-            <p class="text-sm text-slate-600 mb-2">{{ receipt.description }}</p>
-            <p class="text-3xl font-bold text-slate-900">${{ receipt.amount.toFixed(2) }}</p>
-            <p class="text-xs text-slate-500 mt-2">{{ receipt.paymentMethod.charAt(0).toUpperCase() + receipt.paymentMethod.slice(1) }}</p>
-          </div>
+        <!-- Notes -->
+        <div>
+          <label class="input-label">Notes (Optional)</label>
+          <textarea v-model="form.notes" rows="2" class="input resize-none" placeholder="Any additional notes..."></textarea>
+        </div>
 
-          <button @click="generateReceiptPDF(receipt)" class="btn-primary w-full">Download PDF</button>
+        <!-- Preview box -->
+        <div v-if="form.tenantName && form.amount > 0" class="p-4 bg-slate-50 rounded-lg border border-slate-200">
+          <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-2">Receipt Preview</p>
+          <p class="text-sm"><span class="font-semibold">No:</span> {{ newReceiptNo }}</p>
+          <p class="text-sm"><span class="font-semibold">Date:</span> {{ formatDateLong(new Date()) }}</p>
+          <p class="text-sm"><span class="font-semibold">From:</span> {{ form.tenantName }}</p>
+          <p class="text-sm"><span class="font-semibold">For:</span> {{ form.description || '—' }}</p>
+          <p class="text-lg font-bold text-slate-900 mt-1">${{ form.amount.toFixed(2) }}</p>
+        </div>
+
+        <div class="flex gap-3 pt-4 border-t border-slate-100">
+          <button @click="submitReceipt" class="btn-primary flex-1">Create &amp; Save Receipt</button>
+          <button @click="showForm = false; resetForm()" class="btn-secondary">Cancel</button>
         </div>
       </div>
+    </div>
 
-      <div v-else-if="!showForm" class="card-elevated p-12 text-center">
-        <p class="text-6xl mb-4">🧾</p>
-        <h3 class="text-lg font-bold text-slate-900 mb-2">No Receipts Generated</h3>
-        <p class="text-slate-600 mb-6">Create a receipt to document payment received</p>
-        <button @click="showForm = true" class="btn-primary">Create Receipt</button>
+    <!-- Receipts List -->
+    <div v-if="receipts.length > 0" class="space-y-4">
+      <div v-for="receipt in receipts" :key="receipt.id" class="card-elevated p-6">
+        <div class="flex justify-between items-start mb-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900">{{ receipt.flatmateName }}</h3>
+            <p class="text-sm text-slate-500">{{ formatDateLong(new Date(receipt.date)) }} • {{ receipt.receiptNo }}</p>
+          </div>
+          <span class="badge bg-emerald-50 text-emerald-700">✓ Issued</span>
+        </div>
+
+        <div class="mb-4 p-4 bg-slate-50 rounded-lg">
+          <p class="text-sm text-slate-600 mb-2">{{ receipt.description }}</p>
+          <p class="text-3xl font-bold text-slate-900">${{ receipt.amount.toFixed(2) }}</p>
+          <p v-if="receipt.amountWords" class="text-xs text-slate-500 mt-1 italic">{{ receipt.amountWords }}</p>
+        </div>
+
+        <div class="flex justify-between items-center">
+          <div class="text-xs text-slate-400">
+            <p>{{ receipt.paymentMethod }}</p>
+            <p v-if="receipt.bankRef">{{ receipt.bankRef }}</p>
+          </div>
+          <button @click="downloadPDF(receipt)" class="btn-primary text-sm px-4 py-2">Download PDF</button>
+        </div>
       </div>
+    </div>
+
+    <div v-else-if="!showForm" class="card-elevated p-12 text-center">
+      <p class="text-6xl mb-4">🧾</p>
+      <h3 class="text-lg font-bold text-slate-900 mb-2">No Receipts Generated</h3>
+      <p class="text-slate-600 mb-6">Create a receipt to document payment received</p>
+      <button @click="showForm = true" class="btn-primary">Create Receipt</button>
     </div>
   </div>
 </template>
