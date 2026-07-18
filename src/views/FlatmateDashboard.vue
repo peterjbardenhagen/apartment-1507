@@ -132,8 +132,33 @@ const actions = [
           </button>
         </div>
 
+        <!-- WiFi Info Card -->
+        <div class="card p-5 sm:p-6">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.14 0M1.394 9.393c5.857-5.858 15.355-5.858 21.213 0"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-display font-bold text-slate-900">Wi‑Fi Network</h3>
+              <p class="text-sm text-slate-500 mt-0.5">Free to use — included as part of utilities</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="bg-emerald-50 rounded-xl p-4">
+              <p class="text-xs font-semibold text-emerald-700 uppercase tracking-wider mb-1">Network</p>
+              <p class="font-mono text-lg font-bold text-slate-900 break-all">NETGEAR38-5G</p>
+            </div>
+            <div class="bg-amber-50 rounded-xl p-4">
+              <p class="text-xs font-semibold text-amber-700 uppercase tracking-wider mb-1">Password</p>
+              <p class="font-mono text-lg font-bold text-slate-900 break-all">bluebreeze468</p>
+            </div>
+          </div>
+        </div>
+
         <!-- Address footer card -->
-        <div class="mt-8 card p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div class="card p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div>
             <p class="font-semibold text-slate-900 text-sm">Apartment 1507</p>
             <p class="text-sm text-slate-500">477 Boundary St, Spring Hill QLD 4000</p>
