@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import {
   getReceipts,
   saveReceipt,
@@ -12,7 +12,6 @@ const tenantStore = useTenantStore()
 const receipts = ref<Receipt[]>(getReceipts())
 const showForm = ref(false)
 const successMessage = ref('')
-
 const form = ref({
   tenantId: 0,
   tenantName: '',
@@ -22,6 +21,11 @@ const form = ref({
   bankRef: '',
   notes: ''
 })
+const newReceiptNo = ref('')
+
+function generateNewReceiptNo() {
+  newReceiptNo.value = generateReceiptNo()
+}
 
 const activeTenants = computed(() =>
   tenantStore.tenants.filter(t => t.status === 'active' || t.status === 'pending')
@@ -31,8 +35,6 @@ const amountWords = computed(() => {
   if (!form.value.amount || form.value.amount <= 0) return ''
   return numberToWords(form.value.amount)
 })
-
-const newReceiptNo = computed(() => generateReceiptNo())
 
 function selectTenant(id: number) {
   const t = tenantStore.tenants.find(t => t.id === id)
@@ -51,6 +53,14 @@ function resetForm() {
     paymentMethod: 'bank-transfer',
     bankRef: '',
     notes: ''
+  }
+}
+
+function showFormToggle() {
+  showForm.value = !showForm.value
+  if (showForm.value) {
+    resetForm()
+    generateNewReceiptNo()
   }
 }
 
@@ -83,7 +93,6 @@ function submitReceipt() {
   receipts.value = getReceipts()
   showForm.value = false
   successMessage.value = `Receipt ${receipt.receiptNo} created for ${receipt.flatmateName}`
-
   setTimeout(() => { successMessage.value = '' }, 4000)
   resetForm()
 }
@@ -113,15 +122,17 @@ async function downloadPDF(receipt: Receipt) {
         <h1 class="font-display text-2xl sm:text-3xl font-bold text-slate-900">Receipts</h1>
         <p class="text-sm text-slate-500 mt-1.5">Create and download signed payment receipts.</p>
       </div>
-      <button @click="showForm = !showForm; resetForm()" class="btn-primary self-start sm:self-auto shrink-0">
+      <button @click="showFormToggle()" class="btn-primary self-start sm:self-auto shrink-0">
         {{ showForm ? 'Cancel' : '+ New Receipt' }}
       </button>
     </div>
 
     <!-- Success Toast -->
-    <div v-if="successMessage" class="fixed top-4 right-4 z-50 bg-emerald-600 text-white px-5 py-3 rounded-lg shadow-lg text-sm animate-slide-in">
-      {{ successMessage }}
-    </div>
+    <Transition name="fade">
+      <div v-if="successMessage" class="fixed top-4 right-4 z-50 bg-emerald-600 text-white px-5 py-3 rounded-lg shadow-lg text-sm animate-slide-in">
+        {{ successMessage }}
+      </div>
+    </Transition>
 
     <!-- Form -->
     <div v-if="showForm" class="card-elevated p-8 mb-8">
@@ -224,7 +235,7 @@ async function downloadPDF(receipt: Receipt) {
       <p class="text-6xl mb-4">🧾</p>
       <h3 class="text-lg font-bold text-slate-900 mb-2">No Receipts Generated</h3>
       <p class="text-slate-600 mb-6">Create a receipt to document payment received</p>
-      <button @click="showForm = true" class="btn-primary">Create Receipt</button>
+      <button @click="showForm = true; generateNewReceiptNo()" class="btn-primary">Create Receipt</button>
     </div>
   </div>
 </template>
