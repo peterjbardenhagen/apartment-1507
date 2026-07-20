@@ -137,11 +137,29 @@ ALTER TABLE repair_requests ENABLE ROW LEVEL SECURITY;
 ALTER TABLE enquiries ENABLE ROW LEVEL SECURITY;
 ALTER TABLE transactions ENABLE ROW LEVEL SECURITY;
 
--- The one table the browser actually writes to right now: allow anyone to
--- submit a registration, but not read, edit or delete other people's.
+-- Anyone can submit a registration (the public /register form).
 DROP POLICY IF EXISTS "anyone can submit a registration" ON registrations;
 CREATE POLICY "anyone can submit a registration"
   ON registrations FOR INSERT
+  WITH CHECK (true);
+
+-- Admin > Registrations (converting a request into a tenant) needs to list
+-- and update these rows. There's no Supabase Auth in this app, so there's
+-- no server-enforced way to tell "the landlord" apart from anyone else
+-- holding the anon key — the Admin area is only gated client-side, same as
+-- the rest of the admin panel today. Practically: this makes registrants'
+-- name/email/phone readable by anyone with the anon key, same trust model
+-- as the rest of this app's admin pages. Move to Supabase Auth if that
+-- stops being an acceptable tradeoff.
+DROP POLICY IF EXISTS "anon can read registrations" ON registrations;
+CREATE POLICY "anon can read registrations"
+  ON registrations FOR SELECT
+  USING (true);
+
+DROP POLICY IF EXISTS "anon can update registration status" ON registrations;
+CREATE POLICY "anon can update registration status"
+  ON registrations FOR UPDATE
+  USING (true)
   WITH CHECK (true);
 
 -- Everything else stays fully locked (no policies = no access via the anon

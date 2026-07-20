@@ -35,6 +35,7 @@ import AdminUtilitiesEvidence from './views/AdminUtilitiesEvidence.vue'
 import AdminLandlordDetails from './views/AdminLandlordDetails.vue'
 import AdminMessages from './views/AdminMessages.vue'
 import AdminContacts from './views/AdminContacts.vue'
+import AdminRegistrations from './views/AdminRegistrations.vue'
 import AdminEventLog from './views/AdminEventLog.vue'
 import FlatmateMessages from './views/FlatmateMessages.vue'
 import FlatmateContacts from './views/FlatmateContacts.vue'
@@ -57,6 +58,7 @@ const routes = [
   { path: '/admin/tenants/:id', component: TenantForm, meta: ADMIN },
   { path: '/admin/messages', component: AdminMessages, meta: ADMIN },
   { path: '/admin/contacts', component: AdminContacts, meta: ADMIN },
+  { path: '/admin/registrations', component: AdminRegistrations, meta: ADMIN },
   { path: '/admin/event-log', component: AdminEventLog, meta: ADMIN },
   { path: '/admin/landlord-details', component: AdminLandlordDetails, meta: ADMIN },
   { path: '/admin/financials', component: Financials, meta: ADMIN },

@@ -3,6 +3,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useTenantStore } from '@/stores/tenant'
 import { hashPassword } from '@/services/cryptoService'
+import { markRegistrationStatus } from '@/services/registrationsService'
 
 const route = useRoute()
 const router = useRouter()
@@ -31,6 +32,7 @@ const form = ref({
 const newPassword = ref('')
 const error = ref('')
 const saving = ref(false)
+const registrationId = ref<number | null>(null)
 
 onMounted(() => {
   if (isEdit.value) {
@@ -53,6 +55,12 @@ onMounted(() => {
         billsIncludedAmount: tenant.billsIncludedAmount || 0
       }
     }
+  } else if (route.query.registrationId) {
+    registrationId.value = Number(route.query.registrationId)
+    form.value.name = String(route.query.name || '')
+    form.value.email = String(route.query.email || '')
+    form.value.username = String(route.query.username || '')
+    form.value.contact = String(route.query.contact || '')
   }
 })
 
@@ -84,6 +92,14 @@ const save = async () => {
     tenantStore.addTenant({ ...data, guests: [] })
   }
 
+  if (registrationId.value) {
+    try {
+      await markRegistrationStatus(registrationId.value, 'converted')
+    } catch {
+      // Tenant is already created either way — don't block on this.
+    }
+  }
+
   saving.value = false
   router.push('/admin/tenants')
 }
@@ -108,6 +124,13 @@ const remove = () => {
         <h1 class="font-display text-2xl sm:text-3xl font-bold text-slate-900">{{ isEdit ? 'Edit Tenant' : 'Add Tenant' }}</h1>
         <p class="text-sm text-slate-500 mt-1">Tenancy, contact, and optional login details.</p>
       </div>
+    </div>
+
+    <div v-if="registrationId" class="alert-info max-w-2xl">
+      <svg class="w-4 h-4 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+      </svg>
+      <span>Pre-filled from a registration request. Set their room, rent and a password below, then save to activate the account.</span>
     </div>
 
     <div class="card-elevated p-6 sm:p-8 max-w-2xl space-y-6">

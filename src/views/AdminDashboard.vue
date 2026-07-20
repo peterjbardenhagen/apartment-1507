@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useTenantStore } from '@/stores/tenant'
 import { messagesService } from '@/services/messagesService'
+import { getRegistrations } from '@/services/registrationsService'
 
 const router = useRouter()
 const tenantStore = useTenantStore()
@@ -10,6 +11,15 @@ const tenantStore = useTenantStore()
 const unreadMessageCount = computed(() =>
   messagesService.getUnreadCount({ type: 'landlord', id: 'landlord', name: 'Peter Bardenhagen' })
 )
+
+const pendingRegistrationCount = ref(0)
+onMounted(async () => {
+  try {
+    pendingRegistrationCount.value = (await getRegistrations()).filter(r => r.status === 'pending').length
+  } catch {
+    // Supabase not configured yet — just show no badge rather than an error here.
+  }
+})
 
 const totalRent = tenantStore.tenants.reduce((sum, t) => sum + t.rent, 0)
 const totalBond = tenantStore.tenants.reduce((sum, t) => sum + t.bond, 0)
@@ -57,6 +67,7 @@ const metrics = [
 
 const tools = [
   { name: 'Tenants', desc: 'Manage tenant list and details', path: '/admin/tenants', tile: 'bg-emerald-50 text-emerald-600' },
+  { name: 'Registrations', desc: 'Requests from the public sign-up page', path: '/admin/registrations', tile: 'bg-emerald-100 text-emerald-700' },
   { name: 'Messages', desc: 'Message tenants or everyone at once', path: '/admin/messages', tile: 'bg-teal-100 text-teal-700' },
   { name: 'Contacts', desc: 'Everyone\'s contact details', path: '/admin/contacts', tile: 'bg-amber-100 text-amber-700' },
   { name: 'Event Log', desc: 'Logins, warnings and errors', path: '/admin/event-log', tile: 'bg-slate-100 text-slate-600' },
@@ -152,6 +163,12 @@ const quickActions = [
               class="badge-danger"
             >
               {{ unreadMessageCount }} new
+            </span>
+            <span
+              v-else-if="tool.path === '/admin/registrations' && pendingRegistrationCount > 0"
+              class="badge-danger"
+            >
+              {{ pendingRegistrationCount }} pending
             </span>
             <svg v-else class="w-4 h-4 text-slate-300 group-hover:text-emerald-600 group-hover:translate-x-0.5 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
