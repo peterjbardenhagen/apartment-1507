@@ -39,8 +39,11 @@ const handleKeyup = (e: KeyboardEvent) => {
     <header class="px-4 sm:px-6 pt-4 sm:pt-6">
       <div class="max-w-5xl mx-auto flex items-center justify-center">
         <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-full bg-emerald-700 text-white flex items-center justify-center font-display font-bold text-xs shadow-pill">
-            15
+          <!-- Apartment building icon -->
+          <div class="w-9 h-9 rounded-full bg-emerald-700 text-white flex items-center justify-center shadow-pill">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 21h18M3 10h18M3 7l9-4 9 4M6 10v11h4V10h4v11h4V10"/>
+            </svg>
           </div>
           <span class="font-display font-bold text-slate-900">Apartment 1507</span>
         </div>
@@ -59,7 +62,7 @@ const handleKeyup = (e: KeyboardEvent) => {
 
           <h1 class="font-display text-2xl font-bold text-slate-900 mb-1">Sign in</h1>
           <p class="text-sm text-slate-500 mb-7">
-            1507/477 Boundary St, Spring Hill. Tenants and landlord sign in here.
+            Tenants and landlord sign in here.
           </p>
 
           <div class="space-y-4">
@@ -69,7 +72,7 @@ const handleKeyup = (e: KeyboardEvent) => {
                 id="login-username"
                 v-model="username"
                 type="text"
-                placeholder="e.g. kevin"
+                placeholder="Enter your first name or username provided"
                 autocomplete="username"
                 @keyup="handleKeyup"
                 :disabled="loading"
@@ -120,9 +123,12 @@ const handleKeyup = (e: KeyboardEvent) => {
           </button>
         </div>
 
-        <p class="text-center text-xs text-slate-400 mt-6">
-          Don't have login details? Ask your landlord.
-        </p>
+        <button
+          @click="router.push('/register')"
+          class="w-full text-center text-sm font-medium text-slate-500 hover:text-emerald-700 transition mt-4"
+        >
+          Don't have login details? <span class="text-emerald-700 font-semibold">Register here →</span>
+        </button>
       </div>
     </div>
   </div>

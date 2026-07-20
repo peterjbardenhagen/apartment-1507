@@ -99,8 +99,10 @@ const logout = () => {
       <!-- Brand -->
       <div class="px-6 pt-6 pb-5 flex items-center justify-between">
         <router-link to="/admin/dashboard" class="flex items-center gap-3 group">
-          <div class="w-10 h-10 rounded-2xl bg-emerald-700 text-white flex items-center justify-center font-display font-bold text-sm shadow-pill">
-            15
+          <div class="w-10 h-10 rounded-2xl bg-emerald-700 text-white flex items-center justify-center shadow-pill">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 21h18M3 10h18M3 7l9-4 9 4M6 10v11h4V10h4v11h4V10"/>
+            </svg>
           </div>
           <div>
             <p class="font-display font-bold text-slate-900 leading-tight">Apartment 1507</p>
@@ -142,7 +144,7 @@ const logout = () => {
       <!-- Footer / logout -->
       <div class="p-4 border-t border-slate-100">
         <div class="rounded-2xl bg-emerald-50 p-4 mb-3">
-          <p class="text-xs font-semibold text-emerald-700">1507/477 Boundary St</p>
+          <p class="text-xs font-semibold text-emerald-700">Apartment 1507</p>
           <p class="text-xs text-slate-500 mt-0.5">Spring Hill, QLD 4000</p>
         </div>
         <button @click="logout" class="sidebar-link w-full text-red-600 hover:bg-red-50 hover:text-red-700">

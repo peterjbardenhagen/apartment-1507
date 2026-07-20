@@ -6,6 +6,11 @@ export const config = {
   app: {
     name: import.meta.env.VITE_APP_NAME || 'Apartment 1507',
     env: import.meta.env.VITE_APP_ENV || 'development'
+  },
+
+  supabase: {
+    url: import.meta.env.VITE_SUPABASE_URL || '',
+    anonKey: import.meta.env.VITE_SUPABASE_ANON_KEY || ''
   }
 }
 

@@ -67,6 +67,14 @@ const actions = [
     path: '/flatmate/health-services',
     tile: 'bg-red-50 text-red-600',
     icon: 'M19 8v6M22 11h-6M4 10a4 4 0 118 0v1h.5a2.5 2.5 0 010 5H15v3l-3 2-3-2v-3H7.5a2.5 2.5 0 010-5H8v-1z'
+  },
+  {
+    title: 'Hotel Registration',
+    desc: 'Register with Art Series Hotel for after-hours keycard access',
+    cta: 'Register now',
+    path: '/flatmate/hotel-registration',
+    tile: 'bg-blue-100 text-blue-600',
+    icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4'
   }
 ]
 </script>
@@ -78,8 +86,10 @@ const actions = [
       <div class="max-w-5xl mx-auto">
         <div class="bg-white rounded-full shadow-card px-4 sm:px-6 py-3 flex items-center justify-between">
           <router-link to="/" class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-full bg-emerald-700 text-white flex items-center justify-center font-display font-bold text-xs shadow-pill">
-              15
+            <div class="w-9 h-9 rounded-full bg-emerald-700 text-white flex items-center justify-center shadow-pill">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 21h18M3 10h18M3 7l9-4 9 4M6 10v11h4V10h4v11h4V10"/>
+              </svg>
             </div>
             <span class="font-display font-bold text-slate-900">Apartment 1507</span>
           </router-link>
@@ -132,8 +142,33 @@ const actions = [
           </button>
         </div>
 
+        <!-- WiFi Info Card -->
+        <div class="card p-5 sm:p-6">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.14 0M1.394 9.393c5.857-5.858 15.355-5.858 21.213 0"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-display font-bold text-slate-900">Wi‑Fi Network</h3>
+              <p class="text-sm text-slate-500 mt-0.5">Free to use — included as part of utilities</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="bg-emerald-50 rounded-xl p-4">
+              <p class="text-xs font-semibold text-emerald-700 uppercase tracking-wider mb-1">Network</p>
+              <p class="font-mono text-lg font-bold text-slate-900 break-all">NETGEAR38-5G</p>
+            </div>
+            <div class="bg-amber-50 rounded-xl p-4">
+              <p class="text-xs font-semibold text-amber-700 uppercase tracking-wider mb-1">Password</p>
+              <p class="font-mono text-lg font-bold text-slate-900 break-all">bluebreeze468</p>
+            </div>
+          </div>
+        </div>
+
         <!-- Address footer card -->
-        <div class="mt-8 card p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div class="card p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div>
             <p class="font-semibold text-slate-900 text-sm">Apartment 1507</p>
             <p class="text-sm text-slate-500">477 Boundary St, Spring Hill QLD 4000</p>
