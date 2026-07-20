@@ -6,6 +6,7 @@ import {
   createNewAgreement,
   saveFlatmateAgreement,
   addAmendment,
+  ensureSeededFromRealData,
   type FlatmateAgreement,
   type AgreementAmendment
 } from '@/services/flatmateAgreementService'
@@ -74,6 +75,7 @@ const downloadAgreementPDF = (agreement: FlatmateAgreement) => {
   console.log('Download agreement PDF:', agreement)
 }
 
+ensureSeededFromRealData()
 loadAgreements()
 </script>
 
@@ -92,7 +94,7 @@ loadAgreements()
     <div>
       <!-- New Agreement Form -->
       <div v-if="showNewForm" class="card-elevated p-8 mb-8">
-        <h2 class="text-xl font-bold text-slate-900 mb-6">Create New Agreement</h2>
+        <h2 class="text-xl font-bold text-slate-900 mb-6">New Agreement</h2>
         <div class="space-y-6">
           <div>
             <label class="input-label">Flatmate Name</label>
@@ -121,7 +123,7 @@ loadAgreements()
           </div>
 
           <div class="flex gap-3 pt-4 border-t border-slate-100">
-            <button @click="submitNewAgreement" class="btn-primary flex-1">Create Agreement</button>
+            <button @click="submitNewAgreement" class="btn-primary flex-1">New Agreement</button>
             <button @click="showNewForm = false" class="btn-secondary">Cancel</button>
           </div>
         </div>
@@ -165,7 +167,7 @@ loadAgreements()
               <div v-for="amendment in agreement.amendments" :key="amendment.id" class="text-sm p-3 bg-slate-50 rounded-lg">
                 <div class="flex justify-between">
                   <span class="font-medium text-slate-900">{{ amendment.type }}</span>
-                  <span class="text-slate-500">{{ new Date(amendment.effectiveDate).toLocaleDateString() }}</span>
+                  <span class="text-slate-500">{{ amendment.effectiveDate === 'TBA' || !amendment.effectiveDate ? 'TBA' : new Date(amendment.effectiveDate).toLocaleDateString() }}</span>
                 </div>
                 <p class="text-slate-600 mt-1">{{ amendment.description }}</p>
               </div>
@@ -219,7 +221,7 @@ loadAgreements()
         <p class="text-6xl mb-4">📋</p>
         <h3 class="text-lg font-bold text-slate-900 mb-2">No Agreements Yet</h3>
         <p class="text-slate-600 mb-6">Create your first flatmate agreement to get started</p>
-        <button @click="startNewAgreement" class="btn-primary">Create Agreement</button>
+        <button @click="startNewAgreement" class="btn-primary">New Agreement</button>
       </div>
     </div>
   </div>

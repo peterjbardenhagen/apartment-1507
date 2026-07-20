@@ -391,25 +391,25 @@ const getVarianceStatus = (allocation: CostAllocation) => {
           {{ selectedView === 'weekly' ? 'Weekly' : 'Monthly' }} Cost Breakdown
         </h2>
 
-        <table v-if="selectedView === 'weekly'" class="w-full text-sm">
+        <table v-if="selectedView === 'weekly'" class="w-full min-w-[640px] text-sm">
           <thead>
             <tr class="border-b border-slate-200">
-              <th class="text-left py-3 px-4 font-semibold text-slate-600">Week</th>
-              <th class="text-right py-3 px-4 font-semibold text-slate-600">Electricity</th>
-              <th class="text-right py-3 px-4 font-semibold text-slate-600">Water</th>
-              <th class="text-right py-3 px-4 font-semibold text-slate-600">Broadband</th>
-              <th class="text-right py-3 px-4 font-semibold text-slate-600">Total</th>
-              <th class="text-center py-3 px-4 font-semibold text-slate-600">vs Budget</th>
+              <th class="text-left py-3 px-4 font-semibold text-slate-600 whitespace-nowrap">Week</th>
+              <th class="text-right py-3 px-4 font-semibold text-slate-600 whitespace-nowrap">Electricity</th>
+              <th class="text-right py-3 px-4 font-semibold text-slate-600 whitespace-nowrap">Water</th>
+              <th class="text-right py-3 px-4 font-semibold text-slate-600 whitespace-nowrap">Broadband</th>
+              <th class="text-right py-3 px-4 font-semibold text-slate-600 whitespace-nowrap">Total</th>
+              <th class="text-center py-3 px-4 font-semibold text-slate-600 whitespace-nowrap">vs Budget</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(week, idx) in weeklyMetrics" :key="idx" class="border-b border-slate-100 hover:bg-slate-50 transition">
-              <td class="py-3 px-4 text-slate-700 font-medium">{{ week.week }}</td>
-              <td class="text-right py-3 px-4 text-slate-600">{{ formatCurrency(week.energyCost) }}</td>
-              <td class="text-right py-3 px-4 text-slate-600">{{ formatCurrency(week.waterCost) }}</td>
-              <td class="text-right py-3 px-4 text-slate-600">{{ formatCurrency(week.broadbandCost) }}</td>
-              <td class="text-right py-3 px-4 font-semibold text-slate-900">{{ formatCurrency(week.totalCost) }}</td>
-              <td class="text-center py-3 px-4">
+              <td class="py-3 px-4 text-slate-700 font-medium whitespace-nowrap">{{ week.week }}</td>
+              <td class="text-right py-3 px-4 text-slate-600 whitespace-nowrap">{{ formatCurrency(week.energyCost) }}</td>
+              <td class="text-right py-3 px-4 text-slate-600 whitespace-nowrap">{{ formatCurrency(week.waterCost) }}</td>
+              <td class="text-right py-3 px-4 text-slate-600 whitespace-nowrap">{{ formatCurrency(week.broadbandCost) }}</td>
+              <td class="text-right py-3 px-4 font-semibold text-slate-900 whitespace-nowrap">{{ formatCurrency(week.totalCost) }}</td>
+              <td class="text-center py-3 px-4 whitespace-nowrap">
                 <span :class="[
                   'text-xs font-semibold px-2 py-1 rounded',
                   week.totalCost > 210 ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'
@@ -422,23 +422,23 @@ const getVarianceStatus = (allocation: CostAllocation) => {
           </tbody>
         </table>
 
-        <table v-else class="w-full text-sm">
+        <table v-else class="w-full min-w-[560px] text-sm">
           <thead>
             <tr class="border-b border-slate-200">
-              <th class="text-left py-3 px-4 font-semibold text-slate-600">Month</th>
-              <th class="text-right py-3 px-4 font-semibold text-slate-600">Electricity</th>
-              <th class="text-right py-3 px-4 font-semibold text-slate-600">Water</th>
-              <th class="text-right py-3 px-4 font-semibold text-slate-600">Broadband</th>
-              <th class="text-right py-3 px-4 font-semibold text-slate-600">Total</th>
+              <th class="text-left py-3 px-4 font-semibold text-slate-600 whitespace-nowrap">Month</th>
+              <th class="text-right py-3 px-4 font-semibold text-slate-600 whitespace-nowrap">Electricity</th>
+              <th class="text-right py-3 px-4 font-semibold text-slate-600 whitespace-nowrap">Water</th>
+              <th class="text-right py-3 px-4 font-semibold text-slate-600 whitespace-nowrap">Broadband</th>
+              <th class="text-right py-3 px-4 font-semibold text-slate-600 whitespace-nowrap">Total</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(month, idx) in monthlyMetrics" :key="idx" class="border-b border-slate-100 hover:bg-slate-50 transition">
-              <td class="py-3 px-4 text-slate-700 font-medium">{{ month.month }}</td>
-              <td class="text-right py-3 px-4 text-slate-600">{{ formatCurrency(month.energyCost) }}</td>
-              <td class="text-right py-3 px-4 text-slate-600">{{ formatCurrency(month.waterCost) }}</td>
-              <td class="text-right py-3 px-4 text-slate-600">{{ formatCurrency(month.broadbandCost) }}</td>
-              <td class="text-right py-3 px-4 font-semibold text-slate-900">{{ formatCurrency(month.totalCost) }}</td>
+              <td class="py-3 px-4 text-slate-700 font-medium whitespace-nowrap">{{ month.month }}</td>
+              <td class="text-right py-3 px-4 text-slate-600 whitespace-nowrap">{{ formatCurrency(month.energyCost) }}</td>
+              <td class="text-right py-3 px-4 text-slate-600 whitespace-nowrap">{{ formatCurrency(month.waterCost) }}</td>
+              <td class="text-right py-3 px-4 text-slate-600 whitespace-nowrap">{{ formatCurrency(month.broadbandCost) }}</td>
+              <td class="text-right py-3 px-4 font-semibold text-slate-900 whitespace-nowrap">{{ formatCurrency(month.totalCost) }}</td>
             </tr>
           </tbody>
         </table>

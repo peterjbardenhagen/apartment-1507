@@ -11,6 +11,7 @@ import {
   type MessageAttachment
 } from '@/services/messagesService'
 import { emailService } from '@/services/emailService'
+import { formatDateTime } from '@/services/settingsService'
 
 const auth = useAuthStore()
 const tenantStore = useTenantStore()
@@ -210,8 +211,7 @@ const sendMessage = async () => {
   setTimeout(() => { sendSuccess.value = false }, 3000)
 }
 
-const formatDate = (iso: string) =>
-  new Date(iso).toLocaleString('en-AU', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
+const formatDate = (iso: string) => formatDateTime(iso)
 </script>
 
 <template>

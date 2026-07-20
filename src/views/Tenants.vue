@@ -65,12 +65,24 @@ const router = useRouter()
         <!-- Details -->
         <div class="space-y-3 border-t border-slate-100 pt-4">
           <div class="flex justify-between items-center">
-            <span class="text-sm text-slate-600">Weekly Rent</span>
-            <span class="font-semibold text-emerald-600">${{ tenant.rent }}</span>
+            <span class="text-sm text-slate-600">Rent</span>
+            <span class="font-semibold text-emerald-600">
+              ${{ tenant.rent }}
+              <span class="text-xs font-normal text-slate-400">/ {{ tenant.rentCycle || 'weekly' }}</span>
+            </span>
           </div>
           <div class="flex justify-between items-center">
             <span class="text-sm text-slate-600">Bond Held</span>
             <span class="font-semibold text-blue-600">${{ tenant.bond }}</span>
+          </div>
+          <div v-if="tenant.advancePaidUntil" class="flex justify-between items-center">
+            <span class="text-sm text-slate-600">Paid In Advance Until</span>
+            <span class="font-semibold text-slate-700">{{ new Date(tenant.advancePaidUntil).toLocaleDateString('en-AU') }}</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-sm text-slate-600">Bills</span>
+            <span v-if="tenant.billsIncluded" class="font-semibold text-teal-600">Included (${{ tenant.billsIncludedAmount || 0 }}/wk)</span>
+            <span v-else class="font-semibold text-slate-400">Not included</span>
           </div>
         </div>
 

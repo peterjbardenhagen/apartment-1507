@@ -136,7 +136,7 @@ async function downloadPDF(receipt: Receipt) {
 
     <!-- Form -->
     <div v-if="showForm" class="card-elevated p-8 mb-8">
-      <h2 class="text-xl font-bold text-slate-900 mb-6">Create Receipt</h2>
+      <h2 class="text-xl font-bold text-slate-900 mb-6">New Receipt</h2>
       <div class="space-y-6">
 
         <!-- Tenant Selection -->
@@ -198,7 +198,7 @@ async function downloadPDF(receipt: Receipt) {
         </div>
 
         <div class="flex gap-3 pt-4 border-t border-slate-100">
-          <button @click="submitReceipt" class="btn-primary flex-1">Create &amp; Save Receipt</button>
+          <button @click="submitReceipt" class="btn-primary flex-1">New Receipt</button>
           <button @click="showForm = false; resetForm()" class="btn-secondary">Cancel</button>
         </div>
       </div>
@@ -235,7 +235,7 @@ async function downloadPDF(receipt: Receipt) {
       <p class="text-6xl mb-4">🧾</p>
       <h3 class="text-lg font-bold text-slate-900 mb-2">No Receipts Generated</h3>
       <p class="text-slate-600 mb-6">Create a receipt to document payment received</p>
-      <button @click="showForm = true; generateNewReceiptNo()" class="btn-primary">Create Receipt</button>
+      <button @click="showForm = true; generateNewReceiptNo()" class="btn-primary">New Receipt</button>
     </div>
   </div>
 </template>

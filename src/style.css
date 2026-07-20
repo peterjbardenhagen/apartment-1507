@@ -54,6 +54,14 @@
     border: 2px solid transparent;
     background-clip: content-box;
   }
+
+  /* Data tables scroll horizontally on narrow screens instead of wrapping
+     cell content onto multiple lines — wrap the <table> in a container with
+     overflow-x-auto to get the scroll behaviour. */
+  table th,
+  table td {
+    white-space: nowrap;
+  }
 }
 
 @layer components {

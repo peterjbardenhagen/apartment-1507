@@ -114,3 +114,35 @@ CREATE INDEX IF NOT EXISTS idx_messages_created_at ON messages(created_at);
 CREATE INDEX IF NOT EXISTS idx_repair_requests_status ON repair_requests(status);
 CREATE INDEX IF NOT EXISTS idx_enquiries_status ON enquiries(status);
 CREATE INDEX IF NOT EXISTS idx_transactions_date ON transactions(date);
+
+-- ---------------------------------------------------------------------------
+-- Row Level Security
+--
+-- Without this, every table above is reachable by anyone holding the anon
+-- key — which is public, it ships in the browser bundle. The app only
+-- actually talks to Supabase for one thing today (Register.vue inserting
+-- into `registrations`), so that's the only table given a real policy;
+-- everything else is locked to "no anon/authenticated access at all" until
+-- there's an actual access model (Supabase Auth, or server-side RPCs) for
+-- reading/writing tenant data, messages, etc. from the browser. Locking a
+-- table down never breaks anything that wasn't already relying on it.
+-- ---------------------------------------------------------------------------
+
+ALTER TABLE landlord ENABLE ROW LEVEL SECURITY;
+ALTER TABLE tenants ENABLE ROW LEVEL SECURITY;
+ALTER TABLE tenant_guests ENABLE ROW LEVEL SECURITY;
+ALTER TABLE registrations ENABLE ROW LEVEL SECURITY;
+ALTER TABLE messages ENABLE ROW LEVEL SECURITY;
+ALTER TABLE repair_requests ENABLE ROW LEVEL SECURITY;
+ALTER TABLE enquiries ENABLE ROW LEVEL SECURITY;
+ALTER TABLE transactions ENABLE ROW LEVEL SECURITY;
+
+-- The one table the browser actually writes to right now: allow anyone to
+-- submit a registration, but not read, edit or delete other people's.
+DROP POLICY IF EXISTS "anyone can submit a registration" ON registrations;
+CREATE POLICY "anyone can submit a registration"
+  ON registrations FOR INSERT
+  WITH CHECK (true);
+
+-- Everything else stays fully locked (no policies = no access via the anon
+-- key) until it's actually wired up with a real access model.
